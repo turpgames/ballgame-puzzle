@@ -32,7 +32,7 @@ public class HelpScreen extends Screen implements IScreenView {
 
 	@Override
 	protected boolean onBack() {
-		ScreenManager.instance.switchTo(R.screens.game, true);
+		ScreenManager.instance.switchTo(R.screens.menu, true);
 		return true;
 	}
 }

@@ -1,201 +1,118 @@
 package com.turpgames.ballgamepuzzle.controller;
 
-import com.turpgames.ballgamepuzzle.components.BallGameLogo;
-import com.turpgames.ballgamepuzzle.components.HelpButton;
-import com.turpgames.ballgamepuzzle.components.ResultView;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.ballgamepuzzle.objects.Walls;
-import com.turpgames.ballgamepuzzle.utils.BallGameAds;
-import com.turpgames.ballgamepuzzle.utils.BallGameMode;
-import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.ballgamepuzzle.utils.Sounds;
-import com.turpgames.ballgamepuzzle.utils.StatActions;
 import com.turpgames.ballgamepuzzle.view.IScreenView;
-import com.turpgames.framework.v0.client.IShareMessageBuilder;
-import com.turpgames.framework.v0.client.TurpClient;
-import com.turpgames.framework.v0.component.IButtonListener;
+import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.impl.InputListener;
-import com.turpgames.framework.v0.impl.ScreenManager;
-import com.turpgames.framework.v0.impl.Settings;
-import com.turpgames.framework.v0.impl.Text;
-import com.turpgames.framework.v0.social.ICallback;
 import com.turpgames.framework.v0.util.Game;
-import com.turpgames.framework.v0.util.GameUtils;
+import com.turpgames.box2d.Box2DWorld;
 
 public class GameController {
 	private final IScreenView view;
-	private final Ball ball;
-	private final Walls walls;
-
-	private final Text scoreText;
-	private final Text hiscoreText;
-	private final Text infoText;
-	private final ResultView resultView;
-	private final BallGameLogo logo;
-	private final HelpButton helpButton;
-	private int score;
-
-	private boolean isPlaying = false;
-	private boolean canStart = false;
-	private int hiscore;
+	private final Box2DWorld world;
+	private Ball ball;
 
 	public GameController(IScreenView view) {
 		this.view = view;
-		this.logo = new BallGameLogo();
-
-		ball = Ball.defaultBall();
-		walls = new Walls();
-
-		this.scoreText = new Text();
-		this.scoreText.setFontScale(0.66f);
-		this.scoreText.setAlignment(Text.HAlignLeft, Text.VAlignTop);
-		this.scoreText.setPadding(10, 10);
-
-		this.hiscoreText = new Text();
-		this.hiscoreText.setFontScale(0.66f);
-		this.hiscoreText.setAlignment(Text.HAlignRight, Text.VAlignTop);
-		this.hiscoreText.setPadding(10, 10);
-
-		this.infoText = new Text();
-		this.infoText.setAlignment(Text.HAlignCenter, Text.VAlignCenter);
-		this.infoText.setText("Touch To Begin");
-
-		this.helpButton = new HelpButton();
-		helpButton.setListener(new IButtonListener() {
-			@Override
-			public void onButtonTapped() {
-				ScreenManager.instance.switchTo(R.screens.help, false);
-			}
-		});
-
-		this.resultView = new ResultView(new ResultView.IListener() {
-			@Override
-			public void onShareScore() {
-				TurpClient.shareScoreOnFacebook(new IShareMessageBuilder() {
-					@Override
-					public String buildMessage() {
-						return "I just made " + score + " hops in Ball Game!";
-					}
-				}, new ICallback() {
-
-					@Override
-					public void onSuccess() {
-						resultView.hideShareScoreButton();
-					}
-
-					@Override
-					public void onFail(Throwable t) {
-
-					}
-				});
-			}
-
-			@Override
-			public void onRestartGame() {
-				restartGame();
-			}
-		});
+		this.world = new Box2DWorld();
 	}
 
-	private void beginPlaying() {
-		isPlaying = true;
-		canStart = false;
-		ball.beginMove();
-		score = 0;
-		scoreText.setText(score + "");
-		view.unregisterDrawable(logo);
-		view.unregisterDrawable(infoText);
-		view.unregisterDrawable(helpButton);
-		helpButton.deactivate();
-		TurpClient.sendStat(StatActions.StartPlaying);
-	}
-
-	private void endGame() {
-		isPlaying = false;
-		canStart = false;
-		view.unregisterInputListener(listener);
-		ball.stopMoving();
-		resultView.activate();
-
-		helpButton.activate();
-		view.registerDrawable(helpButton, Game.LAYER_INFO);
-
-		view.registerDrawable(resultView, Game.LAYER_INFO);
-		Sounds.gameover.play();
-		if (score > 15)
-			TurpClient.sendScore(score, BallGameMode.defaultMode, null);
-	}
-
-	private void restartGame() {
-		canStart = true;
-		isPlaying = false;
-		helpButton.activate();
-		view.registerDrawable(helpButton, Game.LAYER_INFO);
-
-		view.registerDrawable(logo, Game.LAYER_INFO);
-		view.registerDrawable(infoText, Game.LAYER_INFO);
-		BallGameAds.showAd();
-		isPlaying = false;
-		ball.reset();
-		score = 0;
-		scoreText.setText(score + "");
-		hiscore = Settings.getInteger("hi-score", 0);
-		hiscoreText.setText("Hi: " + hiscore);
-		resultView.deactivate();
-		view.unregisterDrawable(resultView);
+	public void activate() {
 		view.registerInputListener(listener);
-	}
-
-	private boolean onTouchDown(float x, float y) {
-		if (isPlaying) {
-			score++;
-			scoreText.setText(score + "");
-			if (score > hiscore) {
-				hiscore = score;
-				Settings.putInteger("hi-score", hiscore);
-				hiscoreText.setText("Hi: " + hiscore);
+		registerGameDrawable(new Walls(world));
+		registerGameDrawable(ball = newBall(150, 700, Ball.Azure));
+		registerGameDrawable(newBall(325, 550, Ball.Green, Ball.Small));
+		registerGameDrawable(newBall(180, 170, Ball.Yellow, Ball.Large));
+		registerGameDrawable(newBall(55, 100, Ball.Gray, Ball.Medium));
+		registerGameDrawable(newBall(320, 350, Ball.Purple, Ball.Small));
+		registerGameDrawable(newBall(430, 270, Ball.Red, Ball.Large));
+		registerGameDrawable(newBall(240, 620, Ball.Blue, Ball.Small));
+		registerGameDrawable(newBall(120, 500, Ball.Orange, Ball.Medium));
+		// registerGameDrawable(world);
+		world.getWorld().setContactListener(new ContactListener() {
+			@Override
+			public void preSolve(Contact contact, Manifold oldManifold) {
+				
 			}
-			ball.hit(Game.screenToViewportX(x));
-			Sounds.hit.play();
-		} else if (canStart) {
-			if (GameUtils.isIn(x, y, helpButton))
-				return false;
-			beginPlaying();
-		}
-		return true;
-	}
+			
+			@Override
+			public void postSolve(Contact contact, ContactImpulse impulse) {
+				
+			}
+			
+			@Override
+			public void endContact(Contact contact) {
+				
+			}
+			
+			@Override
+			public void beginContact(Contact contact) {
+				Object o1 = contact.getFixtureA().getBody().getUserData();
+				Object o2 = contact.getFixtureB().getBody().getUserData();
 
-	public void activate(boolean restartGame) {
-		view.registerDrawable(walls, Game.LAYER_GAME);
-		view.registerDrawable(ball, Game.LAYER_GAME);
-		view.registerDrawable(scoreText, Game.LAYER_INFO);
-		view.registerDrawable(hiscoreText, Game.LAYER_INFO);
-
-		if (restartGame) {
-			restartGame();
-		}
-		else {
-			resultView.activate();
-			helpButton.activate();
-		}
+				Sounds.hit.play();	
+				
+				if (o1 == null || o2 == null) {
+					return;
+				}
+				
+				Ball b1 = (Ball)o1;
+				Ball b2 = (Ball)o2;
+				
+				if (b1.isElastic()) {
+					b1.bounce(b2);
+				}
+				else if (b2.isElastic()) {
+					b2.bounce(b1);
+				}
+			}
+		});
 	}
 
 	public void deactivate() {
-		resultView.deactivate();
-		helpButton.deactivate();
 	}
 
 	public void update() {
-		if (isPlaying && walls.hasCollision(ball)) {
-			ball.update();
-			endGame();
-		}
+		world.update();
+	}
+
+	private boolean onTap() {
+		return false;
+	}
+
+	private boolean onTouchDown(float x, float y) {
+		ball.hit2(Game.screenToViewportX(x), Game.screenToViewportY(y));
+		Sounds.hit.play();
+		return true;
+	}
+
+	private void registerGameDrawable(IDrawable drawable) {
+		view.registerDrawable(drawable, Game.LAYER_GAME);
+	}
+
+	private Ball newBall(float cx, float cy, int type) {
+		return newBall(cx, cy, type, Ball.Medium);
+	}
+
+	private Ball newBall(float cx, float cy, int type, float r) {
+		return Ball.newBuilder(type).setCenter(cx, cy).setRadius(r).build(world);
 	}
 
 	private final InputListener listener = new InputListener() {
 		@Override
 		public boolean touchDown(float x, float y, int pointer, int button) {
 			return onTouchDown(x, y);
+		}
+
+		@Override
+		public boolean tap(float x, float y, int count, int button) {
+			return onTap();
 		}
 	};
 }

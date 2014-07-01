@@ -30,6 +30,7 @@
 		<lib>libs/ios/libgdx.a</lib>
 		<lib>libs/ios/libObjectAL.a</lib>
 		<lib>libs/ios/libadmob.a</lib>
+		<lib>libs/ios/libgdx-box2d.a</lib>
 	</libs>
 	<frameworkPaths>
 		<path>libs</path>

@@ -1,6 +1,5 @@
 package com.turpgames.ballgamepuzzle.components;
 
-import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.framework.v0.component.Button;
 import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.ImageButton;
@@ -60,7 +59,7 @@ public class Toolbar extends GameObject {
 	}
 
 	protected void addBackButton() {
-		backButton = new ImageButton(menuButtonSizeToScreen, menuButtonSizeToScreen, "tb_back", Color.white(), R.colors.yellow);
+		backButton = new ImageButton(menuButtonSizeToScreen, menuButtonSizeToScreen, "tb_back", Color.white(), Color.white());
 		backButton.setLocation(Button.AlignNW, toolbarMargin, toolbarMargin);
 		backButton.deactivate();
 		backButton.setListener(new IButtonListener() {

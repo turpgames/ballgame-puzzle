@@ -15,7 +15,7 @@
 
         <param
             key="enable-analytics"
-            value="true" />
+            value="false" />
 
         <param
             key="enable-ads"
@@ -51,7 +51,7 @@
 
         <param
             key="default-skin"
-            value="ballgame" />
+            value="ballgame-puzzle" />
 
         <param
             key="screen-switcher"
@@ -147,7 +147,12 @@
         <screen
             id="game"
             background-texture="bg"
-            class="com.turpgames.ballgamepuzzle.view.GameScreen" />
+            class="com.turpgames.ballgamepuzzle.view.LevelSelectionScreen" />
+
+        <screen
+            id="menu"
+            background-texture="bg"
+            class="com.turpgames.ballgamepuzzle.view.MenuScreen" />
 
         <screen
             id="hiscores"
@@ -167,25 +172,31 @@
 
     <forms>
 
-        <form id="mainMenu" >
+        <form id="mainForm" >
 
             <button
                 id="btnPlay"
                 action="screen=game"
                 text="Play"
-                y="20" />
+                y="22" />
+
+            <button
+                id="btnHiScores"
+                action="screen=hiscores"
+                resource-text="Hi Scores"
+                y="18" />
+
+            <button
+                id="btnHowToPlay"
+                action="screen=help"
+                resource-text="How To Play"
+                y="14" />
 
             <button
                 id="btnAbout"
                 action="screen=about"
                 resource-text="About"
-                y="16" />
-
-            <button
-                id="btnLeadersBoard"
-                action="screen=leadersboard"
-                resource-text="Leaders Board"
-                y="12" />
+                y="10" />
         </form>
     </forms>
 
@@ -237,8 +248,36 @@
                 path="img/toolbar/sound-on.png" />
 
             <texture
+                id="ball_azure"
+                path="img/ball_azure.png" />
+
+            <texture
                 id="ball_blue"
                 path="img/ball_blue.png" />
+
+            <texture
+                id="ball_gray"
+                path="img/ball_gray.png" />
+
+            <texture
+                id="ball_green"
+                path="img/ball_green.png" />
+
+            <texture
+                id="ball_orange"
+                path="img/ball_orange.png" />
+
+            <texture
+                id="ball_purple"
+                path="img/ball_purple.png" />
+
+            <texture
+                id="ball_red"
+                path="img/ball_red.png" />
+
+            <texture
+                id="ball_yellow"
+                path="img/ball_yellow.png" />
 
             <texture
                 id="bg"
@@ -259,9 +298,37 @@
             <texture
                 id="help"
                 path="img/help.png" />
+
+            <texture
+                id="level_item"
+                path="img/level_item.png" />
+
+            <texture
+                id="locked"
+                path="img/lock_locked.png" />
+
+            <texture
+                id="unlocked"
+                path="img/lock_unlocked.png" />
+
+            <texture
+                id="star_empty"
+                path="img/star_empty.png" />
+
+            <texture
+                id="star_half"
+                path="img/star_half_left.png" />
+
+            <texture
+                id="star_full"
+                path="img/star_full.png" />
         </textures>
 
         <sounds>
+
+            <sound
+                id="button-click"
+                path="audio/button_click.mp3" />
 
             <sound
                 id="hit"
@@ -287,7 +354,7 @@
 
     <skins>
 
-        <skin id="ballgame" >
+        <skin id="ballgame-puzzle" >
 
             <form
                 cols="16"
@@ -300,7 +367,7 @@
                 font-scale="1"
                 halign="center"
                 rows="2"
-                sound-click="8"
+                sound-click="button-click"
                 vibrate="0"
                 x="4" />
 

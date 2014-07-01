@@ -67,7 +67,7 @@ public class HiScoresScreen extends Screen {
 	}
 
 	protected boolean onBack() {
-		ScreenManager.instance.switchTo(R.screens.game, true);
+		ScreenManager.instance.switchTo(R.screens.menu, true);
 		return true;
 	}
 }

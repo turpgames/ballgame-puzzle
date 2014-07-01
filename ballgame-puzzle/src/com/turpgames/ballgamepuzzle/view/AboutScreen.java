@@ -137,7 +137,7 @@ public class AboutScreen extends Screen {
 
 	@Override
 	protected boolean onBack() {
-		ScreenManager.instance.switchTo(R.screens.game, true);
+		ScreenManager.instance.switchTo(R.screens.menu, true);
 		return true;
 	}
 }

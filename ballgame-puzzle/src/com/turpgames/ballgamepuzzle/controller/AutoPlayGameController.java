@@ -2,8 +2,8 @@ package com.turpgames.ballgamepuzzle.controller;
 
 import com.turpgames.ballgamepuzzle.components.GestureTips;
 import com.turpgames.ballgamepuzzle.components.TapImage;
-import com.turpgames.ballgamepuzzle.objects.Ball;
-import com.turpgames.ballgamepuzzle.objects.Walls;
+import com.turpgames.ballgamepuzzle.objects.Ball2;
+import com.turpgames.ballgamepuzzle.objects.Walls2;
 import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.ballgamepuzzle.utils.Sounds;
 import com.turpgames.ballgamepuzzle.view.IScreenView;
@@ -19,8 +19,8 @@ import com.turpgames.framework.v0.util.Vector;
 
 public class AutoPlayGameController {
 	private final IScreenView view;
-	private final Ball ball;
-	private final Walls walls;
+	private final Ball2 ball;
+	private final Walls2 walls;
 	private final TapImage tapImage;
 
 	private final TextButton startButton;
@@ -34,8 +34,8 @@ public class AutoPlayGameController {
 
 	public AutoPlayGameController(IScreenView view) {
 		this.view = view;
-		this.ball = Ball.demoBall();
-		this.walls = new Walls();
+		this.ball = Ball2.demoBall();
+		this.walls = new Walls2();
 		this.tapImage = new TapImage();
 		this.tips = new GestureTips();
 
@@ -71,6 +71,8 @@ public class AutoPlayGameController {
 		view.unregisterDrawable(startButton);
 		view.unregisterDrawable(backToGameButton);
 		view.unregisterDrawable(overlay);
+		startButton.deactivate();
+		backToGameButton.deactivate();
 	}
 
 	private void startPlaying() {
