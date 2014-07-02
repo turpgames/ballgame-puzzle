@@ -14,5 +14,6 @@ public final class R {
 		public static final String hiscores = "hiscores";
 		public static final String help = "help";
 		public static final String menu = "menu";
+		public static final String levels = "levels";
 	}
 }

@@ -14,7 +14,7 @@ public class Ball2 implements IDrawable {
 	private final static float physicsFactor = 100f;
 	private final static float maxdx = 0.157f; // 4mm
 
-	private final BallObject ball;
+	private final Ball2Object ball;
 
 	private final float radius;
 	private final float gravity;
@@ -29,7 +29,7 @@ public class Ball2 implements IDrawable {
 		this.hitX = fx * physicsFactor;
 		this.hitY = fy * physicsFactor;
 
-		ball = new BallObject();
+		ball = new Ball2Object();
 		ball.setWidth(2 * radius);
 		ball.setHeight(2 * radius);
 		ball.getAcceleration().set(0, gravity);
@@ -101,7 +101,7 @@ public class Ball2 implements IDrawable {
 		ball.draw();
 	}
 
-	private static class BallObject extends GameObject {
+	private static class Ball2Object extends GameObject {
 		@Override
 		public void draw() {
 			TextureDrawer.draw(Textures.ball_purple, this);

@@ -4,18 +4,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LevelPack {
-	private final List<LevelInfo> levels;
-	private String id;
+	private final LevelMeta[] levels;
+	private final String title;
 
-	public LevelPack(String id) {
-		levels = new ArrayList<LevelInfo>();
+	private LevelPack(Builder builder) {
+		this.title = builder.title;
+		this.levels = builder.levels.toArray(new LevelMeta[0]);
 	}
-	
-	public String getId() {
-		return id;
+
+	public String getTitle() {
+		return title;
 	}
-	
-	public List<LevelInfo> getLevels() {
+
+	public LevelMeta[] getLevels() {
 		return levels;
+	}
+
+	public static Builder newBuilder() {
+		return new Builder();
+	}
+
+	public static class Builder {
+		private String title;
+		private final List<LevelMeta> levels;
+
+		private Builder() {
+			levels = new ArrayList<LevelMeta>();
+		}
+
+		public Builder setTitle(String title) {
+			this.title = title;
+			return this;
+		}
+
+		public Builder addLevel(LevelMeta level) {
+			this.levels.add(level);
+			return this;
+		}
+
+		public LevelPack build() {
+			return new LevelPack(this);
+		}
 	}
 }

@@ -145,9 +145,14 @@
             class="com.turpgames.ballgamepuzzle.view.SplashScreen" />
 
         <screen
-            id="game"
+            id="levels"
             background-texture="bg"
             class="com.turpgames.ballgamepuzzle.view.LevelSelectionScreen" />
+
+        <screen
+            id="game"
+            background-texture="bg"
+            class="com.turpgames.ballgamepuzzle.view.GameScreen" />
 
         <screen
             id="menu"
@@ -176,7 +181,7 @@
 
             <button
                 id="btnPlay"
-                action="screen=game"
+                action="screen=levels"
                 text="Play"
                 y="22" />
 

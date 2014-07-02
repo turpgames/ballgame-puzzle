@@ -1,25 +1,23 @@
 package com.turpgames.ballgamepuzzle.objects;
 
 import com.badlogic.gdx.physics.box2d.Shape;
-import com.turpgames.ballgamepuzzle.utils.Textures;
+import com.turpgames.box2d.Box2D;
+import com.turpgames.box2d.Box2DWorld;
+import com.turpgames.box2d.builders.Box2DBuilders;
 import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.Rectangle;
 import com.turpgames.framework.v0.util.ShapeDrawer;
-import com.turpgames.framework.v0.util.TextureDrawer;
-import com.turpgames.box2d.Box2D;
-import com.turpgames.box2d.Box2DWorld;
-import com.turpgames.box2d.builders.Box2DBuilders;
 
 public class Walls implements IDrawable {
 	private final static Color wallColor = Color.white();
 
-	private final static float x = 5;
-	private final static float y = 5;
-	private final static float w = Game.getVirtualWidth() - 2 * x;
-	private final static float h = Game.getVirtualHeight() - 2 * y;
+	private final static float x = Game.screenToViewportX(5f);
+	private final static float y = Game.screenToViewportY(5f);
+	private final static float w = Game.descale(Game.getScreenWidth() - 10f);
+	private final static float h = Game.descale(Game.getScreenHeight() - 10f);
 
 	private final static Rectangle rect = new Rectangle(x, y, w, h);
 
@@ -62,7 +60,6 @@ public class Walls implements IDrawable {
 	private static class WallsObject extends GameObject {
 		@Override
 		public void draw() {
-			TextureDrawer.draw(Textures.bg, this);
 			ShapeDrawer.drawRect(this, false);
 		}
 	}

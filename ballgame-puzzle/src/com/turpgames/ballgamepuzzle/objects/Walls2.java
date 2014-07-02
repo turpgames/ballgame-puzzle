@@ -14,10 +14,10 @@ public class Walls2 implements IDrawable {
 	private static final float h = Game.getVirtualHeight() - 2 * y;
 	private static final Rectangle rect = new Rectangle(x, y, w, h);
 	private static final Color wallColor = Color.white();
-	private WallsObject walls;
+	private Walls2Object walls;
 
 	public Walls2() {
-		walls = new WallsObject();
+		walls = new Walls2Object();
 		walls.getLocation().set(5F, 5F);
 		walls.setWidth(w);
 		walls.setHeight(h);
@@ -56,7 +56,7 @@ public class Walls2 implements IDrawable {
 		return false;
 	}
 
-	private static class WallsObject extends GameObject {
+	private static class Walls2Object extends GameObject {
 		public void draw() {
 			ShapeDrawer.drawRect(this, false);
 		}

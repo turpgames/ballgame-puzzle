@@ -14,6 +14,7 @@ import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.ITexture;
 import com.turpgames.framework.v0.effects.BreathEffect;
 import com.turpgames.framework.v0.impl.GameObject;
+import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.TextureDrawer;
 
 public class Ball implements IDrawable, IBox2DObject {
@@ -26,14 +27,17 @@ public class Ball implements IDrawable, IBox2DObject {
 	public final static int Azure = 7;
 	public final static int Orange = 8;
 
-	public final static float Small = 30f;
-	public final static float Medium = 40f;
-	public final static float Large = 50f;
+	public final static float Small = 20f;
+	public final static float Medium = 30f;
+	public final static float Large = 40f;
+
+	public final static float ViewportCenterX = Game.getVirtualWidth() / 2f;
+	public final static float ViewportCenterY = Game.getVirtualHeight() / 2f;
 
 	private final static float hitX = 4f;
 	private final static float hitY = 6f;
 
-	private final Ball2Object ball;
+	private final BallObject ball;
 	private final Body body;
 
 	private final int type;
@@ -45,9 +49,9 @@ public class Ball implements IDrawable, IBox2DObject {
 	private Ball(Builder builder, Box2DWorld world) {
 		this.type = builder.type;
 		this.radius = builder.radius;
-		this.isElastic = type == Yellow || type == Orange || type == Purple;
+		this.isElastic = type == Yellow;
 
-		ball = new Ball2Object(getBallTexture(builder.type));
+		ball = new BallObject(getBallTexture(builder.type));
 
 		ball.setWidth(builder.radius * 2);
 		ball.setHeight(builder.radius * 2);
@@ -68,9 +72,9 @@ public class Ball implements IDrawable, IBox2DObject {
 						Box2D.viewportToWorldY(builder.cy))
 				.build(world.getWorld(),
 						Box2DBuilders.Fixture.fixtureBuilder()
-								.setElasticity(isElastic ? 0f : 0.8f)
+								.setElasticity(isElastic ? 0f : 0.6f)
 								.setDensity(1.2f)
-								.setFriction(0.1f)
+								.setFriction(0.2f)
 								.setShape(circle));
 
 		body.setUserData(this);
@@ -99,6 +103,10 @@ public class Ball implements IDrawable, IBox2DObject {
 		return isElastic;
 	}
 
+	public int getType() {
+		return type;
+	}
+
 	public void syncWithBody() {
 		Vector2 bodyPos = body.getPosition();
 		float cx = Box2D.worldToViewportX(bodyPos.x);
@@ -119,15 +127,15 @@ public class Ball implements IDrawable, IBox2DObject {
 	public void bounce(Ball other) {
 		float x = ball.getLocation().x + radius;
 		float y = ball.getLocation().y + radius;
-		
+
 		float dx = (other.ball.getLocation().x + other.radius - x);
 		float dy = (other.ball.getLocation().y + other.radius - y);
 		float d = (float) Math.sqrt(dx * dx + dy * dy);
-		
-		float f = this.radius / other.radius;
-		
+
+		float f = 1.2f * (this.radius / other.radius);
+
 		other.body.setLinearVelocity((dx / d) * hitX * f, (dy / d) * hitY * f);
-		
+
 		if (effect != null)
 			effect.start();
 	}
@@ -141,6 +149,13 @@ public class Ball implements IDrawable, IBox2DObject {
 
 	public static Builder newBuilder(int type) {
 		return new Builder(type);
+	}
+
+	public static Ball create(int type, float r, float cx, float cy, Box2DWorld world) {
+		return newBuilder(type)
+				.setCenter(cx, cy)
+				.setRadius(r)
+				.build(world);
 	}
 
 	private static ITexture getBallTexture(int type) {
@@ -192,10 +207,10 @@ public class Ball implements IDrawable, IBox2DObject {
 		}
 	}
 
-	private static class Ball2Object extends GameObject {
+	private static class BallObject extends GameObject {
 		private final ITexture ballTexture;
 
-		public Ball2Object(ITexture texture) {
+		public BallObject(ITexture texture) {
 			ballTexture = texture;
 		}
 

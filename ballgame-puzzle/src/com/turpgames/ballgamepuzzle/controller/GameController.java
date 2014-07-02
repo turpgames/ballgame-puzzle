@@ -1,85 +1,61 @@
 package com.turpgames.ballgamepuzzle.controller;
 
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Manifold;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.turpgames.ballgamepuzzle.levels.BallMeta;
+import com.turpgames.ballgamepuzzle.levels.LevelMeta;
 import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.ballgamepuzzle.objects.Walls;
+import com.turpgames.ballgamepuzzle.utils.Global;
 import com.turpgames.ballgamepuzzle.utils.Sounds;
 import com.turpgames.ballgamepuzzle.view.IScreenView;
+import com.turpgames.box2d.Box2DWorld;
 import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.impl.InputListener;
 import com.turpgames.framework.v0.util.Game;
-import com.turpgames.box2d.Box2DWorld;
 
 public class GameController {
 	private final IScreenView view;
-	private final Box2DWorld world;
+	private Box2DWorld world;
 	private Ball ball;
+
+	private final List<IDrawable> drawables = new ArrayList<IDrawable>();
 
 	public GameController(IScreenView view) {
 		this.view = view;
-		this.world = new Box2DWorld();
 	}
 
 	public void activate() {
+		this.world = new Box2DWorld();
+
 		view.registerInputListener(listener);
 		registerGameDrawable(new Walls(world));
-		registerGameDrawable(ball = newBall(150, 700, Ball.Azure));
-		registerGameDrawable(newBall(325, 550, Ball.Green, Ball.Small));
-		registerGameDrawable(newBall(180, 170, Ball.Yellow, Ball.Large));
-		registerGameDrawable(newBall(55, 100, Ball.Gray, Ball.Medium));
-		registerGameDrawable(newBall(320, 350, Ball.Purple, Ball.Small));
-		registerGameDrawable(newBall(430, 270, Ball.Red, Ball.Large));
-		registerGameDrawable(newBall(240, 620, Ball.Blue, Ball.Small));
-		registerGameDrawable(newBall(120, 500, Ball.Orange, Ball.Medium));
-		// registerGameDrawable(world);
-		world.getWorld().setContactListener(new ContactListener() {
-			@Override
-			public void preSolve(Contact contact, Manifold oldManifold) {
-				
-			}
-			
-			@Override
-			public void postSolve(Contact contact, ContactImpulse impulse) {
-				
-			}
-			
-			@Override
-			public void endContact(Contact contact) {
-				
-			}
-			
-			@Override
-			public void beginContact(Contact contact) {
-				Object o1 = contact.getFixtureA().getBody().getUserData();
-				Object o2 = contact.getFixtureB().getBody().getUserData();
 
-				Sounds.hit.play();	
-				
-				if (o1 == null || o2 == null) {
-					return;
-				}
-				
-				Ball b1 = (Ball)o1;
-				Ball b2 = (Ball)o2;
-				
-				if (b1.isElastic()) {
-					b1.bounce(b2);
-				}
-				else if (b2.isElastic()) {
-					b2.bounce(b1);
-				}
-			}
-		});
+		LevelMeta meta = Global.levelMeta;
+
+		for (BallMeta ballMeta : meta.getBalls()) {
+			Ball ball = createBall(ballMeta);
+			if (ball.getType() == Ball.Azure)
+				this.ball = ball;
+			registerGameDrawable(ball);
+		}
+
+		world.getWorld().setContactListener(meta.getContactListener());
 	}
 
 	public void deactivate() {
+		world.getWorld().dispose();
+		world = null;
+
+		for (IDrawable d : drawables)
+			view.unregisterDrawable(d);
+		drawables.clear();
 	}
 
 	public void update() {
-		world.update();
+		if (world != null)
+			world.update();
 	}
 
 	private boolean onTap() {
@@ -87,21 +63,25 @@ public class GameController {
 	}
 
 	private boolean onTouchDown(float x, float y) {
-		ball.hit2(Game.screenToViewportX(x), Game.screenToViewportY(y));
+		y = Game.screenToViewportY(y);
+		if (Game.descale(Game.getScreenHeight()) - y < 100)
+			return false;
+		
+		ball.hit2(Game.viewportToScreenX(x), y);
 		Sounds.hit.play();
-		return true;
+		return false;
 	}
 
 	private void registerGameDrawable(IDrawable drawable) {
+		drawables.add(drawable);
 		view.registerDrawable(drawable, Game.LAYER_GAME);
 	}
 
-	private Ball newBall(float cx, float cy, int type) {
-		return newBall(cx, cy, type, Ball.Medium);
-	}
-
-	private Ball newBall(float cx, float cy, int type, float r) {
-		return Ball.newBuilder(type).setCenter(cx, cy).setRadius(r).build(world);
+	private Ball createBall(BallMeta ballMeta) {
+		return Ball.newBuilder(ballMeta.getType())
+				.setCenter(ballMeta.getCx(), ballMeta.getCy())
+				.setRadius(ballMeta.getR())
+				.build(world);
 	}
 
 	private final InputListener listener = new InputListener() {
