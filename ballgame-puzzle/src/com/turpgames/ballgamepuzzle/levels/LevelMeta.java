@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.turpgames.framework.v0.impl.Settings;
-import com.turpgames.framework.v0.util.Game;
 
 public class LevelMeta {
 
@@ -34,7 +33,7 @@ public class LevelMeta {
 		this.star3 = builder.star3;
 		this.balls = builder.balls.toArray(new BallMeta[0]);
 		this.contactListener = builder.contactListener;
-		this.state = Settings.getInteger(id, Game.isDebug() ? Unlocked : Locked);
+		this.state = Settings.getInteger(id, Locked);
 	}
 
 	public void updateState(int state) {

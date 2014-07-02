@@ -11,14 +11,34 @@ class StarterPack {
 		if (level1.getState() == LevelMeta.Locked)
 			level1.updateState(LevelMeta.Unlocked);
 		
-		return LevelPack.newBuilder()
+		LevelPack pack = LevelPack.newBuilder()
 				.setTitle(packTitle)
 				.addLevel(level1)
 				.addLevel(level2())
 				.addLevel(level3())
 				.addLevel(level4())
 				.addLevel(level5())
+				.addLevel(level6())
+				.addLevel(level6())
+				.addLevel(level6())
+				.addLevel(level6())
+				.addLevel(level6())
+				.addLevel(level6())
+				.addLevel(level6())
+				.addLevel(level6())
+				.addLevel(level6())
+				.addLevel(level6())
+				.addLevel(level6())
+				.addLevel(level6())
+				.addLevel(level6())
+				.addLevel(level6())
+				.addLevel(level6())
 				.build();
+		
+		for (int i = 0; i < 5; i++)
+			pack.getLevels()[i].updateState(Math.max(LevelMeta.Star3 - i, LevelMeta.Unlocked));
+		
+		return pack;
 	}
 
 	private static LevelMeta level1() {
@@ -55,6 +75,17 @@ class StarterPack {
 
 	private static LevelMeta level5() {
 		return newBuilder(5)
+				.addBall(Ball.Azure, Ball.Medium, 150, 750)
+				.addBall(Ball.Green, Ball.Medium, 450, 650)
+				.addBall(Ball.Yellow, Ball.Medium, 125, 100)
+				.addBall(Ball.Yellow, Ball.Large, 400, 100)
+				.build();
+	}
+	
+	static int i = 6;
+
+	private static LevelMeta level6() {
+		return newBuilder(i++)
 				.addBall(Ball.Azure, Ball.Medium, 150, 750)
 				.addBall(Ball.Green, Ball.Medium, 450, 650)
 				.addBall(Ball.Yellow, Ball.Medium, 125, 100)
