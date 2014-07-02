@@ -67,7 +67,7 @@ public class GameController {
 		if (Game.descale(Game.getScreenHeight()) - y < 100)
 			return false;
 		
-		ball.hit2(Game.viewportToScreenX(x), y);
+		ball.hit2(Game.screenToViewportX(x), y);
 		Sounds.hit.play();
 		return false;
 	}
