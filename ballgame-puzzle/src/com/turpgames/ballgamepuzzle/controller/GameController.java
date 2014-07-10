@@ -112,6 +112,7 @@ public class GameController implements IGameController {
 
 		endGame();
 
+		view.unregisterDrawable(text);
 		view.unregisterInputListener(listener);
 	}
 
