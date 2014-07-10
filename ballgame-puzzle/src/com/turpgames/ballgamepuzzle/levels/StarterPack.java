@@ -1,16 +1,23 @@
 package com.turpgames.ballgamepuzzle.levels;
 
+import com.turpgames.ballgamepuzzle.collisionhandlers.BallCollisionHandlerChain;
+import com.turpgames.ballgamepuzzle.collisionhandlers.StoneHandler;
+import com.turpgames.ballgamepuzzle.collisionhandlers.TargetHandler;
+import com.turpgames.ballgamepuzzle.collisionhandlers.PortalHandler;
+import com.turpgames.ballgamepuzzle.collisionhandlers.EnemyHandler;
+import com.turpgames.ballgamepuzzle.collisionhandlers.BounceHandler;
 import com.turpgames.ballgamepuzzle.objects.Ball;
+import com.turpgames.framework.v0.util.Game;
 
 class StarterPack {
 	private final static String packTitle = "Starter Pack";
 
 	public static LevelPack createPack() {
 		LevelMeta level1 = level1();
-		
+
 		if (level1.getState() == LevelMeta.Locked)
 			level1.updateState(LevelMeta.Unlocked);
-		
+
 		LevelPack pack = LevelPack.newBuilder()
 				.setTitle(packTitle)
 				.addLevel(level1)
@@ -19,83 +26,143 @@ class StarterPack {
 				.addLevel(level4())
 				.addLevel(level5())
 				.addLevel(level6())
-				.addLevel(level6())
-				.addLevel(level6())
-				.addLevel(level6())
-				.addLevel(level6())
-				.addLevel(level6())
-				.addLevel(level6())
-				.addLevel(level6())
-				.addLevel(level6())
-				.addLevel(level6())
-				.addLevel(level6())
-				.addLevel(level6())
-				.addLevel(level6())
-				.addLevel(level6())
-				.addLevel(level6())
+				.addLevel(level7())
+				.addLevel(level8())
+				.addLevel(level9())
+				.addLevel(level9())
+				.addLevel(level9())
+				.addLevel(level9())
+				.addLevel(level9())
+				.addLevel(level9())
+				.addLevel(level9())
+				.addLevel(level9())
+				.addLevel(level9())
+				.addLevel(level9())
+				.addLevel(level9())
+				.addLevel(level9())
 				.build();
-		
-		for (int i = 0; i < 5; i++)
+
+		for (int i = 0; i < 8; i++)
 			pack.getLevels()[i].updateState(Math.max(LevelMeta.Star3 - i, LevelMeta.Unlocked));
-		
+
 		return pack;
 	}
 
 	private static LevelMeta level1() {
 		return newBuilder(1)
-				.addBall(Ball.Azure, Ball.Medium, Ball.ViewportCenterX, Ball.ViewportCenterY * 1.5f)
-				.addBall(Ball.Green, Ball.Medium, Ball.ViewportCenterX - 5f, Ball.ViewportCenterY * 0.5f)
+				.setScoreMeta(1000, 0, 0, 0)
+				.addBall(Ball.Subject, Ball.Medium, Ball.ViewportCenterX, Ball.ViewportCenterY * 1.5f)
+				.addBall(Ball.Target, Ball.Medium, Ball.ViewportCenterX - 5f, Ball.ViewportCenterY * 0.5f)
 				.build();
 	}
 
 	private static LevelMeta level2() {
 		return newBuilder(2)
-				.addBall(Ball.Azure, Ball.Medium, Ball.ViewportCenterX, Ball.ViewportCenterY * 1.33f)
-				.addBall(Ball.Green, Ball.Medium, Ball.ViewportCenterX, Ball.ViewportCenterY * 1.75f)
+				.setScoreMeta(1000, 0, 0, 0)
+				.addBall(Ball.Subject, Ball.Medium, Ball.ViewportCenterX, Ball.ViewportCenterY * 1.33f)
+				.addBall(Ball.Target, Ball.Medium, Ball.ViewportCenterX, Ball.ViewportCenterY * 1.75f)
 				.build();
 	}
 
 	private static LevelMeta level3() {
 		return newBuilder(3)
-				.addBall(Ball.Azure, Ball.Medium, 150, 750)
-				.addBall(Ball.Green, Ball.Medium, 440, 150)
-				.addBall(Ball.Gray, Ball.Medium, 145, 100)
-				.addBall(Ball.Gray, Ball.Medium, 240, 250)
+				.setScoreMeta(1000, 0, 0, 0)
+				.addBall(Ball.Subject, Ball.Medium, 150, 750)
+				.addBall(Ball.Target, Ball.Medium, 440, 150)
+				.addBall(Ball.Stone, Ball.Medium, 145, 100)
+				.addBall(Ball.Stone, Ball.Medium, 240, 250)
 				.build();
 	}
 
 	private static LevelMeta level4() {
 		return newBuilder(4)
-				.addBall(Ball.Azure, Ball.Medium, 150, 750)
-				.addBall(Ball.Green, Ball.Medium, 440, 440)
-				.addBall(Ball.Gray, Ball.Medium, 145, 100)
-				.addBall(Ball.Yellow, Ball.Medium, 240, 250)
+				.setScoreMeta(1000, 0, 0, 0)
+				.addBall(Ball.Subject, Ball.Medium, 150, 750)
+				.addBall(Ball.Target, Ball.Medium, 440, 440)
+				.addBall(Ball.Stone, Ball.Medium, 145, 100)
+				.addBall(Ball.Bounce, Ball.Medium, 240, 250)
 				.build();
 	}
 
 	private static LevelMeta level5() {
 		return newBuilder(5)
-				.addBall(Ball.Azure, Ball.Medium, 150, 750)
-				.addBall(Ball.Green, Ball.Medium, 450, 650)
-				.addBall(Ball.Yellow, Ball.Medium, 125, 100)
-				.addBall(Ball.Yellow, Ball.Large, 400, 100)
+				.setScoreMeta(0, 0, 0, 0)
+				.addBall(Ball.Subject, Ball.Medium, 150, 750)
+				.addBall(Ball.Target, Ball.Medium, 450, 650)
+				.addBall(Ball.Bounce, Ball.Medium, 125, 100)
+				.addBall(Ball.Bounce, Ball.Large, 400, 100)
 				.build();
 	}
-	
-	static int i = 6;
 
 	private static LevelMeta level6() {
+		return newBuilder(6)
+				.setScoreMeta(1000, 0, 0, 0)
+				.addBall(Ball.Portal, Ball.Medium, 150, 150)
+				.addBall(Ball.Portal, Ball.Medium, 400, 750)
+				.addBall(Ball.Subject, Ball.Medium, 150, 750)
+				.addBall(Ball.Target, Ball.Medium, 400, 150)
+				.build();
+	}
+
+	private static LevelMeta level7() {
+		return newBuilder(7)
+				.setScoreMeta(1000, 0, 0, 0)
+				.addBall(Ball.Portal, Ball.Medium, 425, 475)
+				.addBall(Ball.Portal, Ball.Medium, 250, 750)
+				.addBall(Ball.Subject, Ball.Medium, 150, 750)
+				.addBall(Ball.Stone, Ball.Medium, 140, 100)
+				.addBall(Ball.Enemy, Ball.Large, 280, 250)
+				.addBall(Ball.Bounce, Ball.Medium, 425, 100)
+				.addBall(Ball.Stone, Ball.Medium, 240, 400)
+				.addBall(Ball.Enemy, Ball.Medium, 330, 600)
+				.addBall(Ball.Bounce, Ball.Large, 400, 700)
+				.addBall(Ball.Target, Ball.Medium, 80, 400)
+				.build();
+	}
+
+	private static LevelMeta level8() {
+		LevelMeta.Builder builder = newBuilder(8)
+				.setScoreMeta(6, 4, 5, 6)
+				.addBall(Ball.Portal, Ball.Medium, 150, 150)
+				.addBall(Ball.Portal, Ball.Medium, 400, 750)
+				.addBall(Ball.Subject, Ball.Medium, 150, 750)
+				.addBall(Ball.Target, Ball.Medium, 400, 150)
+				.addBall(Ball.Enemy, Ball.Medium, 300, 50);
+
+		float w = Game.getVirtualWidth();
+		int i = 0;
+		while (w > Ball.Small) {
+			builder.addBall(Ball.Stone, Ball.Small, 10 + (i++ * Ball.Small * 2) + Ball.Small, 350);
+			w -= Ball.Small * 2;
+		}
+
+		for (float y = 350 + 6 * Ball.Small; y < Game.getVirtualHeight(); y += 2 * Ball.Small) {
+			builder.addBall(Ball.Stone, Ball.Small, 250, y);
+		}
+
+		return builder.build();
+	}
+
+	static int i = 9;
+
+	private static LevelMeta level9() {
 		return newBuilder(i++)
-				.addBall(Ball.Azure, Ball.Medium, 150, 750)
-				.addBall(Ball.Green, Ball.Medium, 450, 650)
-				.addBall(Ball.Yellow, Ball.Medium, 125, 100)
-				.addBall(Ball.Yellow, Ball.Large, 400, 100)
+				.addBall(Ball.Subject, Ball.Medium, 150, 750)
+				.addBall(Ball.Target, Ball.Medium, 450, 650)
+				.addBall(Ball.Bounce, Ball.Medium, 125, 100)
+				.addBall(Ball.Bounce, Ball.Large, 400, 100)
 				.build();
 	}
 
 	private static LevelMeta.Builder newBuilder(int index) {
 		return LevelMeta.newBuilder(packTitle + index)
 				.setIndex(index)
-				.setContactListener(new DefaultContactListener());
+				.setContactListener(new DefaultContactListener(
+						new BallCollisionHandlerChain(
+								new StoneHandler(),
+								new TargetHandler(),
+								new BounceHandler(),
+								new PortalHandler(),
+								new EnemyHandler())));
 	}
 }

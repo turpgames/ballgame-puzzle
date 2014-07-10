@@ -160,11 +160,6 @@
             class="com.turpgames.ballgamepuzzle.view.MenuScreen" />
 
         <screen
-            id="hiscores"
-            background-texture="bg"
-            class="com.turpgames.ballgamepuzzle.view.HiScoresScreen" />
-
-        <screen
             id="about"
             background-texture="bg"
             class="com.turpgames.ballgamepuzzle.view.AboutScreen" />
@@ -178,19 +173,13 @@
                 id="btnPlay"
                 action="screen=levels"
                 text="Play"
-                y="20" />
-
-            <button
-                id="btnHiScores"
-                action="screen=hiscores"
-                resource-text="Hi Scores"
-                y="16" />
+                y="18" />
 
             <button
                 id="btnAbout"
                 action="screen=about"
                 resource-text="About"
-                y="12" />
+                y="14" />
         </form>
     </forms>
 
@@ -329,8 +318,24 @@
                 path="audio/hit.mp3" />
 
             <sound
-                id="gameover"
-                path="audio/gameover.mp3" />
+                id="red"
+                path="audio/red.mp3" />
+
+            <sound
+                id="yellow"
+                path="audio/yellow.mp3" />
+
+            <sound
+                id="gray"
+                path="audio/gray.mp3" />
+
+            <sound
+                id="green"
+                path="audio/green.mp3" />
+
+            <sound
+                id="orange"
+                path="audio/orange.mp3" />
         </sounds>
 
         <musics>
