@@ -24,7 +24,7 @@ public class MenuScreen extends FormScreen {
 		
 		if (isFirstActivate) {
 			isFirstActivate = false;
-			TurpClient.init();
+//			TurpClient.init();
 
 			if (Settings.getInteger("game-installed", 0) == 0) {
 				TurpClient.sendStat(StatActions.GameInstalled, Game.getPhysicalScreenSize().toString());
