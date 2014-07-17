@@ -1,6 +1,7 @@
 package com.turpgames.ballgamepuzzle.view;
 
 import com.turpgames.ballgamepuzzle.components.Toolbar;
+import com.turpgames.ballgamepuzzle.components.ToolbarListenerAdapter;
 import com.turpgames.ballgamepuzzle.utils.StatActions;
 import com.turpgames.framework.v0.client.TurpClient;
 import com.turpgames.framework.v0.impl.FormScreen;
@@ -35,7 +36,7 @@ public class MenuScreen extends FormScreen {
 		}
 		Toolbar.getInstance().enable();
 		Toolbar.getInstance().deactivateBackButton();
-		Toolbar.getInstance().setListener(new com.turpgames.framework.v0.component.Toolbar.IToolbarListener() {
+		Toolbar.getInstance().setListener(new ToolbarListenerAdapter() {
 			@Override
 			public void onToolbarBack() {
 				onBack();

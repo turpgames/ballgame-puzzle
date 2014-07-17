@@ -1,6 +1,7 @@
 package com.turpgames.ballgamepuzzle.view;
 
 import com.turpgames.ballgamepuzzle.components.Toolbar;
+import com.turpgames.ballgamepuzzle.components.ToolbarListenerAdapter;
 import com.turpgames.ballgamepuzzle.controller.LevelSelectionController;
 import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.framework.v0.impl.Screen;
@@ -22,7 +23,7 @@ public class LevelSelectionScreen extends Screen implements IScreenView {
 		controller.activate();
 		
 		Toolbar.getInstance().enable();
-		Toolbar.getInstance().setListener(new com.turpgames.framework.v0.component.Toolbar.IToolbarListener() {
+		Toolbar.getInstance().setListener(new ToolbarListenerAdapter() {
 			@Override
 			public void onToolbarBack() {
 				onBack();

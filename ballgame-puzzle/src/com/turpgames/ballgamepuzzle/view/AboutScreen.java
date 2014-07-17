@@ -2,6 +2,7 @@ package com.turpgames.ballgamepuzzle.view;
 
 import com.turpgames.ballgamepuzzle.components.BallGameLogo;
 import com.turpgames.ballgamepuzzle.components.Toolbar;
+import com.turpgames.ballgamepuzzle.components.ToolbarListenerAdapter;
 import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.ballgamepuzzle.utils.StatActions;
 import com.turpgames.framework.v0.client.TurpClient;
@@ -116,7 +117,7 @@ public class AboutScreen extends Screen {
 		doubleupButton.activate();
 
 		Toolbar.getInstance().enable();
-		Toolbar.getInstance().setListener(new com.turpgames.framework.v0.component.Toolbar.IToolbarListener() {
+		Toolbar.getInstance().setListener(new ToolbarListenerAdapter() {
 			@Override
 			public void onToolbarBack() {
 				onBack();

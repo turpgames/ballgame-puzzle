@@ -59,64 +59,64 @@ class StarterPack {
 	private static LevelMeta level2() {
 		return newBuilder(2)
 				.setScoreMeta(1000, 0, 0, 0)
-				.addBall(Ball.Subject, Ball.Medium, Ball.ViewportCenterX, Ball.ViewportCenterY * 1.33f)
-				.addBall(Ball.Target, Ball.Medium, Ball.ViewportCenterX, Ball.ViewportCenterY * 1.75f)
+				.addBall(Ball.Subject, Ball.Medium, 100f, Ball.ViewportCenterY * 1.20f)
+				.addBall(Ball.Target, Ball.Medium, 350f, Ball.ViewportCenterY * 1.60f)
 				.build();
 	}
 
 	private static LevelMeta level3() {
 		return newBuilder(3)
 				.setScoreMeta(1000, 0, 0, 0)
-				.addBall(Ball.Subject, Ball.Medium, 150, 750)
-				.addBall(Ball.Target, Ball.Medium, 440, 150)
-				.addBall(Ball.Stone, Ball.Medium, 145, 100)
-				.addBall(Ball.Stone, Ball.Medium, 240, 250)
+				.addBall(Ball.Subject, Ball.Medium, 100, 650)
+				.addBall(Ball.Target, Ball.Medium, 390, 100)
+				.addBall(Ball.Stone, Ball.Medium, 80, 400)
+				.addBall(Ball.Stone, Ball.Medium, 350, 350)
+				.addBall(Ball.Stone, Ball.Medium, 95, 200)
 				.build();
 	}
 
 	private static LevelMeta level4() {
 		return newBuilder(4)
 				.setScoreMeta(1000, 0, 0, 0)
-				.addBall(Ball.Subject, Ball.Medium, 150, 750)
-				.addBall(Ball.Target, Ball.Medium, 440, 440)
-				.addBall(Ball.Stone, Ball.Medium, 145, 100)
-				.addBall(Ball.Bounce, Ball.Medium, 240, 250)
+				.addBall(Ball.Subject, Ball.Medium, 100, 650)
+				.addBall(Ball.Target, Ball.Medium, 350, 440)
+				.addBall(Ball.Stone, Ball.Medium, 95, 100)
+				.addBall(Ball.Bounce, Ball.Medium, 200, 220)
 				.build();
 	}
 
 	private static LevelMeta level5() {
 		return newBuilder(5)
 				.setScoreMeta(0, 0, 0, 0)
-				.addBall(Ball.Subject, Ball.Medium, 150, 750)
-				.addBall(Ball.Target, Ball.Medium, 450, 650)
-				.addBall(Ball.Bounce, Ball.Medium, 125, 100)
-				.addBall(Ball.Bounce, Ball.Large, 400, 100)
+				.addBall(Ball.Subject, Ball.Medium, 100, 650)
+				.addBall(Ball.Target, Ball.Medium, 350, 650)
+				.addBall(Ball.Bounce, Ball.Medium, 80f, 100)
+				.addBall(Ball.Bounce, Ball.Large, 300, 100)
 				.build();
 	}
 
 	private static LevelMeta level6() {
 		return newBuilder(6)
 				.setScoreMeta(1000, 0, 0, 0)
-				.addBall(Ball.Portal, Ball.Medium, 150, 150)
-				.addBall(Ball.Portal, Ball.Medium, 400, 750)
-				.addBall(Ball.Subject, Ball.Medium, 150, 750)
-				.addBall(Ball.Target, Ball.Medium, 400, 150)
+				.addBall(Ball.Portal, Ball.Medium, 100, 150)
+				.addBall(Ball.Portal, Ball.Medium, 350, 600)
+				.addBall(Ball.Subject, Ball.Medium, 100, 600)
+				.addBall(Ball.Target, Ball.Medium, 350, 150)
 				.build();
 	}
 
 	private static LevelMeta level7() {
 		return newBuilder(7)
 				.setScoreMeta(1000, 0, 0, 0)
-				.addBall(Ball.Portal, Ball.Medium, 425, 475)
-				.addBall(Ball.Portal, Ball.Medium, 250, 750)
-				.addBall(Ball.Subject, Ball.Medium, 150, 750)
+				.addBall(Ball.Portal, Ball.Medium, 350, 525)
+				.addBall(Ball.Portal, Ball.Medium, 250, 700)
+				.addBall(Ball.Subject, Ball.Medium, 150, 700)
 				.addBall(Ball.Stone, Ball.Medium, 140, 100)
-				.addBall(Ball.Enemy, Ball.Large, 280, 250)
-				.addBall(Ball.Bounce, Ball.Medium, 425, 100)
-				.addBall(Ball.Stone, Ball.Medium, 240, 400)
-				.addBall(Ball.Enemy, Ball.Medium, 330, 600)
-				.addBall(Ball.Bounce, Ball.Large, 400, 700)
-				.addBall(Ball.Target, Ball.Medium, 80, 400)
+				.addBall(Ball.Enemy, Ball.Large, 280, 220)
+				.addBall(Ball.Bounce, Ball.Medium, 400, 200)
+				.addBall(Ball.Stone, Ball.Medium, 200, 450)
+				.addBall(Ball.Enemy, Ball.Large, 300, 600)
+				.addBall(Ball.Target, Ball.Medium, 80, 350)
 				.build();
 	}
 
@@ -124,20 +124,21 @@ class StarterPack {
 		LevelMeta.Builder builder = newBuilder(8)
 				.setScoreMeta(6, 4, 5, 6)
 				.addBall(Ball.Portal, Ball.Medium, 150, 150)
-				.addBall(Ball.Portal, Ball.Medium, 400, 750)
-				.addBall(Ball.Subject, Ball.Medium, 150, 750)
+				.addBall(Ball.Portal, Ball.Medium, 350, 650)
+				.addBall(Ball.Subject, Ball.Medium, 100, 650)
 				.addBall(Ball.Target, Ball.Medium, 400, 150)
 				.addBall(Ball.Enemy, Ball.Medium, 300, 50);
 
 		float w = Game.getVirtualWidth();
 		int i = 0;
 		while (w > Ball.Small) {
-			builder.addBall(Ball.Stone, Ball.Small, 10 + (i++ * Ball.Small * 2) + Ball.Small, 350);
-			w -= Ball.Small * 2;
+			float dx = (Ball.Small * 2 + 10f);
+			builder.addBall(Ball.Stone, Ball.Small, 10f + (i++ * dx) + Ball.Small, 300);
+			w -= dx;
 		}
-
-		for (float y = 350 + 6 * Ball.Small; y < Game.getVirtualHeight(); y += 2 * Ball.Small) {
-			builder.addBall(Ball.Stone, Ball.Small, 250, y);
+		
+		for (float y = 300 + 6 * Ball.Small; y < Game.getVirtualHeight() - 80f; y += 2 * Ball.Small + 10f) {
+			builder.addBall(Ball.Stone, Ball.Small, Game.getVirtualWidth() / 2, y);
 		}
 
 		return builder.build();

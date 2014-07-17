@@ -1,6 +1,7 @@
 package com.turpgames.ballgamepuzzle.view;
 
 import com.turpgames.ballgamepuzzle.components.Toolbar;
+import com.turpgames.ballgamepuzzle.components.ToolbarListenerAdapter;
 import com.turpgames.ballgamepuzzle.controller.GameController;
 import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.framework.v0.impl.Screen;
@@ -22,10 +23,16 @@ public class GameScreen extends Screen implements IScreenView {
 		super.onAfterActivate();
 		controller.activate();
 		Toolbar.getInstance().enable();
-		Toolbar.getInstance().setListener(new com.turpgames.framework.v0.component.Toolbar.IToolbarListener() {
+		Toolbar.getInstance().activateResetButton();
+		Toolbar.getInstance().setListener(new ToolbarListenerAdapter() {
 			@Override
 			public void onToolbarBack() {
 				onBack();
+			}
+			
+			@Override
+			public void onResetGame() {
+				controller.resetGame();
 			}
 		});
 	}
@@ -33,6 +40,7 @@ public class GameScreen extends Screen implements IScreenView {
 	@Override
 	protected boolean onBeforeDeactivate() {
 		controller.deactivate();
+		Toolbar.getInstance().deactivateResetButton();
 		Toolbar.getInstance().disable();
 		return super.onBeforeDeactivate();
 	}

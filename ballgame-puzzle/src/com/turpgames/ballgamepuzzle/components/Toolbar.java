@@ -4,16 +4,16 @@ import com.turpgames.framework.v0.component.Button;
 import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.ImageButton;
 import com.turpgames.framework.v0.component.ToggleButton;
-import com.turpgames.framework.v0.component.Toolbar.IToolbarListener;
 import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
 
 public class Toolbar extends GameObject {
-	public final static float toolbarMargin = Game.scale(15);
-	public final static float menuButtonSizeToScreen = Game.scale(64f);
-	
+	public final static float toolbarMargin = Game.scale(5f);
+	public final static float menuButtonSizeToScreen = Game.scale(50f);
+
 	protected ImageButton backButton;
+	protected ImageButton resetButton;
 	protected ToggleButton soundButton;
 	
 	private IToolbarListener listener;
@@ -29,6 +29,7 @@ public class Toolbar extends GameObject {
 	private Toolbar() {
 		addBackButton();
 		addSoundButton();
+		addResetButton();
 		listenInput(true);
 	}
 
@@ -43,10 +44,19 @@ public class Toolbar extends GameObject {
 	public void deactivateBackButton() {
 		backButton.deactivate();
 	}
+
+	public void activateResetButton() {
+		resetButton.activate();
+	}
+
+	public void deactivateResetButton() {
+		resetButton.deactivate();
+	}
 	
 	public void disable() {
 		soundButton.deactivate();
 		backButton.deactivate();
+		resetButton.deactivate();
 	}
 
 	public void enable() {
@@ -71,6 +81,19 @@ public class Toolbar extends GameObject {
 		});
 	}
 
+	protected void addResetButton() {
+		resetButton = new ImageButton(menuButtonSizeToScreen, menuButtonSizeToScreen, "tb_reset", Color.white(), Color.white());
+		resetButton.setLocation(Button.AlignNE, menuButtonSizeToScreen + 2 * toolbarMargin, toolbarMargin);
+		resetButton.deactivate();
+		resetButton.setListener(new IButtonListener() {
+			@Override
+			public void onButtonTapped() {
+				if (listener != null)
+					listener.onResetGame();
+			}
+		});
+	}
+
 	protected void addSoundButton() {
 		soundButton = new AudioButton();
 		soundButton.setLocation(Button.AlignNE, toolbarMargin, toolbarMargin);
@@ -81,6 +104,7 @@ public class Toolbar extends GameObject {
 	public void draw() {
 		soundButton.draw();
 		backButton.draw();
+		resetButton.draw();
 	}
 
 	@Override

@@ -10,23 +10,30 @@ import com.turpgames.framework.v0.util.Game;
 public class LevelSelectionController {
 
 	private final TouchSlidingViewSwitcher viewSwitcher;
+	private final LevelPack[] packs;
 
 	public LevelSelectionController(IScreenView view) {
 		viewSwitcher = new TouchSlidingViewSwitcher(false);
-		LevelPack[] packs = PackBuilder.buildPacks();
-		for (LevelPack pack : packs) {
-			viewSwitcher.addView(new LevelPackView(pack));
-		}
+
+		packs = PackBuilder.buildPacks();
 
 		view.registerDrawable(viewSwitcher, Game.LAYER_GAME);
 		viewSwitcher.setArea(0, 0, Game.getVirtualWidth(), Game.getVirtualHeight() - 200f);
 	}
 
 	public void activate() {
+		initViews();
 		viewSwitcher.activate();
 	}
 
 	public void deactivate() {
 		viewSwitcher.deactivate();
+	}
+	
+	private void initViews() {
+		viewSwitcher.clearViews();
+		for (LevelPack pack : packs) {
+			viewSwitcher.addView(new LevelPackView(pack));
+		}
 	}
 }

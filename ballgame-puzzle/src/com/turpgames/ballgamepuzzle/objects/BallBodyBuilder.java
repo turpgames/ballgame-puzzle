@@ -22,7 +22,8 @@ public class BallBodyBuilder {
 
 		this.bodyBuilder.setCenter(
 				Box2D.viewportToWorldX(x),
-				Box2D.viewportToWorldY(y));
+				Box2D.viewportToWorldY(y))
+				.setAngularDamping(0.5f);
 
 		this.fixtureBuilder = Box2DBuilders.Fixture.fixtureBuilder()
 				.setElasticity(0.6f)

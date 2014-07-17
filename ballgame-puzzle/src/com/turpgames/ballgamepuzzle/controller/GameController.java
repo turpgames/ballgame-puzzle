@@ -37,7 +37,7 @@ public class GameController implements IGameController {
 	private void initBalls() {
 		LevelMeta meta = Global.levelMeta;
 
-		PortalBall orangePair = null;
+		PortalBall portalPair = null;
 
 		for (BallMeta ballMeta : meta.getBalls()) {
 			Ball ball = Ball.create(ballMeta, world);
@@ -46,38 +46,49 @@ public class GameController implements IGameController {
 				this.ball = (SubjectBall) ball;
 			}
 			else if (ball.getType() == Ball.Portal) {
-				if (orangePair == null) {
-					orangePair = (PortalBall) ball;
+				if (portalPair == null) {
+					portalPair = (PortalBall) ball;
 				}
 				else {
-					PortalBall.makePair(orangePair, (PortalBall) ball);
-					orangePair = null;
+					PortalBall.makePair(portalPair, (PortalBall) ball);
+					portalPair = null;
 				}
 			}
 
 			registerGameDrawable(ball);
 		}
 
-		if (orangePair != null) {
-			throw new UnsupportedOperationException("Unpaired orange ball exists!");
+		if (portalPair != null) {
+			throw new UnsupportedOperationException("Unpaired portal exists!");
 		}
 	}
 
 	@Override
-	public void onHitGreen() {
+	public void onHitTarget() {
 		isPlaying = false;
 		isGameOver = true;
-		int hitCount = Global.levelMeta.getMaxHit() - hits;
-		if (hitCount <= Global.levelMeta.getStar3())
+		
+		LevelMeta level = Global.levelMeta;
+		
+		int hitCount = level.getMaxHit() - hits;
+		if (hitCount <= level.getStar3()) {
+			level.updateState(LevelMeta.Star3);
 			updateText("you win: full star!");
-		else if (hitCount <= Global.levelMeta.getStar2())
+		}
+		else if (hitCount <= level.getStar2()) {
+			if (level.getState() < LevelMeta.Star2)
+				level.updateState(LevelMeta.Star2);
 			updateText("you win: half star!");
-		else if (hitCount <= Global.levelMeta.getStar1())
+		}
+		else if (hitCount <= level.getStar1()) {
+			if (level.getState() < LevelMeta.Star1)
+				level.updateState(LevelMeta.Star1);
 			updateText("you win: empty star!");
+		}
 	}
 
 	@Override
-	public void onHitRed() {
+	public void onHitEnemy() {
 		isPlaying = false;
 		isGameOver = true;
 		updateText("touched red ball");
@@ -98,7 +109,7 @@ public class GameController implements IGameController {
 		Global.currentGame = this;
 		
 		text = new Text();
-		text.setLocation(Game.screenToViewportX(10f), Game.screenToViewportY(10f));
+		text.setLocation(10f, 10f);
 		text.setFontScale(0.5f);
 
 		initGame();
@@ -145,6 +156,11 @@ public class GameController implements IGameController {
 		drawables.clear();
 	}
 
+	public void resetGame() {
+		endGame();
+		initGame();
+	}
+
 	public void update() {
 		if (isPlaying) {
 			world.update();
@@ -162,8 +178,7 @@ public class GameController implements IGameController {
 				updateText(hits + "");
 			}
 		} else if (isGameOver) {
-			endGame();
-			initGame();
+			resetGame();
 		} else {
 			startPlaying();
 		}
@@ -171,9 +186,6 @@ public class GameController implements IGameController {
 	}
 
 	private void hit(float x, float y) {
-		if (Game.descale(Game.getScreenHeight()) - y < 100)
-			return;
-
 		ball.hit(x, y);
 		Sounds.hit.play();
 	}
@@ -187,7 +199,7 @@ public class GameController implements IGameController {
 		@Override
 		public boolean touchDown(float x, float y, int pointer, int button) {
 			y = Game.screenToViewportY(y);
-			if (y > Game.getVirtualHeight() - 100f)
+			if (y > Game.getVirtualHeight() - Walls.marginY)
 				return false;
 			return onTouchDown(Game.screenToViewportX(x), y);
 		}

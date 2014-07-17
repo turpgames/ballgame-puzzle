@@ -1,7 +1,7 @@
 package com.turpgames.ballgamepuzzle.controller;
 
 public interface IGameController {
-	void onHitGreen();
+	void onHitTarget();
 	
-	void onHitRed();
+	void onHitEnemy();
 }

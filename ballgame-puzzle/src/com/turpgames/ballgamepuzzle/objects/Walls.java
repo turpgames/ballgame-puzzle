@@ -14,10 +14,12 @@ import com.turpgames.framework.v0.util.ShapeDrawer;
 public class Walls implements IDrawable {
 	private final static Color wallColor = Color.white();
 
-	private final static float x = Game.screenToViewportX(5f);
-	private final static float y = Game.screenToViewportY(5f);
-	private final static float w = Game.descale(Game.getScreenWidth() - 10f);
-	private final static float h = Game.descale(Game.getScreenHeight() - 10f);
+	public final static float marginY = 60f;
+	
+	private final static float x = 5f;
+	private final static float y = 5f;
+	private final static float w = Game.getVirtualWidth() - 2 * x;
+	private final static float h = Game.getVirtualHeight() - y - marginY;
 
 	private final static Rectangle rect = new Rectangle(x, y, w, h);
 
@@ -36,7 +38,7 @@ public class Walls implements IDrawable {
 				.addVertex(Box2D.viewportToWorldX(x + w), Box2D.viewportToWorldY(y + h))
 				.addVertex(Box2D.viewportToWorldX(x), Box2D.viewportToWorldY(y + h))
 				.build();
-		
+
 		Box2DBuilders.Body.staticBodyBuilder()
 				.build(world.getWorld(),
 						Box2DBuilders.Fixture.fixtureBuilder()
@@ -44,7 +46,7 @@ public class Walls implements IDrawable {
 								.setDensity(1.2f)
 								.setFriction(0.1f)
 								.setShape(chain));
-		
+
 		chain.dispose();
 	}
 

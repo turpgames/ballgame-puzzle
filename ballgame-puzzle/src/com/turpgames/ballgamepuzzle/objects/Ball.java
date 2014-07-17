@@ -28,9 +28,9 @@ public abstract class Ball implements IDrawable, IBox2DObject {
 	public final static int Subject = 7;
 	public final static int Portal = 8;
 
-	public final static float Small = 20f;
-	public final static float Medium = 30f;
-	public final static float Large = 40f;
+	public final static float Small = 15f;
+	public final static float Medium = 25f;
+	public final static float Large = 35f;
 
 	public final static float ViewportCenterX = Game.getVirtualWidth() / 2f;
 	public final static float ViewportCenterY = Game.getVirtualHeight() / 2f;
