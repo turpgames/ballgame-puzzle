@@ -13,7 +13,7 @@ public class TargetHandler extends BallCollisionHandler {
 	protected boolean handleBeginCollide(Ball b1, Ball b2) {
 		if (b2.getType() != Ball.Subject)
 			return false;
-		Global.currentGame.onHitTarget();
+		Global.currentController.onHitTarget();
 		Sounds.target.play();
 		return true;
 	}

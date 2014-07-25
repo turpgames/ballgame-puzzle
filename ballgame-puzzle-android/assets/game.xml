@@ -156,6 +156,11 @@
             class="com.turpgames.ballgamepuzzle.view.GameScreen" />
 
         <screen
+            id="result"
+            background-texture="bg"
+            class="com.turpgames.ballgamepuzzle.view.ResultScreen" />
+
+        <screen
             id="menu"
             background-texture="bg"
             class="com.turpgames.ballgamepuzzle.view.MenuScreen" />
@@ -310,6 +315,14 @@
             <texture
                 id="star_full"
                 path="img/star_full.png" />
+
+            <texture
+                id="button_green"
+                path="img/button_green.png" />
+
+            <texture
+                id="button_blue"
+                path="img/button_blue.png" />
         </textures>
 
         <sounds>

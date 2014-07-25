@@ -1,10 +1,8 @@
 package com.turpgames.ballgamepuzzle.levels;
 
-import com.turpgames.ballgamepuzzle.utils.Global;
-import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.ballgamepuzzle.utils.Textures;
+import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.ImageButton;
-import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.util.Game;
 
 public class LevelSelectionButton extends ImageButton {
@@ -14,12 +12,12 @@ public class LevelSelectionButton extends ImageButton {
 	private final static float itemSize = (Game.getVirtualWidth() - (cols + 1) * itemMargin) / cols;
 	private final static float yOffset = (Game.getVirtualHeight() - rows * itemSize - (rows + 1) * itemMargin) / 2f - 40f;
 
-	private final LevelMeta meta;
+	private final LevelMeta level;
 
-	public LevelSelectionButton(LevelMeta info) {
-		this.meta = info;
+	public LevelSelectionButton(LevelMeta level) {
+		this.level = level;
 
-		int levelIndex = info.getIndex();
+		int levelIndex = level.getIndex();
 
 		setWidth(itemSize);
 		setHeight(itemSize);
@@ -33,18 +31,25 @@ public class LevelSelectionButton extends ImageButton {
 
 		getLocation().set(x, y);
 
-		if (info.getState() == LevelMeta.Locked)
+		if (level.getState() == LevelMeta.Locked)
 			setTexture(Textures.locked);
-		if (info.getState() == LevelMeta.Unlocked)
+		if (level.getState() == LevelMeta.Unlocked)
 			setTexture(Textures.unlocked);
-		if (info.getState() == LevelMeta.Star1)
+		if (level.getState() == LevelMeta.Star1)
 			setTexture(Textures.star_empty);
-		if (info.getState() == LevelMeta.Star2)
+		if (level.getState() == LevelMeta.Star2)
 			setTexture(Textures.star_half);
-		if (info.getState() == LevelMeta.Star3)
+		if (level.getState() == LevelMeta.Star3)
 			setTexture(Textures.star_full);
 
 		listenInput(false);
+
+		super.setListener(new IButtonListener() {
+			@Override
+			public void onButtonTapped() {
+				startLevel();
+			}
+		});
 	}
 
 	@Override
@@ -52,12 +57,9 @@ public class LevelSelectionButton extends ImageButton {
 		return false;
 	}
 
-	@Override
-	protected boolean onTap() {
-		if (meta.getState() != LevelMeta.Locked) {
-			Global.levelMeta = meta;
-			ScreenManager.instance.switchTo(R.screens.game, false);
+	private void startLevel() {
+		if (level.getState() != LevelMeta.Locked) {
+			LevelManager.startLevel(level);
 		}
-		return true;
 	}
 }

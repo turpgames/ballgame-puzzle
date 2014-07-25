@@ -7,7 +7,7 @@ public abstract class PackBuilder {
 	public static LevelPack[] buildPacks() {
 		List<LevelPack> packs = new ArrayList<LevelPack>();
 
-		packs.add(StarterPack.createPack());
+		packs.add(StarterPack.getPack());
 
 		return packs.toArray(new LevelPack[0]);
 	}

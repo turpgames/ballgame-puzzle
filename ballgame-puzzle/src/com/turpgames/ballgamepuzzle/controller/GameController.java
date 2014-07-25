@@ -3,6 +3,7 @@ package com.turpgames.ballgamepuzzle.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.turpgames.ballgamepuzzle.components.LevelResetEffect;
 import com.turpgames.ballgamepuzzle.levels.BallMeta;
 import com.turpgames.ballgamepuzzle.levels.LevelMeta;
 import com.turpgames.ballgamepuzzle.objects.Ball;
@@ -10,32 +11,45 @@ import com.turpgames.ballgamepuzzle.objects.Walls;
 import com.turpgames.ballgamepuzzle.objects.balls.PortalBall;
 import com.turpgames.ballgamepuzzle.objects.balls.SubjectBall;
 import com.turpgames.ballgamepuzzle.utils.Global;
+import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.ballgamepuzzle.utils.Sounds;
 import com.turpgames.ballgamepuzzle.view.IScreenView;
 import com.turpgames.box2d.Box2DWorld;
 import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.impl.InputListener;
-import com.turpgames.framework.v0.impl.Text;
+import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.util.Game;
 
 public class GameController implements IGameController {
 	private final IScreenView view;
 	private Box2DWorld world;
 	private SubjectBall ball;
+	private final LevelResetEffect resetEffect;
 
 	private boolean isPlaying;
 	private boolean isGameOver;
 	private int hits;
-	private Text text;
 
 	private final List<IDrawable> drawables = new ArrayList<IDrawable>();
 
 	public GameController(IScreenView view) {
 		this.view = view;
+		this.resetEffect = new LevelResetEffect(new LevelResetEffect.IListener() {
+			@Override
+			public void onHalfCompleted() {
+				endGame();
+				initGame();
+			}
+			
+			@Override
+			public void onEnd() {
+				
+			}
+		});
 	}
 
 	private void initBalls() {
-		LevelMeta meta = Global.levelMeta;
+		LevelMeta meta = Global.currentLevel;
 
 		PortalBall portalPair = null;
 
@@ -68,69 +82,35 @@ public class GameController implements IGameController {
 		isPlaying = false;
 		isGameOver = true;
 		
-		LevelMeta level = Global.levelMeta;
-		
-		int hitCount = level.getMaxHit() - hits;
-		if (hitCount <= level.getStar3()) {
-			level.updateState(LevelMeta.Star3);
-			updateText("you win: full star!");
-		}
-		else if (hitCount <= level.getStar2()) {
-			if (level.getState() < LevelMeta.Star2)
-				level.updateState(LevelMeta.Star2);
-			updateText("you win: half star!");
-		}
-		else if (hitCount <= level.getStar1()) {
-			if (level.getState() < LevelMeta.Star1)
-				level.updateState(LevelMeta.Star1);
-			updateText("you win: empty star!");
-		}
+		Global.hitCount = hits;
+		ScreenManager.instance.switchTo(R.screens.result, false);
 	}
 
 	@Override
 	public void onHitEnemy() {
 		isPlaying = false;
 		isGameOver = true;
-		updateText("touched red ball");
-	}
-
-	private void onHitCountEnd() {
-		isPlaying = false;
-		isGameOver = true;
-		Sounds.enemy.play();
-		updateText("no more hits");
-	}
-	
-	private void updateText(String s) {
-		text.setText(s);
 	}
 
 	public void activate() {
-		Global.currentGame = this;
-		
-		text = new Text();
-		text.setLocation(10f, 10f);
-		text.setFontScale(0.5f);
+		Global.currentController = this;
 
 		initGame();
 
-		view.registerDrawable(text, Game.LAYER_INFO);
 		view.registerInputListener(listener);
 	}
 
 	public void deactivate() {
-		Global.currentGame = null;
+		Global.currentController = null;
 
 		endGame();
 
-		view.unregisterDrawable(text);
 		view.unregisterInputListener(listener);
 	}
 
 	private void startPlaying() {
 		isPlaying = true;
-		hits = Global.levelMeta.getMaxHit();
-		updateText(hits + "");
+		hits = 0;
 	}
 
 	private void initGame() {
@@ -141,9 +121,7 @@ public class GameController implements IGameController {
 		registerGameDrawable(new Walls(world));
 
 		initBalls();
-		world.getWorld().setContactListener(Global.levelMeta.getContactListener());
-		
-		updateText("touch to begin");
+		world.getWorld().setContactListener(Global.currentLevel.getContactListener());
 	}
 
 	private void endGame() {
@@ -157,26 +135,19 @@ public class GameController implements IGameController {
 	}
 
 	public void resetGame() {
-		endGame();
-		initGame();
+		resetEffect.start();
 	}
 
 	public void update() {
 		if (isPlaying) {
 			world.update();
-			if (hits == 0 && !ball.isMoving()) {
-				onHitCountEnd();
-			}
 		}
 	}
 
 	private boolean onTouchDown(float x, float y) {
 		if (isPlaying) {
-			if (hits > 0) {
-				hit(x, y);
-				hits--;
-				updateText(hits + "");
-			}
+			hit(x, y);
+			hits++;
 		} else if (isGameOver) {
 			resetGame();
 		} else {

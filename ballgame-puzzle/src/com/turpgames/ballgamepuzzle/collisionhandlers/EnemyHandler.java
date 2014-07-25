@@ -13,7 +13,7 @@ public class EnemyHandler extends BallCollisionHandler {
 	protected boolean handleBeginCollide(Ball b1, Ball b2) {
 		if (b2.getType() != Ball.Subject)
 			return false;
-		Global.currentGame.onHitEnemy();
+		Global.currentController.onHitEnemy();
 		Sounds.enemy.play();
 		return true;
 	}

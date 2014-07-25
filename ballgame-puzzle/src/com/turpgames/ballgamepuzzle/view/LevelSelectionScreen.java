@@ -16,11 +16,16 @@ public class LevelSelectionScreen extends Screen implements IScreenView {
 		controller = new LevelSelectionController(this);
 		registerDrawable(Toolbar.getInstance(), Game.LAYER_INFO);
 	}
+	
+	@Override
+	protected boolean onBeforeActivate() {
+		controller.activate();
+		return super.onBeforeActivate();
+	}
 
 	@Override
 	protected void onAfterActivate() {
 		super.onAfterActivate();
-		controller.activate();
 		
 		Toolbar.getInstance().enable();
 		Toolbar.getInstance().setListener(new ToolbarListenerAdapter() {

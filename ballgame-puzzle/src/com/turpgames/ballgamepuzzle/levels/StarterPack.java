@@ -11,14 +11,22 @@ import com.turpgames.framework.v0.util.Game;
 
 class StarterPack {
 	private final static String packTitle = "Starter Pack";
+	
+	private static LevelPack pack;
+	
+	public static LevelPack getPack() {
+		if (pack == null)
+			createPack();
+		return pack;
+	}
 
-	public static LevelPack createPack() {
+	private static void createPack() {
 		LevelMeta level1 = level1();
 
 		if (level1.getState() == LevelMeta.Locked)
-			level1.updateState(LevelMeta.Unlocked);
+			level1.setState(LevelMeta.Unlocked);
 
-		LevelPack pack = LevelPack.newBuilder()
+		pack = LevelPack.newBuilder()
 				.setTitle(packTitle)
 				.addLevel(level1)
 				.addLevel(level2())
@@ -41,16 +49,14 @@ class StarterPack {
 				.addLevel(level9())
 				.addLevel(level9())
 				.build();
-
-		for (int i = 0; i < 8; i++)
-			pack.getLevels()[i].updateState(Math.max(LevelMeta.Star3 - i, LevelMeta.Unlocked));
-
-		return pack;
+		
+		for (LevelMeta level : pack.getLevels())
+			level.setPack(pack);
 	}
 
 	private static LevelMeta level1() {
 		return newBuilder(1)
-				.setScoreMeta(1000, 0, 0, 0)
+				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, Ball.ViewportCenterX, Ball.ViewportCenterY * 1.5f)
 				.addBall(Ball.Target, Ball.Medium, Ball.ViewportCenterX - 5f, Ball.ViewportCenterY * 0.5f)
 				.build();
@@ -58,7 +64,7 @@ class StarterPack {
 
 	private static LevelMeta level2() {
 		return newBuilder(2)
-				.setScoreMeta(1000, 0, 0, 0)
+				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100f, Ball.ViewportCenterY * 1.20f)
 				.addBall(Ball.Target, Ball.Medium, 350f, Ball.ViewportCenterY * 1.60f)
 				.build();
@@ -66,7 +72,7 @@ class StarterPack {
 
 	private static LevelMeta level3() {
 		return newBuilder(3)
-				.setScoreMeta(1000, 0, 0, 0)
+				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100, 650)
 				.addBall(Ball.Target, Ball.Medium, 390, 100)
 				.addBall(Ball.Stone, Ball.Medium, 80, 400)
@@ -77,7 +83,7 @@ class StarterPack {
 
 	private static LevelMeta level4() {
 		return newBuilder(4)
-				.setScoreMeta(1000, 0, 0, 0)
+				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100, 650)
 				.addBall(Ball.Target, Ball.Medium, 350, 440)
 				.addBall(Ball.Stone, Ball.Medium, 95, 100)
@@ -87,7 +93,7 @@ class StarterPack {
 
 	private static LevelMeta level5() {
 		return newBuilder(5)
-				.setScoreMeta(0, 0, 0, 0)
+				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100, 650)
 				.addBall(Ball.Target, Ball.Medium, 350, 650)
 				.addBall(Ball.Bounce, Ball.Medium, 80f, 100)
@@ -97,7 +103,7 @@ class StarterPack {
 
 	private static LevelMeta level6() {
 		return newBuilder(6)
-				.setScoreMeta(1000, 0, 0, 0)
+				.setScoreMeta(6, 3)
 				.addBall(Ball.Portal, Ball.Medium, 100, 150)
 				.addBall(Ball.Portal, Ball.Medium, 350, 600)
 				.addBall(Ball.Subject, Ball.Medium, 100, 600)
@@ -107,7 +113,7 @@ class StarterPack {
 
 	private static LevelMeta level7() {
 		return newBuilder(7)
-				.setScoreMeta(1000, 0, 0, 0)
+				.setScoreMeta(6, 3)
 				.addBall(Ball.Portal, Ball.Medium, 350, 525)
 				.addBall(Ball.Portal, Ball.Medium, 250, 700)
 				.addBall(Ball.Subject, Ball.Medium, 150, 700)
@@ -122,7 +128,7 @@ class StarterPack {
 
 	private static LevelMeta level8() {
 		LevelMeta.Builder builder = newBuilder(8)
-				.setScoreMeta(6, 4, 5, 6)
+				.setScoreMeta(5, 4)
 				.addBall(Ball.Portal, Ball.Medium, 150, 150)
 				.addBall(Ball.Portal, Ball.Medium, 350, 650)
 				.addBall(Ball.Subject, Ball.Medium, 100, 650)
@@ -148,8 +154,8 @@ class StarterPack {
 
 	private static LevelMeta level9() {
 		return newBuilder(i++)
-				.addBall(Ball.Subject, Ball.Medium, 150, 750)
-				.addBall(Ball.Target, Ball.Medium, 450, 650)
+				.addBall(Ball.Subject, Ball.Medium, 150, 650)
+				.addBall(Ball.Target, Ball.Medium, 400, 550)
 				.addBall(Ball.Bounce, Ball.Medium, 125, 100)
 				.addBall(Ball.Bounce, Ball.Large, 400, 100)
 				.build();
