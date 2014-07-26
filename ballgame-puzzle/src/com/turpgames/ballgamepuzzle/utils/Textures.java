@@ -32,6 +32,10 @@ public class Textures
 	public static final ITexture button_green = Game.getResourceManager().getTexture("button_green");
 	public static final ITexture button_blue = Game.getResourceManager().getTexture("button_blue");
 	public static final ITexture info = Game.getResourceManager().getTexture("info");
+	public static final ITexture tb_reset = Game.getResourceManager().getTexture("tb_reset");
+	public static final ITexture tb_back = Game.getResourceManager().getTexture("tb_back");
+	public static final ITexture tb_sound_on = Game.getResourceManager().getTexture("tb_sound_on");
+	public static final ITexture tb_sound_off = Game.getResourceManager().getTexture("tb_sound_off");
 	
 	static {
 		stars.put(LevelMeta.Star1, star_empty);

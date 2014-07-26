@@ -1,14 +1,16 @@
 package com.turpgames.ballgamepuzzle.components;
 
+import com.turpgames.ballgamepuzzle.utils.StatActions;
 import com.turpgames.ballgamepuzzle.utils.Textures;
+import com.turpgames.framework.v0.ITexture;
+import com.turpgames.framework.v0.client.TurpClient;
 import com.turpgames.framework.v0.component.Button2;
 import com.turpgames.framework.v0.component.IButtonListener;
-import com.turpgames.framework.v0.util.Game;
+import com.turpgames.framework.v0.impl.Settings;
 
 public class Toolbar {
-	public final static float toolbarMargin = Game.scale(5f);
+	public final static float toolbarMargin = 5f;
 	public final static float menuButtonSize = 50f;
-	public final static float menuButtonSizeToScreen = Game.scale(menuButtonSize);
 
 	protected Button2 backButton;
 	protected Button2 resetButton;
@@ -77,12 +79,7 @@ public class Toolbar {
 	}
 
 	protected void addBackButton() {
-		backButton = new Button2();
-		backButton.setSize(menuButtonSize, menuButtonSize);
-		backButton.setTexture(Game.getResourceManager().getTexture("tb_back"));
-		backButton.setLocation(5f, Game.descale(Game.getScreenHeight()) - 5f - menuButtonSize);
-
-		backButton.setListener(new IButtonListener() {
+		backButton = createButton(Textures.tb_back, Button2.nw, 1, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				if (listener != null)
@@ -92,14 +89,7 @@ public class Toolbar {
 	}
 
 	protected void addResetButton() {
-		resetButton = new Button2();
-		resetButton.setSize(menuButtonSize, menuButtonSize);
-		resetButton.setTexture(Game.getResourceManager().getTexture("tb_reset"));
-		resetButton.setLocation(
-				Game.descale(Game.getScreenWidth()) - 2 * (5f + menuButtonSize),
-				Game.descale(Game.getScreenHeight()) - 5f - menuButtonSize);
-
-		resetButton.setListener(new IButtonListener() {
+		resetButton = createButton(Textures.tb_reset, Button2.ne, 2, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				if (listener != null)
@@ -109,14 +99,7 @@ public class Toolbar {
 	}
 
 	protected void addInfoButton() {
-		infoButton = new Button2();
-		infoButton.setSize(menuButtonSize, menuButtonSize);
-		infoButton.setTexture(Textures.info);
-		infoButton.setLocation(
-				Game.descale(Game.getScreenWidth()) - 3 * (5f + menuButtonSize),
-				Game.descale(Game.getScreenHeight()) - 5f - menuButtonSize);
-
-		infoButton.setListener(new IButtonListener() {
+		infoButton = createButton(Textures.info, Button2.ne, 3, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				if (listener != null)
@@ -126,6 +109,29 @@ public class Toolbar {
 	}
 
 	protected void addSoundButton() {
-		soundButton = new AudioButton();
+		ITexture texture = Settings.isSoundOn() ? Textures.tb_sound_on : Textures.tb_sound_off;
+		soundButton = createButton(texture, Button2.ne, 1, new IButtonListener() {
+			@Override
+			public void onButtonTapped() {
+				boolean isOn = !Settings.isSoundOn();
+				Settings.putBoolean(Settings.sound, isOn);
+				TurpClient.sendStat(isOn ? StatActions.SoundOn : StatActions.SoundOff);
+				soundButton.setTexture(isOn ? Textures.tb_sound_on : Textures.tb_sound_off);
+			}
+		});
+	}
+
+	private Button2 createButton(ITexture texture, int alignment, int order, IButtonListener listener) {
+		Button2 btn = new Button2();
+		btn.setSize(menuButtonSize, menuButtonSize);
+		btn.setTexture(texture);
+		btn.setListener(listener);
+
+		float dx = order * toolbarMargin + (order - 1) * menuButtonSize;
+		float dy = toolbarMargin;
+		
+		btn.setLocation(alignment, dx, dy);
+
+		return btn;
 	}
 }
