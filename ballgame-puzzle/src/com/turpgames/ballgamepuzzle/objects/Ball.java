@@ -1,24 +1,20 @@
 package com.turpgames.ballgamepuzzle.objects;
 
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.turpgames.ballgamepuzzle.levels.BallMeta;
-import com.turpgames.ballgamepuzzle.objects.balls.SubjectBall;
-import com.turpgames.ballgamepuzzle.objects.balls.StoneBall;
-import com.turpgames.ballgamepuzzle.objects.balls.TargetBall;
-import com.turpgames.ballgamepuzzle.objects.balls.PortalBall;
-import com.turpgames.ballgamepuzzle.objects.balls.EnemyBall;
 import com.turpgames.ballgamepuzzle.objects.balls.BounceBall;
-import com.turpgames.box2d.Box2D;
-import com.turpgames.box2d.Box2DWorld;
-import com.turpgames.box2d.IBox2DObject;
-import com.turpgames.box2d.IUnlockedTask;
+import com.turpgames.ballgamepuzzle.objects.balls.EnemyBall;
+import com.turpgames.ballgamepuzzle.objects.balls.PortalBall;
+import com.turpgames.ballgamepuzzle.objects.balls.StoneBall;
+import com.turpgames.ballgamepuzzle.objects.balls.SubjectBall;
+import com.turpgames.ballgamepuzzle.objects.balls.TargetBall;
+import com.turpgames.box2d.Box2DObject;
+import com.turpgames.box2d.IBody;
+import com.turpgames.box2d.IWorld;
 import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.ITexture;
 import com.turpgames.framework.v0.util.Game;
 
-public abstract class Ball implements IDrawable, IBox2DObject {
+public abstract class Ball extends Box2DObject implements IDrawable {
 	public final static int Blue = 1;
 	public final static int Target = 2;
 	public final static int Enemy = 3;
@@ -37,9 +33,9 @@ public abstract class Ball implements IDrawable, IBox2DObject {
 
 	protected final BallObject ball;
 	protected final float radius;
-	protected final Body body;
+	protected final IBody body;
 
-	protected Ball(BallMeta meta, Box2DWorld world, ITexture texture) {
+	protected Ball(BallMeta meta, IWorld world, ITexture texture) {
 		if (meta.getType() != this.getType())
 			throw new IllegalArgumentException(String.format("Invalid ball type %d, expected %d", meta.getType(), getType()));
 
@@ -55,7 +51,9 @@ public abstract class Ball implements IDrawable, IBox2DObject {
 		this.ball.getRotation().origin.set(cx, cy);
 
 		this.body = createBodyBuilder().build(world);
-		this.body.setUserData(this);
+		
+		super.setContent(ball, body);
+		super.syncWithObject();
 	}
 
 	public abstract int getType();
@@ -92,41 +90,11 @@ public abstract class Ball implements IDrawable, IBox2DObject {
 	}
 
 	@Override
-	public void syncWithBody() {
-		Vector2 bodyPos = body.getPosition();
-		float cx = Box2D.worldToViewportX(bodyPos.x);
-		float cy = Box2D.worldToViewportY(bodyPos.y);
-
-		setCenter(cx, cy);
-		ball.getRotation().setRotationZ(MathUtils.radiansToDegrees * body.getAngle());
-	}
-
-	public void syncWithObject() {
-		if (body.getWorld().isLocked()) {
-			Box2D.enqueueTask(new IUnlockedTask() {
-				@Override
-				public void run() {
-					body.setTransform(
-							Box2D.viewportToWorldX(getCenterX()),
-							Box2D.viewportToWorldY(getCenterY()),
-							MathUtils.degreesToRadians * ball.getRotation().angle.z);
-				}
-			});
-		}
-		else {
-			body.setTransform(
-					Box2D.viewportToWorldX(getCenterX()),
-					Box2D.viewportToWorldY(getCenterY()),
-					MathUtils.degreesToRadians * ball.getRotation().angle.z);
-		}
-	}
-
-	@Override
 	public void draw() {
 		ball.draw();
 	}
 
-	public static Ball create(BallMeta meta, Box2DWorld world) {
+	public static Ball create(BallMeta meta, IWorld world) {
 		Ball ball = null;
 		switch (meta.getType()) {
 		case Ball.Subject:

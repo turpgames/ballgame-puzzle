@@ -4,7 +4,7 @@ import com.turpgames.ballgamepuzzle.levels.BallMeta;
 import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.ballgamepuzzle.objects.BallBodyBuilder;
 import com.turpgames.ballgamepuzzle.utils.Textures;
-import com.turpgames.box2d.Box2DWorld;
+import com.turpgames.box2d.IWorld;
 import com.turpgames.framework.v0.effects.BreathEffect;
 
 public class PortalBall extends Ball {
@@ -12,7 +12,7 @@ public class PortalBall extends Ball {
 	private final BreathEffect inEffect;
 	private final BreathEffect outEffect;
 
-	public PortalBall(BallMeta meta, Box2DWorld world) {
+	public PortalBall(BallMeta meta, IWorld world) {
 		super(meta, world, Textures.ball_orange);
 		
 		inEffect = new BreathEffect(ball);

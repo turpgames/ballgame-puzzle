@@ -1,14 +1,13 @@
 package com.turpgames.ballgamepuzzle.levels;
 
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.turpgames.ballgamepuzzle.collisionhandlers.IBallCollisionHandler;
 import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.ballgamepuzzle.utils.Sounds;
+import com.turpgames.box2d.IBox2DObject;
+import com.turpgames.box2d.IContact;
+import com.turpgames.box2d.IContactListener;
 
-public class DefaultContactListener implements ContactListener {
+public class DefaultContactListener implements IContactListener {
 	private final IBallCollisionHandler collisionHandler;
 
 	public DefaultContactListener(IBallCollisionHandler collisionHandler) {
@@ -16,37 +15,25 @@ public class DefaultContactListener implements ContactListener {
 	}
 
 	@Override
-	public void preSolve(Contact contact, Manifold oldManifold) {
+	public void endContact(IContact contact) {
+		IBox2DObject o1 = contact.getFixtureA().getBody().getData();
+		IBox2DObject o2 = contact.getFixtureB().getBody().getData();
 
-	}
-
-	@Override
-	public void postSolve(Contact contact, ContactImpulse impulse) {
-
-	}
-
-	@Override
-	public void endContact(Contact contact) {
-		Object o1 = contact.getFixtureA().getBody().getUserData();
-		Object o2 = contact.getFixtureB().getBody().getUserData();
-
-		if (o1 == null || o2 == null) {
-			return;
+		if (o1 instanceof Ball && o2 instanceof Ball) {
+			collisionHandler.onEndCollide((Ball) o1, (Ball) o2);
 		}
-
-		collisionHandler.onEndCollide((Ball) o1, (Ball) o2);
 	}
 
 	@Override
-	public void beginContact(Contact contact) {
-		Object o1 = contact.getFixtureA().getBody().getUserData();
-		Object o2 = contact.getFixtureB().getBody().getUserData();
+	public void beginContact(IContact contact) {
+		IBox2DObject o1 = contact.getFixtureA().getBody().getData();
+		IBox2DObject o2 = contact.getFixtureB().getBody().getData();
 
-		if (o1 == null || o2 == null) {
+		if (o1 instanceof Ball && o2 instanceof Ball) {
+			collisionHandler.onBeginCollide((Ball) o1, (Ball) o2);
+		}
+		else {
 			Sounds.hit.play();
-			return;
 		}
-
-		collisionHandler.onBeginCollide((Ball) o1, (Ball) o2);
 	}
 }

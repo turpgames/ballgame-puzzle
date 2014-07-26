@@ -1,8 +1,7 @@
 package com.turpgames.ballgamepuzzle.objects;
 
-import com.badlogic.gdx.physics.box2d.Shape;
-import com.turpgames.box2d.Box2D;
-import com.turpgames.box2d.Box2DWorld;
+import com.turpgames.box2d.IShape;
+import com.turpgames.box2d.IWorld;
 import com.turpgames.box2d.builders.Box2DBuilders;
 import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.impl.GameObject;
@@ -25,22 +24,22 @@ public class Walls implements IDrawable {
 
 	private WallsObject walls;
 
-	public Walls(Box2DWorld world) {
+	public Walls(IWorld world) {
 		walls = new WallsObject();
 		walls.getLocation().set(x, y);
 		walls.setWidth(w);
 		walls.setHeight(h);
 		walls.getColor().set(wallColor);
 
-		Shape chain = Box2DBuilders.Shape.loopedChainBuilder()
-				.addVertex(Box2D.viewportToWorldX(x), Box2D.viewportToWorldY(y))
-				.addVertex(Box2D.viewportToWorldX(x + w), Box2D.viewportToWorldY(y))
-				.addVertex(Box2D.viewportToWorldX(x + w), Box2D.viewportToWorldY(y + h))
-				.addVertex(Box2D.viewportToWorldX(x), Box2D.viewportToWorldY(y + h))
+		IShape chain = Box2DBuilders.Shape.loopedChainBuilder()
+				.addVertex(x, y)
+				.addVertex(x + w, y)
+				.addVertex(x + w, y + h)
+				.addVertex(x, y + h)
 				.build();
 
 		Box2DBuilders.Body.staticBodyBuilder()
-				.build(world.getWorld(),
+				.build(world,
 						Box2DBuilders.Fixture.fixtureBuilder()
 								.setElasticity(0.8f)
 								.setDensity(1.2f)

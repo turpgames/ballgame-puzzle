@@ -3,7 +3,7 @@ package com.turpgames.ballgamepuzzle.levels;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.turpgames.box2d.IContactListener;
 import com.turpgames.framework.v0.impl.Settings;
 
 public class LevelMeta {
@@ -17,7 +17,7 @@ public class LevelMeta {
 	private final String id;
 	private final int index;
 	private final BallMeta[] balls;
-	private final ContactListener contactListener;
+	private final IContactListener contactListener;
 	private final int star2;
 	private final int star3;
 
@@ -52,7 +52,7 @@ public class LevelMeta {
 		return balls;
 	}
 
-	public ContactListener getContactListener() {
+	public IContactListener getContactListener() {
 		return contactListener;
 	}
 
@@ -82,7 +82,7 @@ public class LevelMeta {
 		private int index;
 		private int star2;
 		private int star3;
-		private ContactListener contactListener;
+		private IContactListener contactListener;
 
 		private Builder(String id) {
 			this.id = id;
@@ -94,7 +94,7 @@ public class LevelMeta {
 			return this;
 		}
 
-		public Builder setContactListener(ContactListener listener) {
+		public Builder setContactListener(IContactListener listener) {
 			this.contactListener = listener;
 			return this;
 		}

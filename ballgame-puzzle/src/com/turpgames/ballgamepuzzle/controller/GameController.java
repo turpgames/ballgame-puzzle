@@ -14,7 +14,8 @@ import com.turpgames.ballgamepuzzle.utils.Global;
 import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.ballgamepuzzle.utils.Sounds;
 import com.turpgames.ballgamepuzzle.view.IScreenView;
-import com.turpgames.box2d.Box2DWorld;
+import com.turpgames.box2d.Box2D;
+import com.turpgames.box2d.IWorld;
 import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.impl.InputListener;
 import com.turpgames.framework.v0.impl.ScreenManager;
@@ -22,9 +23,9 @@ import com.turpgames.framework.v0.util.Game;
 
 public class GameController implements IGameController {
 	private final IScreenView view;
-	private Box2DWorld world;
-	private SubjectBall ball;
+	private final IWorld world;
 	private final LevelResetEffect resetEffect;
+	private SubjectBall ball;
 
 	private boolean isPlaying;
 	private boolean isGameOver;
@@ -34,18 +35,62 @@ public class GameController implements IGameController {
 
 	public GameController(IScreenView view) {
 		this.view = view;
+		this.world = Box2D.createWorld();
 		this.resetEffect = new LevelResetEffect(new LevelResetEffect.IListener() {
 			@Override
 			public void onHalfCompleted() {
 				endGame();
 				initGame();
 			}
-			
+
 			@Override
 			public void onEnd() {
-				
+
 			}
 		});
+	}
+
+	@Override
+	public void onHitTarget() {
+		isPlaying = false;
+		isGameOver = true;
+
+		Global.hitCount = hits;
+		ScreenManager.instance.switchTo(R.screens.result, false);
+	}
+
+	@Override
+	public void onHitEnemy() {
+		isPlaying = false;
+		isGameOver = true;
+	}
+
+	public void activate() {
+		Global.currentController = this;
+
+		initGame();
+
+		view.registerInputListener(listener);
+	}
+
+	public void deactivate() {
+		Global.currentController = null;
+
+		endGame();
+
+		view.unregisterInputListener(listener);
+	}
+
+	private void initGame() {
+		isPlaying = false;
+		isGameOver = false;
+		
+		world.reset();
+
+		registerGameDrawable(new Walls(world));
+
+		initBalls();
+		world.setContactListener(Global.currentLevel.getContactListener());
 	}
 
 	private void initBalls() {
@@ -77,58 +122,14 @@ public class GameController implements IGameController {
 		}
 	}
 
-	@Override
-	public void onHitTarget() {
-		isPlaying = false;
-		isGameOver = true;
-		
-		Global.hitCount = hits;
-		ScreenManager.instance.switchTo(R.screens.result, false);
-	}
-
-	@Override
-	public void onHitEnemy() {
-		isPlaying = false;
-		isGameOver = true;
-	}
-
-	public void activate() {
-		Global.currentController = this;
-
-		initGame();
-
-		view.registerInputListener(listener);
-	}
-
-	public void deactivate() {
-		Global.currentController = null;
-
-		endGame();
-
-		view.unregisterInputListener(listener);
-	}
-
 	private void startPlaying() {
 		isPlaying = true;
 		hits = 0;
 	}
 
-	private void initGame() {
-		isPlaying = false;
-		isGameOver = false;
-		world = new Box2DWorld();
-
-		registerGameDrawable(new Walls(world));
-
-		initBalls();
-		world.getWorld().setContactListener(Global.currentLevel.getContactListener());
-	}
-
 	private void endGame() {
 		isPlaying = false;
 
-		world.getWorld().dispose();
-		world = null;
 		for (IDrawable d : drawables)
 			view.unregisterDrawable(d);
 		drawables.clear();

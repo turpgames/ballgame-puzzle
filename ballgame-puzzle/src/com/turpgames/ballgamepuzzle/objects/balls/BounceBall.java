@@ -4,13 +4,13 @@ import com.turpgames.ballgamepuzzle.levels.BallMeta;
 import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.ballgamepuzzle.objects.BallBodyBuilder;
 import com.turpgames.ballgamepuzzle.utils.Textures;
-import com.turpgames.box2d.Box2DWorld;
+import com.turpgames.box2d.IWorld;
 import com.turpgames.framework.v0.effects.BreathEffect;
 
 public class BounceBall extends Ball {
 	private final BreathEffect effect;
 
-	public BounceBall(BallMeta meta, Box2DWorld world) {
+	public BounceBall(BallMeta meta, IWorld world) {
 		super(meta, world, Textures.ball_yellow);
 
 		effect = new BreathEffect(ball);
