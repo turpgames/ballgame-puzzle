@@ -6,7 +6,6 @@ import com.turpgames.ballgamepuzzle.controller.GameController;
 import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
-import com.turpgames.framework.v0.util.Game;
 
 public class GameScreen extends Screen implements IScreenView {
 
@@ -15,14 +14,13 @@ public class GameScreen extends Screen implements IScreenView {
 	public void init() {
 		super.init();
 		controller = new GameController(this);
-		registerDrawable(Toolbar.getInstance(), Game.LAYER_INFO);
 	}
 
 	@Override
 	protected void onAfterActivate() {
 		super.onAfterActivate();
 		controller.activate();
-		Toolbar.getInstance().enable();
+		Toolbar.getInstance().activate();
 		Toolbar.getInstance().activateResetButton();
 		Toolbar.getInstance().setListener(new ToolbarListenerAdapter() {
 			@Override
@@ -34,6 +32,11 @@ public class GameScreen extends Screen implements IScreenView {
 			public void onResetGame() {
 				controller.resetGame();
 			}
+			
+			@Override
+			public void onShowDescription() {
+				controller.openDescriptionDialog();
+			}
 		});
 	}
 
@@ -41,7 +44,7 @@ public class GameScreen extends Screen implements IScreenView {
 	protected boolean onBeforeDeactivate() {
 		controller.deactivate();
 		Toolbar.getInstance().deactivateResetButton();
-		Toolbar.getInstance().disable();
+		Toolbar.getInstance().deactivate();
 		return super.onBeforeDeactivate();
 	}
 

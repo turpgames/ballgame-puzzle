@@ -31,6 +31,19 @@ public class LevelSelectionButton extends ImageButton {
 
 		getLocation().set(x, y);
 
+		updateView();
+
+		listenInput(false);
+
+		super.setListener(new IButtonListener() {
+			@Override
+			public void onButtonTapped() {
+				startLevel();
+			}
+		});
+	}
+	
+	public void updateView() {
 		if (level.getState() == LevelMeta.Locked)
 			setTexture(Textures.locked);
 		if (level.getState() == LevelMeta.Unlocked)
@@ -41,15 +54,6 @@ public class LevelSelectionButton extends ImageButton {
 			setTexture(Textures.star_half);
 		if (level.getState() == LevelMeta.Star3)
 			setTexture(Textures.star_full);
-
-		listenInput(false);
-
-		super.setListener(new IButtonListener() {
-			@Override
-			public void onButtonTapped() {
-				startLevel();
-			}
-		});
 	}
 
 	@Override

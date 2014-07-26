@@ -33,7 +33,6 @@ public class AboutScreen extends Screen {
 		initDoubleUpButton();
 
 		registerDrawable(new BallGameLogo(), Game.LAYER_GAME);
-		registerDrawable(Toolbar.getInstance(), Game.LAYER_INFO);
 	}
 
 	private void initFacebookButton() {
@@ -116,7 +115,7 @@ public class AboutScreen extends Screen {
 		storeButton.activate();
 		doubleupButton.activate();
 
-		Toolbar.getInstance().enable();
+		Toolbar.getInstance().activate();
 		Toolbar.getInstance().setListener(new ToolbarListenerAdapter() {
 			@Override
 			public void onToolbarBack() {
@@ -132,7 +131,7 @@ public class AboutScreen extends Screen {
 		webSiteButton.deactivate();
 		storeButton.deactivate();
 		doubleupButton.deactivate();
-		Toolbar.getInstance().disable();
+		Toolbar.getInstance().deactivate();
 		return super.onBeforeDeactivate();
 	}
 

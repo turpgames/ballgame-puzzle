@@ -6,7 +6,6 @@ import com.turpgames.ballgamepuzzle.controller.LevelSelectionController;
 import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
-import com.turpgames.framework.v0.util.Game;
 
 public class LevelSelectionScreen extends Screen implements IScreenView {
 	private LevelSelectionController controller;
@@ -14,20 +13,14 @@ public class LevelSelectionScreen extends Screen implements IScreenView {
 	public void init() {
 		super.init();
 		controller = new LevelSelectionController(this);
-		registerDrawable(Toolbar.getInstance(), Game.LAYER_INFO);
 	}
 	
 	@Override
-	protected boolean onBeforeActivate() {
-		controller.activate();
-		return super.onBeforeActivate();
-	}
-
-	@Override
 	protected void onAfterActivate() {
 		super.onAfterActivate();
+		controller.activate();
 		
-		Toolbar.getInstance().enable();
+		Toolbar.getInstance().activate();
 		Toolbar.getInstance().setListener(new ToolbarListenerAdapter() {
 			@Override
 			public void onToolbarBack() {
@@ -39,7 +32,7 @@ public class LevelSelectionScreen extends Screen implements IScreenView {
 	@Override
 	protected boolean onBeforeDeactivate() {
 		controller.deactivate();
-		Toolbar.getInstance().disable();
+		Toolbar.getInstance().deactivate();
 		return super.onBeforeDeactivate();
 	}
 

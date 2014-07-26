@@ -9,8 +9,6 @@ import com.turpgames.framework.v0.util.ShapeDrawer;
 public class LevelResetEffect implements IDrawable {
 	public static interface IListener {
 		void onHalfCompleted();
-
-		void onEnd();
 	}
 
 	private final static float duration = 1f;
@@ -35,6 +33,10 @@ public class LevelResetEffect implements IDrawable {
 		Drawer.getCurrent().register(this, Game.LAYER_INFO);
 	}
 
+	public void stop() {
+		Drawer.getCurrent().unregister(this);
+	}
+
 	@Override
 	public void draw() {
 		elapsed += Game.getDeltaTime();
@@ -51,7 +53,6 @@ public class LevelResetEffect implements IDrawable {
 			}
 		}
 		else {
-			listener.onEnd();
 			Drawer.getCurrent().unregister(this);
 		}
 		

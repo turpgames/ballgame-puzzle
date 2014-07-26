@@ -20,6 +20,7 @@ public class LevelMeta {
 	private final IContactListener contactListener;
 	private final int star2;
 	private final int star3;
+	private final String description;
 
 	private LevelPack pack;
 
@@ -30,6 +31,7 @@ public class LevelMeta {
 		this.star3 = builder.star3;
 		this.balls = builder.balls.toArray(new BallMeta[0]);
 		this.contactListener = builder.contactListener;
+		this.description = builder.description;
 	}
 
 	public void setState(int state) {
@@ -67,8 +69,24 @@ public class LevelMeta {
 	public LevelPack getPack() {
 		return pack;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public boolean hasDescription() {
+		return description != null;
+	}
+	
+	public boolean isDescriptionRead() {
+		return Settings.getBoolean(id + "-read", false);
+	}
+	
+	public void setDescriptionAsRead() {
+		Settings.putBoolean(id + "-read", true);
+	}
 
-	public void setPack(LevelPack pack) {
+	void setPack(LevelPack pack) {
 		this.pack = pack;
 	}
 
@@ -83,6 +101,7 @@ public class LevelMeta {
 		private int star2;
 		private int star3;
 		private IContactListener contactListener;
+		private String description;
 
 		private Builder(String id) {
 			this.id = id;
@@ -96,6 +115,11 @@ public class LevelMeta {
 
 		public Builder setContactListener(IContactListener listener) {
 			this.contactListener = listener;
+			return this;
+		}
+
+		public Builder setDescription(String description) {
+			this.description = description;
 			return this;
 		}
 

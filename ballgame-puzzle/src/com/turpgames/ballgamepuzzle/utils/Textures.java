@@ -31,6 +31,7 @@ public class Textures
 	public static final ITexture star_full = Game.getResourceManager().getTexture("star_full");
 	public static final ITexture button_green = Game.getResourceManager().getTexture("button_green");
 	public static final ITexture button_blue = Game.getResourceManager().getTexture("button_blue");
+	public static final ITexture info = Game.getResourceManager().getTexture("info");
 	
 	static {
 		stars.put(LevelMeta.Star1, star_empty);

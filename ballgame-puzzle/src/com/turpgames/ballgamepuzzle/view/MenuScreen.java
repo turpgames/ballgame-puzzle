@@ -16,7 +16,6 @@ public class MenuScreen extends FormScreen {
 		super.init();
 		isFirstActivate = true;
 		setForm("mainForm", false);
-		registerDrawable(Toolbar.getInstance(), Game.LAYER_INFO);
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class MenuScreen extends FormScreen {
 
 			TurpClient.sendStat(StatActions.StartGame);
 		}
-		Toolbar.getInstance().enable();
+		Toolbar.getInstance().activate();
 		Toolbar.getInstance().deactivateBackButton();
 		Toolbar.getInstance().setListener(new ToolbarListenerAdapter() {
 			@Override
@@ -46,7 +45,7 @@ public class MenuScreen extends FormScreen {
 	
 	@Override
 	protected boolean onBeforeDeactivate() {
-		Toolbar.getInstance().disable();
+		Toolbar.getInstance().deactivate();
 		return super.onBeforeDeactivate();
 	}
 

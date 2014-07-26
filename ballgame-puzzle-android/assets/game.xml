@@ -323,6 +323,10 @@
             <texture
                 id="button_blue"
                 path="img/button_blue.png" />
+
+            <texture
+                id="info"
+                path="img/info.png" />
         </textures>
 
         <sounds>
