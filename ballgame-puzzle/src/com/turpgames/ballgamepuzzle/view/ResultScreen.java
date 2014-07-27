@@ -1,5 +1,6 @@
 package com.turpgames.ballgamepuzzle.view;
 
+import com.turpgames.ballgamepuzzle.components.Stars;
 import com.turpgames.ballgamepuzzle.levels.LevelManager;
 import com.turpgames.ballgamepuzzle.levels.LevelMeta;
 import com.turpgames.ballgamepuzzle.utils.Global;
@@ -7,10 +8,8 @@ import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.ballgamepuzzle.utils.Textures;
 import com.turpgames.framework.v0.component.Button2;
 import com.turpgames.framework.v0.component.IButtonListener;
-import com.turpgames.framework.v0.effects.BreathEffect;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
-import com.turpgames.framework.v0.impl.TexturedGameObject;
 import com.turpgames.framework.v0.util.Game;
 
 public class ResultScreen extends Screen {
@@ -20,7 +19,7 @@ public class ResultScreen extends Screen {
 	private Button2 levelSelectionButton;
 	private Button2 retryButton;
 	private Button2 nextButton;
-	private StarImage star;
+	private Stars stars;
 
 	private LevelMeta nextLevel;
 
@@ -49,16 +48,16 @@ public class ResultScreen extends Screen {
 			}
 		});
 
-		star = new StarImage();
+		stars = new Stars();
 	}
 
 	@Override
 	protected void onAfterActivate() {
-		int stars = LevelManager.updateLevelState();
+		int starCount = LevelManager.updateLevelState();
 		
-		star.setTexture(Textures.getStar(stars));
-		registerDrawable(star, Game.LAYER_GAME);
-		star.runEffect();
+		stars.setupForResultScreen(starCount);
+		registerDrawable(stars, Game.LAYER_GAME);
+		stars.animateResult();
 
 		nextLevel = LevelManager.unlockNextLevel();
 
@@ -84,7 +83,7 @@ public class ResultScreen extends Screen {
 		retryButton.deactivate();
 		nextButton.deactivate();
 
-		unregisterDrawable(star);
+		unregisterDrawable(stars);
 
 		return super.onBeforeDeactivate();
 	}
@@ -96,7 +95,8 @@ public class ResultScreen extends Screen {
 		btn.setSize(buttonWidth, buttonHeight);
 		btn.setFontScale(0.6f);
 		btn.setListener(listener);
-		btn.setTexture(Textures.button_blue, Textures.button_green);
+		btn.setColor(R.colors.blue, R.colors.green);
+		btn.setTexture(Textures.button);
 		btn.setLocation(x, y);
 
 		return btn;
@@ -106,31 +106,5 @@ public class ResultScreen extends Screen {
 	protected boolean onBack() {
 		ScreenManager.instance.switchTo(R.screens.levels, true);
 		return true;
-	}
-
-	private class StarImage extends TexturedGameObject {
-		private final static float size = 128f;
-
-		private final BreathEffect effect;
-
-		public StarImage() {
-			setWidth(size);
-			setHeight(size);
-			getLocation().set((Game.getVirtualWidth() - size) / 2f, 500f);
-			getRotation().setOrigin(
-					getLocation().x + size / 2,
-					getLocation().y + size / 2);
-
-			effect = new BreathEffect(this);
-			effect.setDuration(0.5f);
-			effect.setFinalScale(1.0f);
-			effect.setMinFactor(0.8f);
-			effect.setMaxFactor(1.2f);
-			effect.setLooping(false);
-		}
-
-		void runEffect() {
-			effect.start();
-		}
 	}
 }

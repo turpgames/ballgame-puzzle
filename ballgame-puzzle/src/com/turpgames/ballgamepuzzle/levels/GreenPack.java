@@ -7,10 +7,11 @@ import com.turpgames.ballgamepuzzle.collisionhandlers.PortalHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.EnemyHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.BounceHandler;
 import com.turpgames.ballgamepuzzle.objects.Ball;
+import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.framework.v0.util.Game;
 
-class IntermediatePack {
-	private final static String packTitle = "Intermediate Pack";
+class GreenPack {
+	private final static String packTitle = "Green Pack";
 	
 	private static LevelPack pack;
 	
@@ -23,8 +24,12 @@ class IntermediatePack {
 	private static void createPack() {
 		LevelMeta level1 = level1();
 
+		if (level1.getState() == LevelMeta.Locked)
+			level1.setState(LevelMeta.Unlocked);
+
 		pack = LevelPack.newBuilder()
 				.setTitle(packTitle)
+				.setThemeColor(R.colors.green)
 				.addLevel(level1)
 				.addLevel(level2())
 				.addLevel(level3())
@@ -56,6 +61,7 @@ class IntermediatePack {
 				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, Ball.ViewportCenterX, Ball.ViewportCenterY * 1.5f)
 				.addBall(Ball.Target, Ball.Medium, Ball.ViewportCenterX - 5f, Ball.ViewportCenterY * 0.5f)
+				.setDescription("Goal of the game is making blue ball to touch green ball. To start playing touch screen after clicking Ok button.")
 				.build();
 	}
 
@@ -64,6 +70,7 @@ class IntermediatePack {
 				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100f, Ball.ViewportCenterY * 1.20f)
 				.addBall(Ball.Target, Ball.Medium, 350f, Ball.ViewportCenterY * 1.60f)
+				.setDescription("You can control blue ball by tapping around. To start playing touch screen after clicking Ok button.")
 				.build();
 	}
 
@@ -75,6 +82,7 @@ class IntermediatePack {
 				.addBall(Ball.Stone, Ball.Medium, 80, 400)
 				.addBall(Ball.Stone, Ball.Medium, 350, 350)
 				.addBall(Ball.Stone, Ball.Medium, 95, 200)
+				.setDescription("Gray balls reflects you in physics rules. To start playing touch screen after clicking Ok button.")
 				.build();
 	}
 
@@ -85,6 +93,7 @@ class IntermediatePack {
 				.addBall(Ball.Target, Ball.Medium, 350, 440)
 				.addBall(Ball.Stone, Ball.Medium, 95, 100)
 				.addBall(Ball.Bounce, Ball.Medium, 200, 220)
+				.setDescription("Yellow balls makes you bounce. To start playing touch screen after clicking Ok button.")
 				.build();
 	}
 
@@ -95,6 +104,7 @@ class IntermediatePack {
 				.addBall(Ball.Target, Ball.Medium, 350, 650)
 				.addBall(Ball.Bounce, Ball.Medium, 80f, 100)
 				.addBall(Ball.Bounce, Ball.Large, 300, 100)
+				.setDescription("The greater is yellow ball the more you bounce. To start playing touch screen after clicking Ok button.")
 				.build();
 	}
 
@@ -105,6 +115,7 @@ class IntermediatePack {
 				.addBall(Ball.Portal, Ball.Medium, 350, 600)
 				.addBall(Ball.Subject, Ball.Medium, 100, 600)
 				.addBall(Ball.Target, Ball.Medium, 350, 150)
+				.setDescription("Orange balls are portals. To start playing touch screen after clicking Ok button.")
 				.build();
 	}
 
@@ -120,6 +131,7 @@ class IntermediatePack {
 				.addBall(Ball.Stone, Ball.Medium, 200, 450)
 				.addBall(Ball.Enemy, Ball.Large, 300, 600)
 				.addBall(Ball.Target, Ball.Medium, 80, 350)
+				.setDescription("Blue ball should not touch to red balls. To start playing touch screen after clicking Ok button.")
 				.build();
 	}
 

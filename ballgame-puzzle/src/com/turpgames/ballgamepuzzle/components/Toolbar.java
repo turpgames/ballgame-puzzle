@@ -99,7 +99,7 @@ public class Toolbar {
 	}
 
 	protected void addInfoButton() {
-		infoButton = createButton(Textures.info, Button2.ne, 3, new IButtonListener() {
+		infoButton = createButton(Textures.tb_info, Button2.ne, 3, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				if (listener != null)

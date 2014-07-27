@@ -121,6 +121,8 @@ public class GameController implements IGameController {
 	}
 
 	public void openDescriptionDialog() {
+		if (state == StateReadingDescription)
+			return;
 		state = StateReadingDescription;
 		
 		String description = Global.currentLevel.getDescription();

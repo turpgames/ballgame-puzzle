@@ -19,6 +19,7 @@ public class LevelPackView implements IView {
 		this.text.setText(pack.getTitle());
 		this.text.setAlignment(Text.HAlignCenter, Text.VAlignTop);
 		this.text.setPadY(100f);
+		this.text.getColor().set(pack.getThemeColor());
 
 		for (LevelMeta level : pack.getLevels()) {
 			buttons.add(new LevelSelectionButton(level));

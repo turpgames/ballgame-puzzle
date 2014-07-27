@@ -7,10 +7,11 @@ import com.turpgames.ballgamepuzzle.collisionhandlers.PortalHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.EnemyHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.BounceHandler;
 import com.turpgames.ballgamepuzzle.objects.Ball;
+import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.framework.v0.util.Game;
 
-class ProPack {
-	private final static String packTitle = "Pro Pack";
+class BluePack {
+	private final static String packTitle = "Blue Pack";
 	
 	private static LevelPack pack;
 	
@@ -25,6 +26,7 @@ class ProPack {
 
 		pack = LevelPack.newBuilder()
 				.setTitle(packTitle)
+				.setThemeColor(R.colors.blue)
 				.addLevel(level1)
 				.addLevel(level2())
 				.addLevel(level3())

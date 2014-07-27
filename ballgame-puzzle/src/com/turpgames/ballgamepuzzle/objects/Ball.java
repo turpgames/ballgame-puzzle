@@ -49,6 +49,7 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 		this.ball.setHeight(radius * 2);
 		this.ball.getLocation().set(cx - radius, cy - radius);
 		this.ball.getRotation().origin.set(cx, cy);
+		this.ball.getColor().a = 0.9f;
 
 		this.body = createBodyBuilder().build(world);
 		

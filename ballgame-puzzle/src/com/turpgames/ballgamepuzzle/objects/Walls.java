@@ -11,7 +11,7 @@ import com.turpgames.framework.v0.util.Rectangle;
 import com.turpgames.framework.v0.util.ShapeDrawer;
 
 public class Walls implements IDrawable {
-	private final static Color wallColor = Color.white();
+	private final static Color wallColor = Color.fromHex("#333");
 
 	public final static float marginY = 60f;
 	

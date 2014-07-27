@@ -20,10 +20,6 @@ public class Textures
 	public static final ITexture ball_red = Game.getResourceManager().getTexture("ball_red");
 	public static final ITexture ball_yellow = Game.getResourceManager().getTexture("ball_yellow");
 	public static final ITexture bg = Game.getResourceManager().getTexture("bg");
-	public static final ITexture tap = Game.getResourceManager().getTexture("tap");
-	public static final ITexture bump = Game.getResourceManager().getTexture("bump");
-	public static final ITexture swipe = Game.getResourceManager().getTexture("swipe");
-	public static final ITexture level_item = Game.getResourceManager().getTexture("level_item");
 	public static final ITexture locked = Game.getResourceManager().getTexture("locked");
 	public static final ITexture unlocked = Game.getResourceManager().getTexture("unlocked");
 	public static final ITexture star_empty = Game.getResourceManager().getTexture("star_empty");
@@ -31,11 +27,14 @@ public class Textures
 	public static final ITexture star_full = Game.getResourceManager().getTexture("star_full");
 	public static final ITexture button_green = Game.getResourceManager().getTexture("button_green");
 	public static final ITexture button_blue = Game.getResourceManager().getTexture("button_blue");
-	public static final ITexture info = Game.getResourceManager().getTexture("info");
+	public static final ITexture tb_info = Game.getResourceManager().getTexture("tb_info");
 	public static final ITexture tb_reset = Game.getResourceManager().getTexture("tb_reset");
 	public static final ITexture tb_back = Game.getResourceManager().getTexture("tb_back");
 	public static final ITexture tb_sound_on = Game.getResourceManager().getTexture("tb_sound_on");
 	public static final ITexture tb_sound_off = Game.getResourceManager().getTexture("tb_sound_off");
+	public static final ITexture star = Game.getResourceManager().getTexture("star");
+	public static final ITexture level_item = Game.getResourceManager().getTexture("level_item");
+	public static final ITexture button = Game.getResourceManager().getTexture("button");
 	
 	static {
 		stars.put(LevelMeta.Star1, star_empty);

@@ -173,20 +173,6 @@
 
     <forms>
 
-        <form id="mainForm" >
-
-            <button
-                id="btnPlay"
-                action="screen=levels"
-                text="Play"
-                y="18" />
-
-            <button
-                id="btnAbout"
-                action="screen=about"
-                resource-text="About"
-                y="14" />
-        </form>
     </forms>
 
     <animations>
@@ -241,6 +227,10 @@
                 path="img/toolbar/reset.png" />
 
             <texture
+                id="tb_info"
+                path="img/toolbar/info.png" />
+
+            <texture
                 id="ball_azure"
                 path="img/ball_azure.png" />
 
@@ -277,26 +267,6 @@
                 path="img/bg.png" />
 
             <texture
-                id="tap"
-                path="img/tap.png" />
-
-            <texture
-                id="bump"
-                path="img/bump.png" />
-
-            <texture
-                id="swipe"
-                path="img/swipe.png" />
-
-            <texture
-                id="help"
-                path="img/help.png" />
-
-            <texture
-                id="level_item"
-                path="img/level_item.png" />
-
-            <texture
                 id="locked"
                 path="img/lock_locked.png" />
 
@@ -317,6 +287,10 @@
                 path="img/star_full.png" />
 
             <texture
+                id="star"
+                path="img/star.png" />
+
+            <texture
                 id="button_green"
                 path="img/button_green.png" />
 
@@ -325,8 +299,12 @@
                 path="img/button_blue.png" />
 
             <texture
-                id="info"
-                path="img/info.png" />
+                id="button"
+                path="img/button.png" />
+
+            <texture
+                id="level_item"
+                path="img/level_item.png" />
         </textures>
 
         <sounds>
@@ -383,8 +361,8 @@
 
             <button
                 cols="8"
-                default-color="#ffffffff"
-                focus-color="#f9b000ff"
+                default-color="#67bfe9ff"
+                focus-color="#82da89ff"
                 font-scale="1"
                 halign="center"
                 rows="2"
