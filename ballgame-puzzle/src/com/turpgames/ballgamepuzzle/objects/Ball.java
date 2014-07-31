@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.turpgames.ballgamepuzzle.levels.BallMeta;
+import com.turpgames.ballgamepuzzle.levels.BreathEffectMeta;
 import com.turpgames.ballgamepuzzle.levels.CircularTripEffectMeta;
 import com.turpgames.ballgamepuzzle.levels.IEffectMeta;
 import com.turpgames.ballgamepuzzle.levels.PathTripEffectMeta;
@@ -19,6 +20,7 @@ import com.turpgames.box2d.Box2DObject;
 import com.turpgames.box2d.IBody;
 import com.turpgames.box2d.IBodyDef;
 import com.turpgames.box2d.IWorld;
+import com.turpgames.box2d.effects.BreathEffect;
 import com.turpgames.box2d.effects.CircularTripEffect;
 import com.turpgames.box2d.effects.IBox2DEffect;
 import com.turpgames.box2d.effects.PathTripEffect;
@@ -187,6 +189,18 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 
 			effect.setDuration(meta.getTotalDuration());
 			effect.setClockWise(meta.isClockWise());
+
+			return effect;
+		}
+		if (effectMeta instanceof BreathEffectMeta) {
+			BreathEffectMeta meta = (BreathEffectMeta) effectMeta;
+
+			BreathEffect effect = new BreathEffect(this);
+
+			effect.setDuration(meta.getTotalDuration());
+			effect.setMinScale(meta.getMinScale());
+			effect.setMaxScale(meta.getMaxScale());
+			effect.setStartFromMaxScale(meta.isStartFromMaxScale());
 
 			return effect;
 		}

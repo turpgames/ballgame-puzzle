@@ -45,12 +45,12 @@ class GreenPack {
 				.addLevel(level12())
 				.addLevel(level13())
 				.addLevel(level14())
-				.addLevel(level14())
-				.addLevel(level14())
-				.addLevel(level14())
-				.addLevel(level14())
-				.addLevel(level14())
-				.addLevel(level14())
+				.addLevel(level15())
+				.addLevel(level15())
+				.addLevel(level15())
+				.addLevel(level15())
+				.addLevel(level15())
+				.addLevel(level15())
 				.build();
 
 		for (LevelMeta level : pack.getLevels())
@@ -191,6 +191,7 @@ class GreenPack {
 		effect.setTotalDuration(4f);
 		effect.setRoundTrip(true);
 		effect.addNode(200, 350).addNode(400, 350);
+		
 		BallMeta ball = new BallMeta(Ball.Enemy, Ball.Medium, 200, 350);
 		ball.addEffect(effect);
 		builder.addBall(ball);
@@ -199,6 +200,7 @@ class GreenPack {
 		effect.setTotalDuration(4f);
 		effect.setRoundTrip(true);
 		effect.addNode(200, 650).addNode(200, 350);
+		
 		ball = new BallMeta(Ball.Enemy, Ball.Medium, 200, 650);
 		ball.addEffect(effect);
 		builder.addBall(ball);
@@ -238,72 +240,96 @@ class GreenPack {
 
 	private static LevelMeta level12() {
 		LevelMeta.Builder builder = newBuilder(12)
+				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 150, 650)
 				.addBall(Ball.Target, Ball.Medium, 400, 550);
-		
+
 		RollingEffectMeta effect = new RollingEffectMeta();
 		effect.setTotalDuration(2);
 		effect.setClockWise(false);
-		
+
 		BallMeta ball = new BallMeta(Ball.RedGray, Ball.Medium, 125, 300);
 		ball.addEffect(effect);
 		builder.addBall(ball);
-		
+
 		ball = new BallMeta(Ball.RedGray, Ball.Medium, 325, 100);
 		ball.addEffect(effect);
 		builder.addBall(ball);
-		
+
 		effect = new RollingEffectMeta();
 		effect.setTotalDuration(1);
 		effect.setClockWise(true);
-		
+
 		ball = new BallMeta(Ball.RedGray, Ball.Medium, 225, 200);
 		ball.addEffect(effect);
 		builder.addBall(ball);
-		
+
 		return builder.build();
 	}
 
 	private static LevelMeta level13() {
 		LevelMeta.Builder builder = newBuilder(13)
+				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100, 550)
 				.addBall(Ball.Target, Ball.Medium, 300, 550);
-		
+
 		RollingEffectMeta effect = new RollingEffectMeta();
 		effect.setTotalDuration(1);
 		effect.setClockWise(false);
-		
+
 		CircularTripEffectMeta effect2 = new CircularTripEffectMeta();
 		effect2.setCenter(300, 550);
 		effect2.setClockWise(true);
 		effect2.setTotalDuration(2f);
-		
+
 		BallMeta ball = new BallMeta(Ball.RedGray, Ball.Medium, 400, 550);
 		ball.addEffect(effect);
 		ball.addEffect(effect2);
 		builder.addBall(ball);
-		
+
 		ball = new BallMeta(Ball.RedGray, Ball.Medium, 300, 650);
 		ball.addEffect(effect);
 		ball.addEffect(effect2);
 		builder.addBall(ball);
-		
+
 		ball = new BallMeta(Ball.RedGray, Ball.Medium, 300, 450);
 		ball.addEffect(effect);
 		ball.addEffect(effect2);
 		builder.addBall(ball);
-		
+
 		ball = new BallMeta(Ball.RedGray, Ball.Medium, 200, 550);
 		ball.addEffect(effect);
 		ball.addEffect(effect2);
 		builder.addBall(ball);
-		
+
 		return builder.build();
 	}
 
-	static int i = 14;
-
 	private static LevelMeta level14() {
+		LevelMeta.Builder builder = newBuilder(14)
+				.setScoreMeta(6, 3)
+				.addBall(Ball.Subject, Ball.Medium, 225, 325)
+				.addBall(Ball.Target, Ball.Medium, 225, 650);
+
+		BreathEffectMeta effect = new BreathEffectMeta();
+		effect.setMinScale(0.5f);
+		effect.setMaxScale(1f);
+		effect.setStartFromMaxScale(true);
+		effect.setTotalDuration(3f);
+
+		float dx = 87.5f;
+		for (int i = 0; i < 6; i++) {
+			BallMeta ball = new BallMeta(Ball.Enemy, Ball.Medium, 50f + (dx * i), 400);
+			ball.addEffect(effect);
+			builder.addBall(ball);
+		}
+
+		return builder.build();
+	}
+
+	static int i = 15;
+
+	private static LevelMeta level15() {
 		return newBuilder(i++)
 				.addBall(Ball.Subject, Ball.Medium, 150, 650)
 				.addBall(Ball.Target, Ball.Medium, 400, 550)

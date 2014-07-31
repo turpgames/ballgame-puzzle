@@ -83,9 +83,12 @@ public class GameController implements IGameController {
 	@Override
 	public void onHitEnemy() {
 		state = StateGameOver;
+		
+		stopBallEffects();
+		
 		restartTimer.start();
 	}
-
+	
 	public void activate() {
 		Global.currentController = this;
 
@@ -188,15 +191,13 @@ public class GameController implements IGameController {
 	private void startPlaying() {
 		state = StatePlaying;
 		hits = 0;
-		for (Ball ball : balls)
-			ball.startEffect();
+		startBallEffects();
 	}
 
 	private void endGame() {
 		state = StateGameEnd;
 
-		for (Ball ball : balls)
-			ball.stopEffect();
+		stopBallEffects();
 
 		for (IDrawable d : drawables)
 			view.unregisterDrawable(d);
@@ -207,6 +208,9 @@ public class GameController implements IGameController {
 		if (state == StateReseting)
 			return;
 		state = StateReseting;
+
+		stopBallEffects();
+		
 		restartTimer.stop();
 		resetEffect.start();
 	}
@@ -215,6 +219,16 @@ public class GameController implements IGameController {
 		if (state == StatePlaying) {
 			world.update();
 		}
+	}
+
+	private void stopBallEffects() {
+		for (Ball ball : balls)
+			ball.stopEffect();
+	}
+
+	private void startBallEffects() {
+		for (Ball ball : balls)
+			ball.startEffect();
 	}
 
 	private boolean onTouchDown(float x, float y) {
