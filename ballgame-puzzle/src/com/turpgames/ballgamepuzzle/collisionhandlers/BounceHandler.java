@@ -12,7 +12,7 @@ public class BounceHandler extends BallCollisionHandler {
 
 	@Override
 	protected boolean handleBeginCollide(Ball b1, Ball b2) {
-		if (b2.getType() != Ball.Subject)
+		if (b2.getBallType() != Ball.Subject)
 			return false;
 		BounceBall yellowBall = (BounceBall) b1;
 		SubjectBall azureBall = (SubjectBall) b2;

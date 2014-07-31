@@ -37,6 +37,7 @@ public class GameController implements IGameController {
 	private final LevelResetEffect resetEffect;
 	private final Timer restartTimer;
 	private SubjectBall ball;
+	private List<Ball> balls;
 
 	private int state;
 	private int hits;
@@ -62,6 +63,13 @@ public class GameController implements IGameController {
 				resetGame();
 			}
 		});
+
+//		view.registerDrawable(new IDrawable() {
+//			@Override
+//			public void draw() {
+//				world.drawDebug();
+//			}
+//		}, Game.LAYER_BACKGROUND);
 	}
 
 	@Override
@@ -124,9 +132,9 @@ public class GameController implements IGameController {
 		if (state == StateReadingDescription)
 			return;
 		state = StateReadingDescription;
-		
+
 		String description = Global.currentLevel.getDescription();
-		
+
 		Dialog dialog = new Dialog();
 		dialog.addButton("ok", "Ok");
 		dialog.setFontScale(0.6f);
@@ -150,13 +158,15 @@ public class GameController implements IGameController {
 
 		PortalBall portalPair = null;
 
+		balls = new ArrayList<Ball>();
+
 		for (BallMeta ballMeta : level.getBalls()) {
 			Ball ball = Ball.create(ballMeta, world);
 
-			if (ball.getType() == Ball.Subject) {
+			if (ball.getBallType() == Ball.Subject) {
 				this.ball = (SubjectBall) ball;
 			}
-			else if (ball.getType() == Ball.Portal) {
+			else if (ball.getBallType() == Ball.Portal) {
 				if (portalPair == null) {
 					portalPair = (PortalBall) ball;
 				}
@@ -166,6 +176,7 @@ public class GameController implements IGameController {
 				}
 			}
 
+			balls.add(ball);
 			registerGameDrawable(ball);
 		}
 
@@ -177,10 +188,15 @@ public class GameController implements IGameController {
 	private void startPlaying() {
 		state = StatePlaying;
 		hits = 0;
+		for (Ball ball : balls)
+			ball.startEffect();
 	}
 
 	private void endGame() {
 		state = StateGameEnd;
+
+		for (Ball ball : balls)
+			ball.stopEffect();
 
 		for (IDrawable d : drawables)
 			view.unregisterDrawable(d);

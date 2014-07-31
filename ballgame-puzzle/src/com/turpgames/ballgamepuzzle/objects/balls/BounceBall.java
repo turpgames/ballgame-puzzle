@@ -21,7 +21,7 @@ public class BounceBall extends Ball {
 	}
 
 	@Override
-	public int getType() {
+	public int getBallType() {
 		return Ball.Bounce;
 	}
 	

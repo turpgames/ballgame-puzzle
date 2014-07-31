@@ -1,20 +1,21 @@
 package com.turpgames.ballgamepuzzle.levels;
 
 import com.turpgames.ballgamepuzzle.collisionhandlers.BallCollisionHandlerChain;
+import com.turpgames.ballgamepuzzle.collisionhandlers.BounceHandler;
+import com.turpgames.ballgamepuzzle.collisionhandlers.EnemyHandler;
+import com.turpgames.ballgamepuzzle.collisionhandlers.PortalHandler;
+import com.turpgames.ballgamepuzzle.collisionhandlers.RedGrayHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.StoneHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.TargetHandler;
-import com.turpgames.ballgamepuzzle.collisionhandlers.PortalHandler;
-import com.turpgames.ballgamepuzzle.collisionhandlers.EnemyHandler;
-import com.turpgames.ballgamepuzzle.collisionhandlers.BounceHandler;
 import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.framework.v0.util.Game;
 
 class GreenPack {
 	private final static String packTitle = "Green Pack";
-	
+
 	private static LevelPack pack;
-	
+
 	public static LevelPack getPack() {
 		if (pack == null)
 			createPack();
@@ -39,19 +40,19 @@ class GreenPack {
 				.addLevel(level7())
 				.addLevel(level8())
 				.addLevel(level9())
-				.addLevel(level9())
-				.addLevel(level9())
-				.addLevel(level9())
-				.addLevel(level9())
-				.addLevel(level9())
-				.addLevel(level9())
-				.addLevel(level9())
-				.addLevel(level9())
-				.addLevel(level9())
-				.addLevel(level9())
-				.addLevel(level9())
+				.addLevel(level10())
+				.addLevel(level11())
+				.addLevel(level12())
+				.addLevel(level13())
+				.addLevel(level14())
+				.addLevel(level14())
+				.addLevel(level14())
+				.addLevel(level14())
+				.addLevel(level14())
+				.addLevel(level14())
+				.addLevel(level14())
 				.build();
-		
+
 		for (LevelMeta level : pack.getLevels())
 			level.setPack(pack);
 	}
@@ -151,7 +152,7 @@ class GreenPack {
 			builder.addBall(Ball.Stone, Ball.Small, 10f + (i++ * dx) + Ball.Small, 300);
 			w -= dx;
 		}
-		
+
 		for (float y = 300 + 6 * Ball.Small; y < Game.getVirtualHeight() - 80f; y += 2 * Ball.Small + 10f) {
 			builder.addBall(Ball.Stone, Ball.Small, Game.getVirtualWidth() / 2, y);
 		}
@@ -159,9 +160,150 @@ class GreenPack {
 		return builder.build();
 	}
 
-	static int i = 9;
-
 	private static LevelMeta level9() {
+		LevelMeta.Builder builder = newBuilder(9)
+				.setScoreMeta(6, 3)
+				.addBall(Ball.Subject, Ball.Medium, 100, 650)
+				.addBall(Ball.Target, Ball.Medium, 400, 150);
+
+		PathTripEffectMeta effect = new PathTripEffectMeta();
+		effect.setTotalDuration(4f);
+		effect.setRoundTrip(true);
+		effect.addNode(150, 100)
+				.addNode(300, 100)
+				.addNode(300, 300)
+				.addNode(150, 300);
+
+		BallMeta ball = new BallMeta(Ball.Stone, Ball.Medium, 150, 100);
+		ball.addEffect(effect);
+		builder.addBall(ball);
+
+		return builder.build();
+	}
+
+	private static LevelMeta level10() {
+		LevelMeta.Builder builder = newBuilder(10)
+				.setScoreMeta(6, 3)
+				.addBall(Ball.Subject, Ball.Medium, 100, 150)
+				.addBall(Ball.Target, Ball.Medium, 400, 500);
+
+		PathTripEffectMeta effect = new PathTripEffectMeta();
+		effect.setTotalDuration(4f);
+		effect.setRoundTrip(true);
+		effect.addNode(200, 350).addNode(400, 350);
+		BallMeta ball = new BallMeta(Ball.Enemy, Ball.Medium, 200, 350);
+		ball.addEffect(effect);
+		builder.addBall(ball);
+
+		effect = new PathTripEffectMeta();
+		effect.setTotalDuration(4f);
+		effect.setRoundTrip(true);
+		effect.addNode(200, 650).addNode(200, 350);
+		ball = new BallMeta(Ball.Enemy, Ball.Medium, 200, 650);
+		ball.addEffect(effect);
+		builder.addBall(ball);
+
+		return builder.build();
+	}
+
+	private static LevelMeta level11() {
+		LevelMeta.Builder builder = newBuilder(11)
+				.setScoreMeta(6, 3)
+				.addBall(Ball.Subject, Ball.Medium, 100, 600)
+				.addBall(Ball.Target, Ball.Medium, 300, 200);
+
+		CircularTripEffectMeta effect = new CircularTripEffectMeta();
+		effect.setCenter(300, 200);
+		effect.setClockWise(false);
+		effect.setTotalDuration(2f);
+
+		BallMeta ball = new BallMeta(Ball.Enemy, Ball.Medium, 300, 300);
+		ball.addEffect(effect);
+		builder.addBall(ball);
+
+		ball = new BallMeta(Ball.Enemy, Ball.Medium, 200, 200);
+		ball.addEffect(effect);
+		builder.addBall(ball);
+
+		ball = new BallMeta(Ball.Enemy, Ball.Medium, 300, 100);
+		ball.addEffect(effect);
+		builder.addBall(ball);
+
+		ball = new BallMeta(Ball.Enemy, Ball.Medium, 400, 200);
+		ball.addEffect(effect);
+		builder.addBall(ball);
+
+		return builder.build();
+	}
+
+	private static LevelMeta level12() {
+		LevelMeta.Builder builder = newBuilder(12)
+				.addBall(Ball.Subject, Ball.Medium, 150, 650)
+				.addBall(Ball.Target, Ball.Medium, 400, 550);
+		
+		RollingEffectMeta effect = new RollingEffectMeta();
+		effect.setTotalDuration(2);
+		effect.setClockWise(false);
+		
+		BallMeta ball = new BallMeta(Ball.RedGray, Ball.Medium, 125, 300);
+		ball.addEffect(effect);
+		builder.addBall(ball);
+		
+		ball = new BallMeta(Ball.RedGray, Ball.Medium, 325, 100);
+		ball.addEffect(effect);
+		builder.addBall(ball);
+		
+		effect = new RollingEffectMeta();
+		effect.setTotalDuration(1);
+		effect.setClockWise(true);
+		
+		ball = new BallMeta(Ball.RedGray, Ball.Medium, 225, 200);
+		ball.addEffect(effect);
+		builder.addBall(ball);
+		
+		return builder.build();
+	}
+
+	private static LevelMeta level13() {
+		LevelMeta.Builder builder = newBuilder(13)
+				.addBall(Ball.Subject, Ball.Medium, 100, 550)
+				.addBall(Ball.Target, Ball.Medium, 300, 550);
+		
+		RollingEffectMeta effect = new RollingEffectMeta();
+		effect.setTotalDuration(1);
+		effect.setClockWise(false);
+		
+		CircularTripEffectMeta effect2 = new CircularTripEffectMeta();
+		effect2.setCenter(300, 550);
+		effect2.setClockWise(true);
+		effect2.setTotalDuration(2f);
+		
+		BallMeta ball = new BallMeta(Ball.RedGray, Ball.Medium, 400, 550);
+		ball.addEffect(effect);
+		ball.addEffect(effect2);
+		builder.addBall(ball);
+		
+		ball = new BallMeta(Ball.RedGray, Ball.Medium, 300, 650);
+		ball.addEffect(effect);
+		ball.addEffect(effect2);
+		builder.addBall(ball);
+		
+		ball = new BallMeta(Ball.RedGray, Ball.Medium, 300, 450);
+		ball.addEffect(effect);
+		ball.addEffect(effect2);
+		builder.addBall(ball);
+		
+		ball = new BallMeta(Ball.RedGray, Ball.Medium, 200, 550);
+		ball.addEffect(effect);
+		ball.addEffect(effect2);
+		builder.addBall(ball);
+		
+		return builder.build();
+	}
+
+	static int i = 14;
+
+	private static LevelMeta level14() {
 		return newBuilder(i++)
 				.addBall(Ball.Subject, Ball.Medium, 150, 650)
 				.addBall(Ball.Target, Ball.Medium, 400, 550)
@@ -173,12 +315,13 @@ class GreenPack {
 	private static LevelMeta.Builder newBuilder(int index) {
 		return LevelMeta.newBuilder(packTitle + index)
 				.setIndex(index)
-				.setContactListener(new DefaultContactListener(
+				.setContactListener(new BallContactListener(
 						new BallCollisionHandlerChain(
 								new StoneHandler(),
 								new TargetHandler(),
 								new BounceHandler(),
 								new PortalHandler(),
-								new EnemyHandler())));
+								new EnemyHandler(),
+								new RedGrayHandler())));
 	}
 }

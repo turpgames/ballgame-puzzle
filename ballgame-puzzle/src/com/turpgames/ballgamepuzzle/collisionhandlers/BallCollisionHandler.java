@@ -15,7 +15,7 @@ public abstract class BallCollisionHandler implements IBallCollisionHandler {
 		if (!canHandle(b1, b2))
 			return false;
 
-		return b1.getType() == ballType
+		return b1.getBallType() == ballType
 				? handleBeginCollide(b1, b2)
 				: handleBeginCollide(b2, b1);
 	}
@@ -25,13 +25,13 @@ public abstract class BallCollisionHandler implements IBallCollisionHandler {
 		if (!canHandle(b1, b2))
 			return false;
 
-		return b1.getType() == ballType
+		return b1.getBallType() == ballType
 				? handleEndCollide(b1, b2)
 				: handleEndCollide(b2, b1);
 	}
 
 	private boolean canHandle(Ball b1, Ball b2) {
-		return b1.getType() == ballType || b2.getType() == ballType;
+		return b1.getBallType() == ballType || b2.getBallType() == ballType;
 	}
 
 	protected boolean handleBeginCollide(Ball b1, Ball b2) {

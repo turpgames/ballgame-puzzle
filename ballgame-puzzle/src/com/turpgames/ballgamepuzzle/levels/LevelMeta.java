@@ -85,7 +85,7 @@ public class LevelMeta {
 	public void setDescriptionAsRead() {
 		Settings.putBoolean(id + "-read", true);
 	}
-
+	
 	void setPack(LevelPack pack) {
 		this.pack = pack;
 	}
@@ -130,7 +130,11 @@ public class LevelMeta {
 		}
 
 		public Builder addBall(int type, float r, float cx, float cy) {
-			balls.add(new BallMeta(type, r, cx, cy));
+			return addBall(new BallMeta(type, r, cx, cy));
+		}
+
+		public Builder addBall(BallMeta ballMeta) {
+			balls.add(ballMeta);
 			return this;
 		}
 

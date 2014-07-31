@@ -5,13 +5,13 @@ import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.ballgamepuzzle.utils.Textures;
 import com.turpgames.box2d.IWorld;
 
-public class StoneBall extends Ball {
-	public StoneBall(BallMeta meta, IWorld world) {
-		super(meta, world, Textures.ball_gray);
+public class RedGrayBall extends Ball {
+	public RedGrayBall(BallMeta meta, IWorld world) {
+		super(meta, world, Textures.ball_red_gray);
 	}
 
 	@Override
 	public int getBallType() {
-		return Ball.Stone;
+		return RedGray;
 	}
 }

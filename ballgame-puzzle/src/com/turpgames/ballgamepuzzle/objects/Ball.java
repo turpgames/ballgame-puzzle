@@ -1,18 +1,32 @@
 package com.turpgames.ballgamepuzzle.objects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.turpgames.ballgamepuzzle.levels.BallMeta;
+import com.turpgames.ballgamepuzzle.levels.CircularTripEffectMeta;
+import com.turpgames.ballgamepuzzle.levels.IEffectMeta;
+import com.turpgames.ballgamepuzzle.levels.PathTripEffectMeta;
+import com.turpgames.ballgamepuzzle.levels.RollingEffectMeta;
 import com.turpgames.ballgamepuzzle.objects.balls.BounceBall;
 import com.turpgames.ballgamepuzzle.objects.balls.EnemyBall;
 import com.turpgames.ballgamepuzzle.objects.balls.PortalBall;
+import com.turpgames.ballgamepuzzle.objects.balls.RedGrayBall;
 import com.turpgames.ballgamepuzzle.objects.balls.StoneBall;
 import com.turpgames.ballgamepuzzle.objects.balls.SubjectBall;
 import com.turpgames.ballgamepuzzle.objects.balls.TargetBall;
 import com.turpgames.box2d.Box2DObject;
 import com.turpgames.box2d.IBody;
+import com.turpgames.box2d.IBodyDef;
 import com.turpgames.box2d.IWorld;
+import com.turpgames.box2d.effects.CircularTripEffect;
+import com.turpgames.box2d.effects.IBox2DEffect;
+import com.turpgames.box2d.effects.PathTripEffect;
+import com.turpgames.box2d.effects.RollingEffect;
 import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.ITexture;
 import com.turpgames.framework.v0.util.Game;
+import com.turpgames.framework.v0.util.Vector;
 
 public abstract class Ball extends Box2DObject implements IDrawable {
 	public final static int Blue = 1;
@@ -23,6 +37,7 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 	public final static int Purple = 6;
 	public final static int Subject = 7;
 	public final static int Portal = 8;
+	public final static int RedGray = 100;
 
 	public final static float Small = 15f;
 	public final static float Medium = 25f;
@@ -31,13 +46,19 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 	public final static float ViewportCenterX = Game.getVirtualWidth() / 2f;
 	public final static float ViewportCenterY = Game.getVirtualHeight() / 2f;
 
+	protected final BallMeta meta;
 	protected final BallObject ball;
 	protected final float radius;
 	protected final IBody body;
 
+	private final List<IBox2DEffect> effects;
+
 	protected Ball(BallMeta meta, IWorld world, ITexture texture) {
-		if (meta.getType() != this.getType())
-			throw new IllegalArgumentException(String.format("Invalid ball type %d, expected %d", meta.getType(), getType()));
+		if (meta.getType() != this.getBallType())
+			throw new IllegalArgumentException(String.format("Invalid ball type %d, expected %d", meta.getType(), getBallType()));
+
+		this.meta = meta;
+		this.effects = new ArrayList<IBox2DEffect>();
 
 		float cx = meta.getCx();
 		float cy = meta.getCy();
@@ -52,23 +73,23 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 		this.ball.getColor().a = 0.9f;
 
 		this.body = createBodyBuilder().build(world);
-		
+
 		super.setContent(ball, body);
 		super.syncWithObject();
 	}
 
-	public abstract int getType();
+	public abstract int getBallType();
 
 	protected BallBodyBuilder createBodyBuilder() {
-		return BallBodyBuilder.newBuilder(radius, getCenterX(), getCenterY(), isDynamic());
+		return BallBodyBuilder.newBuilder(radius, getCenterX(), getCenterY(), getBodyType());
+	}
+
+	public int getBodyType() {
+		return meta.hasEffect() ? IBodyDef.Kinematic : IBodyDef.Static;
 	}
 
 	public float getRadius() {
 		return radius;
-	}
-
-	public boolean isDynamic() {
-		return false;
 	}
 
 	public float getCenterX() {
@@ -77,6 +98,10 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 
 	public float getCenterY() {
 		return ball.getRotation().origin.y;
+	}
+
+	public float getRotation() {
+		return ball.getRotation().angle.z;
 	}
 
 	public void setCenter(float cx, float cy) {
@@ -90,37 +115,81 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 		return (float) Math.sqrt(dx * dx + dy * dy);
 	}
 
+	public void stopEffect() {
+		for (IBox2DEffect effect : effects)
+			effect.stop();
+		effects.clear();
+	}
+
+	public void startEffect() {
+		if (!meta.hasEffect())
+			return;
+
+		for (IEffectMeta effectMeta : meta.getEffects()) {
+			IBox2DEffect effect = createEffect(effectMeta);
+			effects.add(effect);
+			effect.start();
+		}
+	}
+
 	@Override
 	public void draw() {
 		ball.draw();
 	}
 
 	public static Ball create(BallMeta meta, IWorld world) {
-		Ball ball = null;
-		switch (meta.getType()) {
-		case Ball.Subject:
-			ball = new SubjectBall(meta, world);
-			break;
-		case Ball.Stone:
-			ball = new StoneBall(meta, world);
-			break;
-		case Ball.Bounce:
-			ball = new BounceBall(meta, world);
-			break;
-		case Ball.Portal:
-			ball = new PortalBall(meta, world);
-			break;
-		case Ball.Target:
-			ball = new TargetBall(meta, world);
-			break;
-		case Ball.Enemy:
-			ball = new EnemyBall(meta, world);
-			break;
+		if (meta.getType() == Ball.Subject)
+			return new SubjectBall(meta, world);
+		if (meta.getType() == Ball.Stone)
+			return new StoneBall(meta, world);
+		if (meta.getType() == Ball.Bounce)
+			return new BounceBall(meta, world);
+		if (meta.getType() == Ball.Portal)
+			return new PortalBall(meta, world);
+		if (meta.getType() == Ball.Target)
+			return new TargetBall(meta, world);
+		if (meta.getType() == Ball.Enemy)
+			return new EnemyBall(meta, world);
+		if (meta.getType() == Ball.RedGray)
+			return new RedGrayBall(meta, world);
+		throw new UnsupportedOperationException("Unknown ball type: " + meta.getType());
+	}
 
-		default:
-			throw new UnsupportedOperationException("Unknown ball type: " + meta.getType());
+	private IBox2DEffect createEffect(IEffectMeta effectMeta) {
+		if (effectMeta instanceof PathTripEffectMeta) {
+			PathTripEffectMeta meta = (PathTripEffectMeta) effectMeta;
+
+			PathTripEffect effect = new PathTripEffect(this);
+
+			effect.setDuration(meta.getTotalDuration());
+			effect.setRoundTrip(meta.isRoundTrip());
+
+			for (Vector node : meta.getPath())
+				effect.addNode(node.x, node.y);
+
+			return effect;
 		}
+		if (effectMeta instanceof CircularTripEffectMeta) {
+			CircularTripEffectMeta meta = (CircularTripEffectMeta) effectMeta;
 
-		return ball;
+			CircularTripEffect effect = new CircularTripEffect(this);
+
+			effect.setCenter(meta.getCenter().x, meta.getCenter().y);
+			effect.setDuration(meta.getTotalDuration());
+			effect.setClockWise(meta.isClockWise());
+
+			return effect;
+		}
+		if (effectMeta instanceof RollingEffectMeta) {
+			RollingEffectMeta meta = (RollingEffectMeta) effectMeta;
+
+			RollingEffect effect = new RollingEffect(this);
+
+			effect.setDuration(meta.getTotalDuration());
+			effect.setClockWise(meta.isClockWise());
+
+			return effect;
+		}
+		return null;
 	}
 }

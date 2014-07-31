@@ -12,7 +12,7 @@ public class TargetBall extends Ball {
 	}
 
 	@Override
-	public int getType() {
+	public int getBallType() {
 		return Ball.Target;
 	}
 	

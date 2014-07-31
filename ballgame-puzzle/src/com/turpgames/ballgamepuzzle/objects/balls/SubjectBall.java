@@ -3,6 +3,7 @@ package com.turpgames.ballgamepuzzle.objects.balls;
 import com.turpgames.ballgamepuzzle.levels.BallMeta;
 import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.ballgamepuzzle.utils.Textures;
+import com.turpgames.box2d.IBodyDef;
 import com.turpgames.box2d.IWorld;
 
 public class SubjectBall extends Ball {
@@ -17,13 +18,13 @@ public class SubjectBall extends Ball {
 	}
 
 	@Override
-	public int getType() {
+	public int getBallType() {
 		return Ball.Subject;
 	}
 
 	@Override
-	public boolean isDynamic() {
-		return true;
+	public int getBodyType() {
+		return IBodyDef.Dynamic;
 	}
 
 	public void hit(float x, float y) {

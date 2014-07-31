@@ -10,7 +10,7 @@ public class StoneHandler extends BallCollisionHandler {
 
 	@Override
 	protected boolean handleBeginCollide(Ball b1, Ball b2) {
-		if (b2.getType() != Ball.Subject)
+		if (b2.getBallType() != Ball.Subject)
 			return false;
 		Sounds.stone.play();
 		return true;

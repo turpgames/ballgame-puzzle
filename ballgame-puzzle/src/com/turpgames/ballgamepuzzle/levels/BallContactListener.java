@@ -7,10 +7,10 @@ import com.turpgames.box2d.IBox2DObject;
 import com.turpgames.box2d.IContact;
 import com.turpgames.box2d.IContactListener;
 
-public class DefaultContactListener implements IContactListener {
+public class BallContactListener implements IContactListener {
 	private final IBallCollisionHandler collisionHandler;
 
-	public DefaultContactListener(IBallCollisionHandler collisionHandler) {
+	public BallContactListener(IBallCollisionHandler collisionHandler) {
 		this.collisionHandler = collisionHandler;
 	}
 

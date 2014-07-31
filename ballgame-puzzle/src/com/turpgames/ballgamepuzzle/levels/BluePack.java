@@ -1,11 +1,11 @@
 package com.turpgames.ballgamepuzzle.levels;
 
 import com.turpgames.ballgamepuzzle.collisionhandlers.BallCollisionHandlerChain;
+import com.turpgames.ballgamepuzzle.collisionhandlers.BounceHandler;
+import com.turpgames.ballgamepuzzle.collisionhandlers.EnemyHandler;
+import com.turpgames.ballgamepuzzle.collisionhandlers.PortalHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.StoneHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.TargetHandler;
-import com.turpgames.ballgamepuzzle.collisionhandlers.PortalHandler;
-import com.turpgames.ballgamepuzzle.collisionhandlers.EnemyHandler;
-import com.turpgames.ballgamepuzzle.collisionhandlers.BounceHandler;
 import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.framework.v0.util.Game;
@@ -163,7 +163,7 @@ class BluePack {
 	private static LevelMeta.Builder newBuilder(int index) {
 		return LevelMeta.newBuilder(packTitle + index)
 				.setIndex(index)
-				.setContactListener(new DefaultContactListener(
+				.setContactListener(new BallContactListener(
 						new BallCollisionHandlerChain(
 								new StoneHandler(),
 								new TargetHandler(),

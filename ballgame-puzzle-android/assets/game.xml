@@ -263,6 +263,10 @@
                 path="img/ball_yellow.png" />
 
             <texture
+                id="ball_red_gray"
+                path="img/ball_red_gray.png" />
+
+            <texture
                 id="bg"
                 path="img/bg.png" />
 

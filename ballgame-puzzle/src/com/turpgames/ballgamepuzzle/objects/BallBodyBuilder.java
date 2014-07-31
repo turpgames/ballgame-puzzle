@@ -1,6 +1,7 @@
 package com.turpgames.ballgamepuzzle.objects;
 
 import com.turpgames.box2d.IBody;
+import com.turpgames.box2d.IBodyDef;
 import com.turpgames.box2d.IShape;
 import com.turpgames.box2d.IWorld;
 import com.turpgames.box2d.builders.BodyBuilder;
@@ -12,12 +13,16 @@ public class BallBodyBuilder {
 	private final BodyBuilder bodyBuilder;
 	private final FixtureBuilder fixtureBuilder;
 
-	private BallBodyBuilder(float radius, float cx, float cy, boolean isDynamic) {
+	private BallBodyBuilder(float radius, float cx, float cy, int bodyType) {
 		this.circle = Box2DBuilders.Shape.buildCircle(radius);
 
-		this.bodyBuilder = isDynamic
-				? Box2DBuilders.Body.dynamicBodyBuilder()
-				: Box2DBuilders.Body.staticBodyBuilder();
+		if (bodyType == IBodyDef.Static) {
+			this.bodyBuilder = Box2DBuilders.Body.staticBodyBuilder();
+		} else if (bodyType == IBodyDef.Kinematic) {
+			this.bodyBuilder = Box2DBuilders.Body.kinematicBodyBuilder();
+		} else {
+			this.bodyBuilder = Box2DBuilders.Body.dynamicBodyBuilder();
+		}
 
 		this.bodyBuilder.setCenter(cx, cy)
 				.setAngularDamping(0.5f);
@@ -45,7 +50,7 @@ public class BallBodyBuilder {
 		return body;
 	}
 
-	public static BallBodyBuilder newBuilder(float r, float cx, float cy, boolean isDynamic) {
-		return new BallBodyBuilder(r, cx, cy, isDynamic);
+	public static BallBodyBuilder newBuilder(float r, float cx, float cy, int bodyType) {
+		return new BallBodyBuilder(r, cx, cy, bodyType);
 	}
 }

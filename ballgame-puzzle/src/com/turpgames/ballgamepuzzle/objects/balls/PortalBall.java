@@ -29,7 +29,7 @@ public class PortalBall extends Ball {
 	}
 
 	@Override
-	public int getType() {
+	public int getBallType() {
 		return Ball.Portal;
 	}
 
