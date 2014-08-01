@@ -14,6 +14,8 @@ public class PortalHandler extends BallCollisionHandler {
 	protected boolean handleBeginCollide(Ball b1, Ball b2) {
 		if (b2.getBallType() != Ball.Subject)
 			return false;
+		if (((SubjectBall) b2).isGhost())
+			return false;
 		PortalBall portal = (PortalBall) b1;
 		SubjectBall azureBall = (SubjectBall) b2;
 		azureBall.enterPortal(portal);

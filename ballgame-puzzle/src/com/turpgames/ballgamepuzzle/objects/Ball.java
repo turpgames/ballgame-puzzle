@@ -22,6 +22,7 @@ import com.turpgames.ballgamepuzzle.objects.balls.BounceBall;
 import com.turpgames.ballgamepuzzle.objects.balls.EnemyBall;
 import com.turpgames.ballgamepuzzle.objects.balls.HoleBall;
 import com.turpgames.ballgamepuzzle.objects.balls.PortalBall;
+import com.turpgames.ballgamepuzzle.objects.balls.PurpleBall;
 import com.turpgames.ballgamepuzzle.objects.balls.RedGrayBall;
 import com.turpgames.ballgamepuzzle.objects.balls.StoneBall;
 import com.turpgames.ballgamepuzzle.objects.balls.SubjectBall;
@@ -164,6 +165,11 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 			effect.start();
 		}
 	}
+	
+	public void destroy() {
+		body.getWorld().destroyBody(body);
+		isHidden = true;
+	}
 
 	@Override
 	public void draw() {
@@ -178,6 +184,8 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 			return new StoneBall(meta, world);
 		if (meta.getType() == Ball.Bounce)
 			return new BounceBall(meta, world);
+		if (meta.getType() == Ball.Purple)
+			return new PurpleBall(meta, world);
 		if (meta.getType() == Ball.Portal)
 			return new PortalBall(meta, world);
 		if (meta.getType() == Ball.Target)

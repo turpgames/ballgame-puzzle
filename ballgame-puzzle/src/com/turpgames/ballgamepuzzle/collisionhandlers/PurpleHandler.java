@@ -2,20 +2,24 @@ package com.turpgames.ballgamepuzzle.collisionhandlers;
 
 import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.ballgamepuzzle.objects.balls.SubjectBall;
-import com.turpgames.ballgamepuzzle.utils.Sounds;
 
-public class StoneHandler extends BallCollisionHandler {
-	public StoneHandler() {
-		super(Ball.Stone);
+public class PurpleHandler extends BallCollisionHandler {
+	public PurpleHandler() {
+		super(Ball.Purple);
 	}
-
+	
 	@Override
 	protected boolean handleBeginCollide(Ball b1, Ball b2) {
 		if (b2.getBallType() != Ball.Subject)
 			return false;
-		if (((SubjectBall) b2).isGhost())
-			return false;
-		Sounds.stone.play();
+		
+		b1.destroy();
+		
+		SubjectBall subject = (SubjectBall)b2;
+		subject.setAsGhost();
+		
+		System.out.println("Play purple sound...");
+		
 		return true;
 	}
 }

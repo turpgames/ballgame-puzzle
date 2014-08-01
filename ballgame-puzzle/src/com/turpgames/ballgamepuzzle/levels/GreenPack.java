@@ -5,6 +5,7 @@ import com.turpgames.ballgamepuzzle.collisionhandlers.BounceHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.EnemyHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.HoleHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.PortalHandler;
+import com.turpgames.ballgamepuzzle.collisionhandlers.PurpleHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.RedGrayHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.StoneHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.TargetHandler;
@@ -57,8 +58,8 @@ class GreenPack {
 				.addLevel(level16())
 				.addLevel(level17())
 				.addLevel(level18())
-				.addLevel(level18())
-				.addLevel(level18())
+				.addLevel(level19())
+				.addLevel(level19())
 				.build();
 
 		for (LevelMeta level : pack.getLevels())
@@ -288,7 +289,7 @@ class GreenPack {
 		effect.setTotalDuration(3f);
 
 		float dx = 87.5f;
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 5; i++) {
 			BallMeta ball = new BallMeta(Ball.Enemy, Ball.Medium, 50f + (dx * i), 400);
 			ball.addEffect(effect);
 			builder.addBall(ball);
@@ -419,9 +420,42 @@ class GreenPack {
 				.build();
 	}
 
-	static int i = 18;
-
 	private static LevelMeta level18() {
+		LevelMeta.Builder builder = newBuilder(18)
+				.setScoreMeta(6, 3);
+
+		HoleEffectMeta effect = new HoleEffectMeta();
+		effect.setWhiteHole(true);
+
+		BallMeta ball = new BallMeta(Ball.WhiteHole, Ball.Small, 225, 250);
+		ball.addEffect(effect);
+
+		builder.addBall(ball);
+
+		effect = new HoleEffectMeta();
+		effect.setWhiteHole(false);
+
+		ball = new BallMeta(Ball.BlackHole, Ball.Small, 225, 550);
+		ball.addEffect(effect);
+
+		builder.addBall(ball);
+
+		return builder
+				.addBall(Ball.Subject, Ball.Medium, 100, 100)
+				.addBall(Ball.Target, Ball.Medium, 400, 650)
+				.addBall(Ball.Stone, Ball.Medium, 100, 250)
+				.addBall(Ball.Enemy, Ball.Medium, 100, 400)
+				.addBall(Ball.Bounce, Ball.Medium, 400, 250)
+				.addBall(Ball.RedGray, Ball.Medium, 400, 400)
+				.addBall(Ball.Portal, Ball.Medium, 100, 650)
+				.addBall(Ball.Portal, Ball.Medium, 400, 100)
+				.addBall(Ball.Purple, Ball.Medium, 225, 100)
+				.build();
+	}
+
+	static int i = 19;
+
+	private static LevelMeta level19() {
 		return newBuilder(i++)
 				.addBall(Ball.Subject, Ball.Medium, 150, 650)
 				.addBall(Ball.Target, Ball.Medium, 400, 550)
@@ -442,6 +476,7 @@ class GreenPack {
 								new EnemyHandler(),
 								new RedGrayHandler(),
 								new HoleHandler(Ball.BlackHole),
-								new HoleHandler(Ball.WhiteHole))));
+								new HoleHandler(Ball.WhiteHole),
+								new PurpleHandler())));
 	}
 }

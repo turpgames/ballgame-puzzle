@@ -1,6 +1,7 @@
 package com.turpgames.ballgamepuzzle.levels;
 
 import com.turpgames.ballgamepuzzle.objects.Ball;
+import com.turpgames.ballgamepuzzle.objects.balls.SubjectBall;
 import com.turpgames.box2d.IBox2DObject;
 import com.turpgames.box2d.IContactFilter;
 import com.turpgames.box2d.IFixture;
@@ -19,11 +20,29 @@ public class BallContactFilter implements IContactFilter {
 		IBox2DObject o2 = fixtureB.getBody().getData();
 
 		if (o1 instanceof Ball && o2 instanceof Ball) {
-			if (((Ball) o1).isHidden() || ((Ball) o2).isHidden())
+			Ball b1 = (Ball) o1;
+			Ball b2 = (Ball) o2;
+
+			if (b1.isHidden() || b2.isHidden())
 				return false;
+
+			return areGhostSubjectAndTarget(b1, b2);
 		}
 
 		return true;
 	}
 
+	private boolean areGhostSubjectAndTarget(Ball b1, Ball b2) {
+		if (b1.getBallType() == Ball.Subject) {
+			if (((SubjectBall) b1).isGhost())
+				return b2.getBallType() == Ball.Target;
+		}
+
+		if (b2.getBallType() == Ball.Subject) {
+			if (((SubjectBall) b2).isGhost())
+				return b1.getBallType() == Ball.Target;
+		}
+		
+		return true;
+	}
 }

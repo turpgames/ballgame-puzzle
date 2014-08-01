@@ -5,6 +5,7 @@ import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.ballgamepuzzle.utils.Textures;
 import com.turpgames.box2d.IBodyDef;
 import com.turpgames.box2d.IWorld;
+import com.turpgames.framework.v0.util.Timer;
 
 public class SubjectBall extends Ball {
 	private final static float hitX = 400f;
@@ -13,13 +14,47 @@ public class SubjectBall extends Ball {
 	private PortalBall sourcePortal;
 	private PortalBall targetPortal;
 
+	private boolean isGhost;
+	private final Timer ghostTimer;
+
 	public SubjectBall(BallMeta meta, IWorld world) {
 		super(meta, world, Textures.ball_azure);
+		
+		ghostTimer = new Timer();
+		ghostTimer.setInterval(3f);
+		ghostTimer.setTickListener(new Timer.ITimerTickListener() {
+			@Override
+			public void timerTick(Timer timer) {
+				unsetGhost();
+			}
+		});
 	}
 
 	@Override
 	public int getBodyType() {
 		return IBodyDef.Dynamic;
+	}
+
+	public boolean isGhost() {
+		return isGhost;
+	}
+
+	public void setAsGhost() {
+		isGhost = true;
+		ball.getColor().a = 0.5f;
+		ghostTimer.start();
+	}
+	
+	private void unsetGhost() {
+		isGhost = false;
+		ball.getColor().a = 0.9f;
+		ghostTimer.stop();
+	}
+	
+	@Override
+	public void stopEffect() {
+		super.stopEffect();
+		ghostTimer.stop();
 	}
 
 	public void hit(float x, float y) {
