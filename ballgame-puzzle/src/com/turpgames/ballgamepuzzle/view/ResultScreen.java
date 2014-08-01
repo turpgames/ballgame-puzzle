@@ -95,7 +95,7 @@ public class ResultScreen extends Screen {
 		btn.setSize(buttonWidth, buttonHeight);
 		btn.setFontScale(0.6f);
 		btn.setListener(listener);
-		btn.setColor(R.colors.blue, R.colors.green);
+		btn.setColor(R.colors.azure, R.colors.green);
 		btn.setTexture(Textures.button);
 		btn.setLocation(x, y);
 

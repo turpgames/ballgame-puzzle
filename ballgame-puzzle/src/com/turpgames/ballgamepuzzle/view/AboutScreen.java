@@ -1,86 +1,122 @@
 package com.turpgames.ballgamepuzzle.view;
 
-import com.turpgames.ballgamepuzzle.components.BallGameLogo;
 import com.turpgames.ballgamepuzzle.components.Toolbar;
 import com.turpgames.ballgamepuzzle.components.ToolbarListenerAdapter;
 import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.ballgamepuzzle.utils.StatActions;
+import com.turpgames.ballgamepuzzle.utils.Textures;
+import com.turpgames.framework.v0.ITexture;
 import com.turpgames.framework.v0.client.TurpClient;
+import com.turpgames.framework.v0.component.Button2;
 import com.turpgames.framework.v0.component.IButtonListener;
-import com.turpgames.framework.v0.component.TextButton;
 import com.turpgames.framework.v0.impl.Screen;
 import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.impl.Text;
-import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
 
 public class AboutScreen extends Screen {
+	private final static float buttonSize = 100f;
 
-	private TextButton facebookButton;
-	private TextButton storeButton;
-	private TextButton twitterButton;
-	private TextButton webSiteButton;
-	private TextButton doubleupButton;
+	private Button2 facebookButton;
+	private Button2 twitterButton;
+	private Button2 webSiteButton;
+
+	private Button2 storeButton;
+	private Button2 doubleupButton;
+	private Button2 ballgameButton;
+	private Button2 ichiguButton;
 
 	@Override
 	public void init() {
 		super.init();
+		initTitleText();
 		initVersionText();
-		initFacebookButton();
-		initTwitterButton();
-		initWebSiteButton();
-		initStoreButton();
-		initDoubleUpButton();
 
-		registerDrawable(new BallGameLogo(), Game.LAYER_GAME);
+		float x = (Game.getVirtualWidth() - 3 * buttonSize) / 4f;
+		float y = 100f;
+
+		initFacebookButton(x, y);
+		initTwitterButton(2 * x + buttonSize, y);
+		initWebSiteButton(3 * x + 2 * buttonSize, y);
+
+		x = (Game.getVirtualWidth() - 2 * buttonSize) / 3f;
+		y = 450f;
+
+		initStoreButton(x, y);
+		initDoubleUpButton(2 * x + buttonSize, y);
+
+		y = 300f;
+
+		initBallgameButton(x, y);
+		initIchiguButton(2 * x + buttonSize, y);
 	}
 
-	private void initFacebookButton() {
-		facebookButton = createButton("turpgames@facebook", Game.getParam("facebook-address"), StatActions.ClickedFacebookInAbout, 525F);
+	private void initFacebookButton(float x, float y) {
+		facebookButton = createButton(Textures.facebook, Game.getParam("facebook-address"), StatActions.ClickedFacebookInAbout, x, y);
 		registerDrawable(facebookButton, Game.LAYER_GAME);
 	}
 
-	private void initTwitterButton() {
-		twitterButton = createButton("turpgames@twitter", Game.getParam("twitter-address"), StatActions.ClickedTwitterInAbout, 425F);
+	private void initTwitterButton(float x, float y) {
+		twitterButton = createButton(Textures.twitter, Game.getParam("twitter-address"), StatActions.ClickedTwitterInAbout, x, y);
 		registerDrawable(twitterButton, Game.LAYER_GAME);
 	}
 
-	private void initWebSiteButton() {
-		webSiteButton = createButton("www.turpgames.com", Game.getParam("turp-address"), StatActions.ClickedWebSiteInAbout, 325F);
+	private void initWebSiteButton(float x, float y) {
+		webSiteButton = createButton(Textures.turplogo, Game.getParam("turp-address"), StatActions.ClickedWebSiteInAbout, x, y);
 		registerDrawable(webSiteButton, Game.LAYER_GAME);
 	}
 
-	private void initStoreButton() {
-		storeButton = createButton("Did you like Ball Game?", getStoreUrl(), StatActions.ClickedDidYouLikeInAbout, 225F);
+	private void initStoreButton(float x, float y) {
+		storeButton = createButton(Textures.icon, getStoreUrl(), StatActions.ClickedDidYouLikeInAbout, x, y);
 		registerDrawable(storeButton, Game.LAYER_GAME);
 	}
 
-	private void initDoubleUpButton() {
-		doubleupButton = createButton("Play Double Up - 2048", getDoubleUpStoreUrl(), StatActions.ClickedDoubleUpInAbout, 125F);
+	private void initDoubleUpButton(float x, float y) {
+		doubleupButton = createButton(Textures.doubleup, getDoubleUpStoreUrl(), StatActions.ClickedDoubleUpInAbout, x, y);
 		registerDrawable(doubleupButton, Game.LAYER_GAME);
+	}
+
+	private void initBallgameButton(float x, float y) {
+		ballgameButton = createButton(Textures.ballgame, getBallGameStoreUrl(), StatActions.ClickedBallGameInAbout, x, y);
+		registerDrawable(ballgameButton, Game.LAYER_GAME);
+	}
+
+	private void initIchiguButton(float x, float y) {
+		ichiguButton = createButton(Textures.ichigu, getIchiguStoreUrl(), StatActions.ClickedIchiguInAbout, x, y);
+		registerDrawable(ichiguButton, Game.LAYER_GAME);
+	}
+
+	private void initTitleText() {
+		Text text = new Text();
+		text.setText("Ball Game Puzzle");
+		text.getColor().set(R.colors.azure);
+		text.setAlignment(Text.HAlignCenter, Text.VAlignTop);
+		text.setPadY(125f);
+		registerDrawable(text, Game.LAYER_GAME);
 	}
 
 	private void initVersionText() {
 		Text text = new Text();
 		text.setText("v" + Game.getVersion());
-		text.setFontScale(0.66F);
-		text.setAlignment(0, 2);
-		text.setPadY(125F);
+		text.setFontScale(0.66f);
+		text.setAlignment(Text.HAlignCenter, Text.VAlignTop);
+		text.setPadY(175f);
+		text.getColor().set(R.colors.green);
 		registerDrawable(text, Game.LAYER_GAME);
 	}
 
-	private static TextButton createButton(String text, final String url, final int statAction, float y) {
-		TextButton textbutton = new TextButton(Color.white(), R.colors.yellow);
-		textbutton.setText(text);
-		textbutton.setFontScale(0.8F);
-		textbutton.getLocation().set((Game.getVirtualWidth() - textbutton.getWidth()) / 2.0F, y);
-		textbutton.setListener(new IButtonListener() {
+	private static Button2 createButton(ITexture texture, final String url, final int statAction, float x, float y) {
+		Button2 btn = new Button2();
+		btn.setSize(buttonSize, buttonSize);
+		btn.setTexture(texture);
+		btn.setLocation(x, y);
+		btn.setListener(new IButtonListener() {
 			public void onButtonTapped() {
 				Game.openUrl(url);
 				TurpClient.sendStat(statAction);
 			}
 		});
-		return textbutton;
+		return btn;
 	}
 
 	private String getStoreUrl() {
@@ -107,6 +143,30 @@ public class AboutScreen extends Screen {
 		}
 	}
 
+	private String getBallGameStoreUrl() {
+		if (Game.isIOS()) {
+			if (Game.getOSVersion().getMajor() < 7) {
+				return Game.getParam("ballgame-app-store-address-old");
+			} else {
+				return Game.getParam("ballgame-app-store-address-ios7");
+			}
+		} else {
+			return Game.getParam("ballgame-play-store-address");
+		}
+	}
+
+	private String getIchiguStoreUrl() {
+		if (Game.isIOS()) {
+			if (Game.getOSVersion().getMajor() < 7) {
+				return Game.getParam("ichigu-app-store-address-old");
+			} else {
+				return Game.getParam("ichigu-app-store-address-ios7");
+			}
+		} else {
+			return Game.getParam("ichigu-play-store-address");
+		}
+	}
+
 	@Override
 	protected void onAfterActivate() {
 		facebookButton.activate();
@@ -114,6 +174,8 @@ public class AboutScreen extends Screen {
 		webSiteButton.activate();
 		storeButton.activate();
 		doubleupButton.activate();
+		ballgameButton.activate();
+		ichiguButton.activate();
 
 		Toolbar.getInstance().activate();
 		Toolbar.getInstance().setListener(new ToolbarListenerAdapter() {
@@ -131,6 +193,8 @@ public class AboutScreen extends Screen {
 		webSiteButton.deactivate();
 		storeButton.deactivate();
 		doubleupButton.deactivate();
+		ballgameButton.deactivate();
+		ichiguButton.deactivate();
 		Toolbar.getInstance().deactivate();
 		return super.onBeforeDeactivate();
 	}

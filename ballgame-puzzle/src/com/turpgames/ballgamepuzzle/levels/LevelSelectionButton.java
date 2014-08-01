@@ -4,6 +4,7 @@ import com.turpgames.ballgamepuzzle.components.Stars;
 import com.turpgames.ballgamepuzzle.utils.Textures;
 import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.ImageButton;
+import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.impl.TexturedGameObject;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.TextureDrawer;
@@ -18,6 +19,7 @@ public class LevelSelectionButton extends ImageButton {
 	private final LevelMeta level;
 	private final Stars stars;
 	private final LockObj lockObj;
+	private final Text text;
 
 	public LevelSelectionButton(LevelMeta level) {
 		this.level = level;
@@ -38,6 +40,14 @@ public class LevelSelectionButton extends ImageButton {
 
 		getLocation().set(x, y);
 		lockObj.getLocation().set(x + 10f, y + 10f);
+		
+		text = new Text();
+		text.setText(level.getIndex() + "");
+		text.setAlignment(Text.HAlignLeft, Text.VAlignTop);
+		text.setPadding(6f, 6f);
+		text.setSize(itemSize, itemSize);
+		text.setFontScale(0.5f);
+		text.setLocation(x, y);
 		
 		getColor().set(level.getPack().getThemeColor());
 		getColor().a = 0.5f;
@@ -74,6 +84,7 @@ public class LevelSelectionButton extends ImageButton {
 			lockObj.draw();
 		else
 			stars.draw();
+		text.draw();
 	}
 
 	@Override

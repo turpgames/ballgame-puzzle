@@ -14,5 +14,6 @@ public class StatActions {
 	public final static int ClickedFacebookInAbout = 103;
 	public final static int ClickedDidYouLikeInAbout = 104;
 	public final static int ClickedDoubleUpInAbout = 105;
-	public final static int EnterLeadersBoard = 106;
+	public static final int ClickedIchiguInAbout = 106;
+	public static final int ClickedBallGameInAbout = 107;
 }

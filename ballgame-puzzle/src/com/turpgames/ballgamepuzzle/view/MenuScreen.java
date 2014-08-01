@@ -1,5 +1,6 @@
 package com.turpgames.ballgamepuzzle.view;
 
+import com.turpgames.ballgamepuzzle.components.BallGameLogo;
 import com.turpgames.ballgamepuzzle.components.Toolbar;
 import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.ballgamepuzzle.utils.StatActions;
@@ -22,19 +23,21 @@ public class MenuScreen extends Screen {
 	public void init() {
 		super.init();
 
-		playButton = initButton("Play", (Game.getVirtualWidth() - buttonWidth) * 0.5f, 450f, new IButtonListener() {
+		playButton = initButton("Play", (Game.getVirtualWidth() - buttonWidth) * 0.5f, 250f, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				ScreenManager.instance.switchTo(R.screens.levels, false);
 			}
 		});
 
-		aboutButton = initButton("About", (Game.getVirtualWidth() - buttonWidth) * 0.5f, 350f, new IButtonListener() {
+		aboutButton = initButton("About", (Game.getVirtualWidth() - buttonWidth) * 0.5f, 150f, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				ScreenManager.instance.switchTo(R.screens.about, false);
 			}
 		});
+		
+		registerDrawable(new BallGameLogo(), Game.LAYER_GAME);
 	}
 
 	@Override
@@ -67,7 +70,7 @@ public class MenuScreen extends Screen {
 		btn.setSize(buttonWidth, buttonHeight);
 		btn.setFontScale(0.6f);
 		btn.setListener(listener);
-		btn.setColor(R.colors.blue, R.colors.green);
+		btn.setColor(R.colors.azure, R.colors.green);
 		btn.setTexture(Textures.button);
 		btn.setLocation(x, y);
 

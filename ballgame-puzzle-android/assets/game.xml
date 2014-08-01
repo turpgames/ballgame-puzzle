@@ -167,12 +167,11 @@
 
         <screen
             id="about"
-            background-texture="bg"
+            background-texture="bg_dark"
             class="com.turpgames.ballgamepuzzle.view.AboutScreen" />
     </screens>
 
     <forms>
-
     </forms>
 
     <animations>
@@ -283,24 +282,16 @@
                 path="img/bg.png" />
 
             <texture
+                id="bg_dark"
+                path="img/bg_dark.png" />
+
+            <texture
                 id="locked"
                 path="img/lock_locked.png" />
 
             <texture
                 id="unlocked"
                 path="img/lock_unlocked.png" />
-
-            <texture
-                id="star_empty"
-                path="img/star_empty.png" />
-
-            <texture
-                id="star_half"
-                path="img/star_half_left.png" />
-
-            <texture
-                id="star_full"
-                path="img/star_full.png" />
 
             <texture
                 id="star"
@@ -321,6 +312,30 @@
             <texture
                 id="level_item"
                 path="img/level_item.png" />
+
+            <texture
+                id="icon"
+                path="img/icon_512.png" />
+
+            <texture
+                id="ab_ballgame"
+                path="img/about/ballgame.png" />
+
+            <texture
+                id="ab_doubleup"
+                path="img/about/doubleup.png" />
+
+            <texture
+                id="ab_facebook"
+                path="img/about/facebook.png" />
+
+            <texture
+                id="ab_ichigu"
+                path="img/about/ichigu.png" />
+
+            <texture
+                id="ab_twitter"
+                path="img/about/twitter.png" />
         </textures>
 
         <sounds>

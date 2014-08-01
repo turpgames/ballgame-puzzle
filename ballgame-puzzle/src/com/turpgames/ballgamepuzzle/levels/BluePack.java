@@ -26,7 +26,7 @@ class BluePack {
 
 		pack = LevelPack.newBuilder()
 				.setTitle(packTitle)
-				.setThemeColor(R.colors.blue)
+				.setThemeColor(R.colors.azure)
 				.addLevel(level1)
 				.addLevel(level2())
 				.addLevel(level3())

@@ -1,21 +1,30 @@
 package com.turpgames.ballgamepuzzle.components;
 
+import com.turpgames.ballgamepuzzle.utils.Textures;
 import com.turpgames.framework.v0.IDrawable;
-import com.turpgames.framework.v0.impl.Text;
+import com.turpgames.framework.v0.impl.TexturedGameObject;
+import com.turpgames.framework.v0.util.Game;
 
 public class BallGameLogo implements IDrawable {
-	private final Text title;
-	
+	private final LogoObj logo;
+
 	public BallGameLogo() {
-		title = new Text();
-		title.setFontScale(1.25f);
-		title.setAlignment(Text.HAlignCenter, Text.VAlignTop);
-		title.setPadY(75f);
-		title.setText("Ball Game");
+		logo = new LogoObj();
 	}
-	
+
 	@Override
 	public void draw() {
-		title.draw();
+		logo.draw();
+	}
+
+	private static class LogoObj extends TexturedGameObject {
+		public LogoObj() {
+			setTexture(Textures.icon);
+			float size = Game.getVirtualWidth() * 0.66f;
+			float d = (Game.getVirtualWidth() - size) * 0.5f;
+			setWidth(size);
+			setHeight(size);
+			getLocation().set(d, Game.getVirtualHeight() - size - d);
+		}
 	}
 }
