@@ -1,19 +1,24 @@
 package com.turpgames.ballgamepuzzle.collisionhandlers;
 
 import com.turpgames.ballgamepuzzle.objects.Ball;
+import com.turpgames.box2d.IContact;
+import com.turpgames.box2d.IFixture;
 
 public abstract class BallCollisionHandler implements IBallCollisionHandler {
-
 	private final int ballType;
+	protected IContact currentContact;
+	protected IFixture fixtureB;
 
 	protected BallCollisionHandler(int ballType) {
 		this.ballType = ballType;
 	}
 
 	@Override
-	public boolean onBeginCollide(Ball b1, Ball b2) {
+	public boolean onBeginCollide(Ball b1, Ball b2, IContact contact) {
 		if (!canHandle(b1, b2))
 			return false;
+		
+		currentContact = contact;
 
 		return b1.getBallType() == ballType
 				? handleBeginCollide(b1, b2)
@@ -21,10 +26,12 @@ public abstract class BallCollisionHandler implements IBallCollisionHandler {
 	}
 
 	@Override
-	public boolean onEndCollide(Ball b1, Ball b2) {
+	public boolean onEndCollide(Ball b1, Ball b2, IContact contact) {
 		if (!canHandle(b1, b2))
 			return false;
 
+		currentContact = contact;
+		
 		return b1.getBallType() == ballType
 				? handleEndCollide(b1, b2)
 				: handleEndCollide(b2, b1);

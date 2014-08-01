@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.turpgames.ballgamepuzzle.components.LevelResetEffect;
 import com.turpgames.ballgamepuzzle.components.Toolbar;
+import com.turpgames.ballgamepuzzle.levels.BallContactFilter;
 import com.turpgames.ballgamepuzzle.levels.BallMeta;
 import com.turpgames.ballgamepuzzle.levels.LevelMeta;
 import com.turpgames.ballgamepuzzle.objects.Ball;
@@ -128,6 +129,7 @@ public class GameController implements IGameController {
 
 		initBalls();
 		world.setContactListener(Global.currentLevel.getContactListener());
+		world.setContactFilter(BallContactFilter.instance);
 		Global.levelPackViewId = Global.currentLevel.getPack().getTitle();
 	}
 

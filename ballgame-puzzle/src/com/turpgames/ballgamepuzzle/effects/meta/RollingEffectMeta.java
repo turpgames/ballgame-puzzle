@@ -1,4 +1,4 @@
-package com.turpgames.ballgamepuzzle.levels;
+package com.turpgames.ballgamepuzzle.effects.meta;
 
 public class RollingEffectMeta implements IEffectMeta {
 	private float totalDuration;

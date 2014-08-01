@@ -35,7 +35,8 @@ public class RedGrayHandler extends BallCollisionHandler {
 
 		float alpha = (float) Math.atan2(t.y, t.x);
 
-		float dist = redGray.getRadius() + subject.getRadius();
+		// find better solution
+		float dist = redGray.getBody().getFixtures().get(0).getShape().getRadius() + subject.getRadius();
 
 		subject.setCenter(
 				o1.x + (float) Math.cos(alpha) * dist,

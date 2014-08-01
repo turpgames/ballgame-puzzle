@@ -3,12 +3,14 @@ package com.turpgames.ballgamepuzzle.levels;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.turpgames.ballgamepuzzle.effects.meta.IEffectMeta;
 
 public class BallMeta {
 	private final int type;
 	private final float r;
 	private final float cx;
 	private final float cy;
+	private boolean isHidden;
 
 	private final List<IEffectMeta> effects;
 
@@ -17,7 +19,7 @@ public class BallMeta {
 		this.r = r;
 		this.cx = cx;
 		this.cy = cy;
-		
+
 		this.effects = new ArrayList<IEffectMeta>();
 	}
 
@@ -36,7 +38,15 @@ public class BallMeta {
 	public float getCy() {
 		return cy;
 	}
-	
+
+	public boolean isHidden() {
+		return isHidden;
+	}
+
+	public void setHidden(boolean isHidden) {
+		this.isHidden = isHidden;
+	}
+
 	public boolean hasEffect() {
 		return effects.size() > 0;
 	}

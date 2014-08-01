@@ -15,25 +15,25 @@ public class BallContactListener implements IContactListener {
 	}
 
 	@Override
-	public void endContact(IContact contact) {
-		IBox2DObject o1 = contact.getFixtureA().getBody().getData();
-		IBox2DObject o2 = contact.getFixtureB().getBody().getData();
-
-		if (o1 instanceof Ball && o2 instanceof Ball) {
-			collisionHandler.onEndCollide((Ball) o1, (Ball) o2);
-		}
-	}
-
-	@Override
 	public void beginContact(IContact contact) {
 		IBox2DObject o1 = contact.getFixtureA().getBody().getData();
 		IBox2DObject o2 = contact.getFixtureB().getBody().getData();
 
 		if (o1 instanceof Ball && o2 instanceof Ball) {
-			collisionHandler.onBeginCollide((Ball) o1, (Ball) o2);
+			collisionHandler.onBeginCollide((Ball) o1, (Ball) o2, contact);
 		}
 		else {
 			Sounds.hit.play();
+		}
+	}
+
+	@Override
+	public void endContact(IContact contact) {
+		IBox2DObject o1 = contact.getFixtureA().getBody().getData();
+		IBox2DObject o2 = contact.getFixtureB().getBody().getData();
+
+		if (o1 instanceof Ball && o2 instanceof Ball) {
+			collisionHandler.onEndCollide((Ball) o1, (Ball) o2, contact);
 		}
 	}
 }

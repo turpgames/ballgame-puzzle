@@ -18,11 +18,6 @@ public class SubjectBall extends Ball {
 	}
 
 	@Override
-	public int getBallType() {
-		return Ball.Subject;
-	}
-
-	@Override
 	public int getBodyType() {
 		return IBodyDef.Dynamic;
 	}

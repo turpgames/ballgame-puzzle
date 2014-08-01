@@ -19,11 +19,6 @@ public class BounceBall extends Ball {
 		effect.setMaxFactor(1.1f);
 		effect.setMinFactor(1.0f);
 	}
-
-	@Override
-	public int getBallType() {
-		return Ball.Bounce;
-	}
 	
 	@Override
 	protected BallBodyBuilder createBodyBuilder() {

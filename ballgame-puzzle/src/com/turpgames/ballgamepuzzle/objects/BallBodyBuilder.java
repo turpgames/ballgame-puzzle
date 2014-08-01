@@ -44,6 +44,11 @@ public class BallBodyBuilder {
 		return this;
 	}
 
+	public BallBodyBuilder setDensity(float density) {
+		fixtureBuilder.setDensity(density);
+		return this;
+	}
+
 	public IBody build(IWorld world) {
 		IBody body = bodyBuilder.build(world, fixtureBuilder);
 		circle.dispose();

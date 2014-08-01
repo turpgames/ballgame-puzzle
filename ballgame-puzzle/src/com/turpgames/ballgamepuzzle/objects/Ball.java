@@ -3,14 +3,24 @@ package com.turpgames.ballgamepuzzle.objects;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.turpgames.ballgamepuzzle.effects.BreathEffect;
+import com.turpgames.ballgamepuzzle.effects.CircularTripEffect;
+import com.turpgames.ballgamepuzzle.effects.ExistanceEffect;
+import com.turpgames.ballgamepuzzle.effects.HoleEffect;
+import com.turpgames.ballgamepuzzle.effects.IBox2DEffect;
+import com.turpgames.ballgamepuzzle.effects.PathTripEffect;
+import com.turpgames.ballgamepuzzle.effects.RollingEffect;
+import com.turpgames.ballgamepuzzle.effects.meta.BreathEffectMeta;
+import com.turpgames.ballgamepuzzle.effects.meta.CircularTripEffectMeta;
+import com.turpgames.ballgamepuzzle.effects.meta.ExistanceEffectMeta;
+import com.turpgames.ballgamepuzzle.effects.meta.HoleEffectMeta;
+import com.turpgames.ballgamepuzzle.effects.meta.IEffectMeta;
+import com.turpgames.ballgamepuzzle.effects.meta.PathTripEffectMeta;
+import com.turpgames.ballgamepuzzle.effects.meta.RollingEffectMeta;
 import com.turpgames.ballgamepuzzle.levels.BallMeta;
-import com.turpgames.ballgamepuzzle.levels.BreathEffectMeta;
-import com.turpgames.ballgamepuzzle.levels.CircularTripEffectMeta;
-import com.turpgames.ballgamepuzzle.levels.IEffectMeta;
-import com.turpgames.ballgamepuzzle.levels.PathTripEffectMeta;
-import com.turpgames.ballgamepuzzle.levels.RollingEffectMeta;
 import com.turpgames.ballgamepuzzle.objects.balls.BounceBall;
 import com.turpgames.ballgamepuzzle.objects.balls.EnemyBall;
+import com.turpgames.ballgamepuzzle.objects.balls.HoleBall;
 import com.turpgames.ballgamepuzzle.objects.balls.PortalBall;
 import com.turpgames.ballgamepuzzle.objects.balls.RedGrayBall;
 import com.turpgames.ballgamepuzzle.objects.balls.StoneBall;
@@ -19,12 +29,8 @@ import com.turpgames.ballgamepuzzle.objects.balls.TargetBall;
 import com.turpgames.box2d.Box2DObject;
 import com.turpgames.box2d.IBody;
 import com.turpgames.box2d.IBodyDef;
+import com.turpgames.box2d.IFixture;
 import com.turpgames.box2d.IWorld;
-import com.turpgames.box2d.effects.BreathEffect;
-import com.turpgames.box2d.effects.CircularTripEffect;
-import com.turpgames.box2d.effects.IBox2DEffect;
-import com.turpgames.box2d.effects.PathTripEffect;
-import com.turpgames.box2d.effects.RollingEffect;
 import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.ITexture;
 import com.turpgames.framework.v0.util.Game;
@@ -39,6 +45,9 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 	public final static int Purple = 6;
 	public final static int Subject = 7;
 	public final static int Portal = 8;
+	public final static int BlackHole = 9;
+	public final static int WhiteHole = 10;
+
 	public final static int RedGray = 100;
 
 	public final static float Small = 15f;
@@ -48,19 +57,20 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 	public final static float ViewportCenterX = Game.getVirtualWidth() / 2f;
 	public final static float ViewportCenterY = Game.getVirtualHeight() / 2f;
 
+	protected boolean isHidden;
+	protected boolean isSensor;
+
 	protected final BallMeta meta;
 	protected final BallObject ball;
 	protected final float radius;
 	protected final IBody body;
 
-	private final List<IBox2DEffect> effects;
+	protected final List<IBox2DEffect> effects;
 
 	protected Ball(BallMeta meta, IWorld world, ITexture texture) {
-		if (meta.getType() != this.getBallType())
-			throw new IllegalArgumentException(String.format("Invalid ball type %d, expected %d", meta.getType(), getBallType()));
-
 		this.meta = meta;
 		this.effects = new ArrayList<IBox2DEffect>();
+		this.isHidden = meta.isHidden();
 
 		float cx = meta.getCx();
 		float cy = meta.getCy();
@@ -80,7 +90,13 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 		super.syncWithObject();
 	}
 
-	public abstract int getBallType();
+	public final int getBallType() {
+		return meta.getType();
+	}
+
+	private IFixture getFixture() {
+		return body.getFixtures().get(0);
+	}
 
 	protected BallBodyBuilder createBodyBuilder() {
 		return BallBodyBuilder.newBuilder(radius, getCenterX(), getCenterY(), getBodyType());
@@ -88,6 +104,21 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 
 	public int getBodyType() {
 		return meta.hasEffect() ? IBodyDef.Kinematic : IBodyDef.Static;
+	}
+
+	public boolean isHidden() {
+		return isHidden;
+	}
+
+	public void setHidden(boolean isHidden) {
+		this.isHidden = isHidden;
+		if (isHidden) {
+			isSensor = getFixture().isSensor();
+			getFixture().setSensor(true);
+		}
+		else {
+			getFixture().setSensor(isSensor);
+		}
 	}
 
 	public float getRadius() {
@@ -136,7 +167,8 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 
 	@Override
 	public void draw() {
-		ball.draw();
+		if (!isHidden)
+			ball.draw();
 	}
 
 	public static Ball create(BallMeta meta, IWorld world) {
@@ -154,6 +186,9 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 			return new EnemyBall(meta, world);
 		if (meta.getType() == Ball.RedGray)
 			return new RedGrayBall(meta, world);
+		if (meta.getType() == Ball.BlackHole ||
+			meta.getType() == Ball.WhiteHole)
+			return HoleBall.createHoleBall(meta, world);
 		throw new UnsupportedOperationException("Unknown ball type: " + meta.getType());
 	}
 
@@ -201,6 +236,27 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 			effect.setMinScale(meta.getMinScale());
 			effect.setMaxScale(meta.getMaxScale());
 			effect.setStartFromMaxScale(meta.isStartFromMaxScale());
+
+			return effect;
+		}
+		if (effectMeta instanceof ExistanceEffectMeta) {
+			ExistanceEffectMeta meta = (ExistanceEffectMeta) effectMeta;
+
+			ExistanceEffect effect = new ExistanceEffect(this);
+
+			effect.setDuration(meta.getTotalDuration());
+			effect.setDurations(meta.getDurations());
+			effect.setLooping(meta.isLooping());
+			effect.setHiddenAtStartup(meta.isHiddenAtStartup());
+
+			return effect;
+		}
+		if (effectMeta instanceof HoleEffectMeta) {
+			HoleEffectMeta meta = (HoleEffectMeta) effectMeta;
+
+			HoleEffect effect = new HoleEffect((HoleBall) this);
+
+			effect.setWhiteHole(meta.isWhiteHole());
 
 			return effect;
 		}

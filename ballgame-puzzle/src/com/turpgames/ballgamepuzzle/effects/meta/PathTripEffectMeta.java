@@ -1,4 +1,4 @@
-package com.turpgames.ballgamepuzzle.levels;
+package com.turpgames.ballgamepuzzle.effects.meta;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -12,11 +12,6 @@ public class EnemyBall extends Ball {
 	}
 
 	@Override
-	public int getBallType() {
-		return Ball.Enemy;
-	}
-	
-	@Override
 	protected BallBodyBuilder createBodyBuilder() {
 		return super.createBodyBuilder().setAsSensor();
 	}

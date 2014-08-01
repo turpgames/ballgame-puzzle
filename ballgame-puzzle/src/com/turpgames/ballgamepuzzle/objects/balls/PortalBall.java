@@ -29,11 +29,6 @@ public class PortalBall extends Ball {
 	}
 
 	@Override
-	public int getBallType() {
-		return Ball.Portal;
-	}
-
-	@Override
 	protected BallBodyBuilder createBodyBuilder() {
 		return super.createBodyBuilder().setAsSensor();
 	}

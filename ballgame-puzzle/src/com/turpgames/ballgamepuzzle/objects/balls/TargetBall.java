@@ -10,11 +10,6 @@ public class TargetBall extends Ball {
 	public TargetBall(BallMeta meta, IWorld world) {
 		super(meta, world, Textures.ball_green);
 	}
-
-	@Override
-	public int getBallType() {
-		return Ball.Target;
-	}
 	
 	@Override
 	protected BallBodyBuilder createBodyBuilder() {

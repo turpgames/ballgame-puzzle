@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.turpgames.ballgamepuzzle.objects.Ball;
+import com.turpgames.box2d.IContact;
 
 public class BallCollisionHandlerChain implements IBallCollisionHandler {
 	private final List<IBallCollisionHandler> handlerChain;
@@ -23,9 +24,9 @@ public class BallCollisionHandlerChain implements IBallCollisionHandler {
 	}
 
 	@Override
-	public boolean onBeginCollide(Ball b1, Ball b2) {
+	public boolean onBeginCollide(Ball b1, Ball b2, IContact contact) {
 		for (IBallCollisionHandler handler : handlerChain) {
-			if (handler.onBeginCollide(b1, b2)) {
+			if (handler.onBeginCollide(b1, b2, contact)) {
 				return true;
 			}
 		}
@@ -33,9 +34,9 @@ public class BallCollisionHandlerChain implements IBallCollisionHandler {
 	}
 
 	@Override
-	public boolean onEndCollide(Ball b1, Ball b2) {
+	public boolean onEndCollide(Ball b1, Ball b2, IContact contact) {
 		for (IBallCollisionHandler handler : handlerChain) {
-			if (handler.onEndCollide(b1, b2)) {
+			if (handler.onEndCollide(b1, b2, contact)) {
 				return true;
 			}
 		}

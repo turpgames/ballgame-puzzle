@@ -9,9 +9,4 @@ public class RedGrayBall extends Ball {
 	public RedGrayBall(BallMeta meta, IWorld world) {
 		super(meta, world, Textures.ball_red_gray);
 	}
-
-	@Override
-	public int getBallType() {
-		return RedGray;
-	}
 }

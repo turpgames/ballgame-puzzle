@@ -9,9 +9,4 @@ public class StoneBall extends Ball {
 	public StoneBall(BallMeta meta, IWorld world) {
 		super(meta, world, Textures.ball_gray);
 	}
-
-	@Override
-	public int getBallType() {
-		return Ball.Stone;
-	}
 }

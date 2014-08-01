@@ -1,4 +1,4 @@
-package com.turpgames.ballgamepuzzle.levels;
+package com.turpgames.ballgamepuzzle.effects.meta;
 
 import com.turpgames.framework.v0.util.Vector;
 
