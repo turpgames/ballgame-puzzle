@@ -67,7 +67,7 @@ public class AboutScreen extends Screen {
 	}
 
 	private void initStoreButton(float x, float y) {
-		storeButton = createButton(Textures.icon, getStoreUrl(), StatActions.ClickedDidYouLikeInAbout, x, y);
+		storeButton = createButton(Textures.icon_rounded, getStoreUrl(), StatActions.ClickedDidYouLikeInAbout, x, y);
 		registerDrawable(storeButton, Game.LAYER_GAME);
 	}
 

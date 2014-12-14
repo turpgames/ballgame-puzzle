@@ -167,7 +167,7 @@
 
         <screen
             id="about"
-            background-texture="bg_dark"
+            background-texture="bg"
             class="com.turpgames.ballgamepuzzle.view.AboutScreen" />
     </screens>
 
@@ -316,6 +316,10 @@
             <texture
                 id="icon"
                 path="img/icon_512.png" />
+
+            <texture
+                id="icon_rounded"
+                path="img/icon_512_rounded.png" />
 
             <texture
                 id="ab_ballgame"

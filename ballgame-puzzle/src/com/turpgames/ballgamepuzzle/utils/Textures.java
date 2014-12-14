@@ -31,6 +31,7 @@ public class Textures
 	public static final ITexture level_item = Game.getResourceManager().getTexture("level_item");
 	public static final ITexture button = Game.getResourceManager().getTexture("button");
 	public static final ITexture icon = Game.getResourceManager().getTexture("icon");
+	public static final ITexture icon_rounded = Game.getResourceManager().getTexture("icon_rounded");
 	public final static ITexture facebook = Game.getResourceManager().getTexture("ab_facebook");
 	public final static ITexture twitter = Game.getResourceManager().getTexture("ab_twitter");
 	public final static ITexture doubleup = Game.getResourceManager().getTexture("ab_doubleup");

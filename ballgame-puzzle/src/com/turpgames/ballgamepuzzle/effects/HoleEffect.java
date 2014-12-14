@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.turpgames.ballgamepuzzle.objects.balls.HoleBall;
+import com.turpgames.ballgamepuzzle.objects.balls.SubjectBall;
 import com.turpgames.box2d.Box2D;
 import com.turpgames.box2d.IBody;
 import com.turpgames.framework.v0.util.Vector;
@@ -41,6 +42,9 @@ public class HoleEffect extends Box2DEffect implements IBallGameEffect {
 		holeCenter.y = Box2D.viewportToWorldY(holeCenter.y);
 
 		for (IBody body : effectedBodies) {
+			if (((SubjectBall) body.getData()).isGhost())
+				continue;
+			
 			Vector bc = body.getCenter().tmp();
 
 			bc.x = Box2D.viewportToWorldX(bc.x);
@@ -57,7 +61,7 @@ public class HoleEffect extends Box2DEffect implements IBallGameEffect {
 			if (isWhiteHole)
 				f = -f;
 
-			body.applyForceToCenter(fx * f, fy * f);
+			body.applyForceToCenter(fx * f, fy * (f + body.getMass() * 10));
 		}
 	}
 }

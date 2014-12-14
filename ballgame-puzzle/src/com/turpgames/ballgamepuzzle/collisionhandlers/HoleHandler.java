@@ -21,8 +21,6 @@ public class HoleHandler extends BallCollisionHandler {
 	protected boolean handleBeginCollide(Ball b1, Ball b2) {
 		if (b2.getBallType() != Ball.Subject)
 			return false;
-		if (((SubjectBall) b2).isGhost())
-			return false;
 
 		HoleBall hole = (HoleBall) b1;
 
@@ -30,8 +28,10 @@ public class HoleHandler extends BallCollisionHandler {
 			hole.enter(b2.getBody());
 			System.out.println("Play hole enter sound!!!");
 		} else if (hole.getBallType() == Ball.BlackHole) {
-			Global.currentController.onHitEnemy();
-			Sounds.enemy.play();
+			if (!((SubjectBall) b2).isGhost()) {
+				Global.currentController.onHitEnemy();
+				Sounds.enemy.play();
+			}
 		}
 
 		return true;
