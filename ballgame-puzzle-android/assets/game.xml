@@ -32,11 +32,11 @@
 
         <param
             key="virtual-width"
-            value="450" />
+            value="800" />
 
         <param
             key="virtual-height"
-            value="800" />
+            value="450" />
 
         <param
             key="default-font"
@@ -48,7 +48,7 @@
 
         <param
             key="default-screen"
-            value="splash" />
+            value="test" />
 
         <param
             key="default-skin"
@@ -142,32 +142,36 @@
     <screens>
 
         <screen
+            id="test"
+            class="com.turpgames.ballgamepuzzle.view.TestScreen" />
+
+        <screen
             id="splash"
             class="com.turpgames.ballgamepuzzle.view.SplashScreen" />
 
         <screen
             id="levels"
-            background-texture="bg"
+            background-texture="room"
             class="com.turpgames.ballgamepuzzle.view.LevelSelectionScreen" />
 
         <screen
             id="game"
-            background-texture="bg"
+            background-texture="room"
             class="com.turpgames.ballgamepuzzle.view.GameScreen" />
 
         <screen
             id="result"
-            background-texture="bg"
+            background-texture="room"
             class="com.turpgames.ballgamepuzzle.view.ResultScreen" />
 
         <screen
             id="menu"
-            background-texture="bg"
+            background-texture="room"
             class="com.turpgames.ballgamepuzzle.view.MenuScreen" />
 
         <screen
             id="about"
-            background-texture="bg"
+            background-texture="room"
             class="com.turpgames.ballgamepuzzle.view.AboutScreen" />
     </screens>
 
@@ -270,6 +274,10 @@
                 path="img/ball_white.png" />
 
             <texture
+                id="ball_white_dot"
+                path="img/ball_white_dot.png" />
+
+            <texture
                 id="black_hole"
                 path="img/black_hole.png" />
 
@@ -340,6 +348,10 @@
             <texture
                 id="ab_twitter"
                 path="img/about/twitter.png" />
+
+            <texture
+                id="room"
+                path="img/room.png" />
         </textures>
 
         <sounds>

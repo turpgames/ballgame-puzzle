@@ -53,20 +53,20 @@ public class Stars implements IDrawable {
 		if (starCount == 1) {
 			star1.getLocation().set(
 					(Game.getVirtualWidth() - star1.getWidth()) / 2,
-					Game.getVirtualHeight() - 300f);
+					Game.getVirtualHeight() - 200f);
 		} else {
 			star1.getLocation().set(
 					Game.getVirtualWidth() / 2 - star1.getWidth(),
-					Game.getVirtualHeight() - 300f);
+					Game.getVirtualHeight() - 200f);
 
 			star2.getLocation().set(
 					Game.getVirtualWidth() / 2,
-					Game.getVirtualHeight() - 300f);
+					Game.getVirtualHeight() - 200f);
 
 			if (starCount == 3) {
 				star3.getLocation().set(
 						(Game.getVirtualWidth() - star3.getWidth()) / 2,
-						Game.getVirtualHeight() - 250f);
+						Game.getVirtualHeight() - 150f);
 			}
 		}
 	}

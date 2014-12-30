@@ -10,7 +10,7 @@ import com.turpgames.framework.v0.impl.Settings;
 
 public class Toolbar {
 	public final static float toolbarMargin = 5f;
-	public final static float menuButtonSize = 50f;
+	public final static float menuButtonSize = 40f;
 
 	protected Button2 backButton;
 	protected Button2 resetButton;
@@ -79,7 +79,7 @@ public class Toolbar {
 	}
 
 	protected void addBackButton() {
-		backButton = createButton(Textures.tb_back, Button2.nw, 1, new IButtonListener() {
+		backButton = createButton(Textures.tb_back, Button2.sw, 1, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				if (listener != null)
@@ -89,7 +89,7 @@ public class Toolbar {
 	}
 
 	protected void addResetButton() {
-		resetButton = createButton(Textures.tb_reset, Button2.ne, 2, new IButtonListener() {
+		resetButton = createButton(Textures.tb_reset, Button2.se, 2, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				if (listener != null)
@@ -99,7 +99,7 @@ public class Toolbar {
 	}
 
 	protected void addInfoButton() {
-		infoButton = createButton(Textures.tb_info, Button2.ne, 3, new IButtonListener() {
+		infoButton = createButton(Textures.tb_info, Button2.se, 3, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				if (listener != null)
@@ -110,7 +110,7 @@ public class Toolbar {
 
 	protected void addSoundButton() {
 		ITexture texture = Settings.isSoundOn() ? Textures.tb_sound_on : Textures.tb_sound_off;
-		soundButton = createButton(texture, Button2.ne, 1, new IButtonListener() {
+		soundButton = createButton(texture, Button2.se, 1, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				boolean isOn = !Settings.isSoundOn();

@@ -23,14 +23,14 @@ public class MenuScreen extends Screen {
 	public void init() {
 		super.init();
 
-		playButton = initButton("Play", (Game.getVirtualWidth() - buttonWidth) * 0.5f, 250f, new IButtonListener() {
+		playButton = initButton("Play", (Game.getVirtualWidth() - buttonWidth) * 0.5f, 180f, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				ScreenManager.instance.switchTo(R.screens.levels, false);
 			}
 		});
 
-		aboutButton = initButton("About", (Game.getVirtualWidth() - buttonWidth) * 0.5f, 150f, new IButtonListener() {
+		aboutButton = initButton("About", (Game.getVirtualWidth() - buttonWidth) * 0.5f, 90f, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				ScreenManager.instance.switchTo(R.screens.about, false);

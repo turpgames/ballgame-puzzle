@@ -11,8 +11,8 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Ball Game";
 
-		float w = 9f;
-		float h = 16f;
+		float w = 16f;
+		float h = 9f;
 		float x = 40;
 
 		cfg.width = (int) (x * w);

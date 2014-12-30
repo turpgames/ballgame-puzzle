@@ -28,8 +28,8 @@ public class BallBodyBuilder {
 				.setAngularDamping(0.5f);
 
 		this.fixtureBuilder = Box2DBuilders.Fixture.fixtureBuilder()
-				.setElasticity(0.6f)
-				.setDensity(1.2f)
+				.setElasticity(0.8f)
+				.setDensity(0.5f)
 				.setFriction(0.2f)
 				.setShape(circle);
 	}

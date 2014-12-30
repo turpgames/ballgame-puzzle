@@ -33,22 +33,19 @@ public class AboutScreen extends Screen {
 		initVersionText();
 
 		float x = (Game.getVirtualWidth() - 3 * buttonSize) / 4f;
-		float y = 100f;
+		float y = 175f;
 
 		initFacebookButton(x, y);
 		initTwitterButton(2 * x + buttonSize, y);
 		initWebSiteButton(3 * x + 2 * buttonSize, y);
 
-		x = (Game.getVirtualWidth() - 2 * buttonSize) / 3f;
-		y = 450f;
-
-		initStoreButton(x, y);
-		initDoubleUpButton(2 * x + buttonSize, y);
-
-		y = 300f;
+		x = (Game.getVirtualWidth() - 4 * buttonSize) / 5f;
+		y = 50f;
 
 		initBallgameButton(x, y);
-		initIchiguButton(2 * x + buttonSize, y);
+		initDoubleUpButton(2 * x + buttonSize, y);
+		initIchiguButton(3 * x + 2 * buttonSize, y);
+		initStoreButton(4 * x + 3 * buttonSize, y);
 	}
 
 	private void initFacebookButton(float x, float y) {
@@ -91,7 +88,7 @@ public class AboutScreen extends Screen {
 		text.setText("Ball Game Puzzle");
 		text.getColor().set(R.colors.azure);
 		text.setAlignment(Text.HAlignCenter, Text.VAlignTop);
-		text.setPadY(125f);
+		text.setPadY(50f);
 		registerDrawable(text, Game.LAYER_GAME);
 	}
 
@@ -100,7 +97,7 @@ public class AboutScreen extends Screen {
 		text.setText("v" + Game.getVersion());
 		text.setFontScale(0.66f);
 		text.setAlignment(Text.HAlignCenter, Text.VAlignTop);
-		text.setPadY(175f);
+		text.setPadY(100f);
 		text.getColor().set(R.colors.green);
 		registerDrawable(text, Game.LAYER_GAME);
 	}

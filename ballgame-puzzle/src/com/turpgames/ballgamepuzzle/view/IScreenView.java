@@ -4,11 +4,11 @@ import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.IInputListener;
 
 public interface IScreenView {
-	void registerDrawable(IDrawable idrawable, int i);
+	void registerDrawable(IDrawable drawable, int layer);
 
-	void registerInputListener(IInputListener iinputlistener);
+	void registerInputListener(IInputListener inputlistener);
 
-	void unregisterDrawable(IDrawable idrawable);
+	void unregisterDrawable(IDrawable drawable);
 
-	void unregisterInputListener(IInputListener iinputlistener);
+	void unregisterInputListener(IInputListener inputlistener);
 }

@@ -19,16 +19,16 @@ public class SplashScreen extends Screen {
 	@Override
 	public void draw() {
 		super.draw();
-		float f = (Game.getVirtualWidth() - 50F) * resourceManager.getProgress();
-		ShapeDrawer.drawRect((Game.getVirtualWidth() - f) / 2.0F, 100F, f, 20F, progressColor, true, false);
+		float f = (Game.getVirtualWidth() - 50f) * resourceManager.getProgress();
+		ShapeDrawer.drawRect((Game.getVirtualWidth() - f) / 2.0f, 40f, f, 10f, progressColor, true, false);
 	}
 
 	@Override
 	public void init() {
 		ConnectionManager.init();
 		super.init();
-		registerDrawable(new TurpLogo(), 0);
-		progressColor = new Color(com.turpgames.ballgamepuzzle.utils.R.colors.yellow);
+		registerDrawable(new TurpLogo(), Game.LAYER_GAME);
+		progressColor = Color.fromHex("#f9b000ff");
 		resourceManager = Game.getResourceManager();
 
 		Debug.println(Game.getPhysicalScreenSize());

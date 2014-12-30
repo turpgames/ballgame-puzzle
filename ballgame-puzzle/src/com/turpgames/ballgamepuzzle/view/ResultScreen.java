@@ -27,21 +27,21 @@ public class ResultScreen extends Screen {
 	public void init() {
 		super.init();
 
-		levelSelectionButton = initButton("Levels", (Game.getVirtualWidth() - buttonWidth) * 0.5f, 250f, new IButtonListener() {
+		levelSelectionButton = initButton("Levels", (Game.getVirtualWidth() - buttonWidth) * 0.5f, 75f, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				ScreenManager.instance.switchTo(R.screens.levels, true);
 			}
 		});
 
-		retryButton = initButton("Retry", 50f, 350f, new IButtonListener() {
+		retryButton = initButton("Retry", 225f, 150f, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				ScreenManager.instance.switchTo(R.screens.game, true);
 			}
 		});
 
-		nextButton = initButton("Next", Game.getVirtualWidth() - buttonWidth - 50f, 350f, new IButtonListener() {
+		nextButton = initButton("Next", Game.getVirtualWidth() - buttonWidth - 225f, 150f, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
 				LevelManager.startLevel(nextLevel);

@@ -51,9 +51,9 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 
 	public final static int RedGray = 100;
 
-	public final static float Small = 15f;
-	public final static float Medium = 25f;
-	public final static float Large = 35f;
+	public final static float Small = 5f;
+	public final static float Medium = 10f;
+	public final static float Large = 15f;
 
 	public final static float ViewportCenterX = Game.getVirtualWidth() / 2f;
 	public final static float ViewportCenterY = Game.getVirtualHeight() / 2f;
@@ -83,7 +83,7 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 		this.ball.setHeight(radius * 2);
 		this.ball.getLocation().set(cx - radius, cy - radius);
 		this.ball.getRotation().origin.set(cx, cy);
-		this.ball.getColor().a = 0.9f;
+		this.ball.getColor().a = 1f;
 
 		this.body = createBodyBuilder().build(world);
 

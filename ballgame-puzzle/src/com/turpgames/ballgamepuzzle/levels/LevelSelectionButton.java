@@ -1,6 +1,7 @@
 package com.turpgames.ballgamepuzzle.levels;
 
 import com.turpgames.ballgamepuzzle.components.Stars;
+import com.turpgames.ballgamepuzzle.components.Toolbar;
 import com.turpgames.ballgamepuzzle.utils.Textures;
 import com.turpgames.framework.v0.component.IButtonListener;
 import com.turpgames.framework.v0.component.ImageButton;
@@ -10,11 +11,12 @@ import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.TextureDrawer;
 
 public class LevelSelectionButton extends ImageButton {
-	private final static int cols = 4;
-	private final static int rows = 5;
+	private final static int cols = 7;
+	private final static int rows = 4;
+	private final static float yOffset = Toolbar.menuButtonSize;
 	private final static float itemMargin = 20f;
-	private final static float itemSize = (Game.getVirtualWidth() - (cols + 1) * itemMargin) / cols;
-	private final static float yOffset = (Game.getVirtualHeight() - rows * itemSize - (rows + 1) * itemMargin) / 2f - 40f;
+	private final static float itemSize = (Game.getVirtualHeight() - (rows + 1) * itemMargin - yOffset) / rows;
+	private final static float xOffset = (Game.getVirtualWidth() - (cols * itemSize) - (cols - 1) * itemMargin) / 2f;
 
 	private final LevelMeta level;
 	private final Stars stars;
@@ -35,8 +37,8 @@ public class LevelSelectionButton extends ImageButton {
 		int row = (levelIndex - 1) / cols;
 		row = rows - row - 1;
 
-		float x = (col + 1) * itemMargin + col * itemSize;
-		float y = yOffset + (row + 1) * itemMargin + row * itemSize;
+		float x = xOffset + col * (itemMargin + itemSize);
+		float y = (row + 1) * itemMargin + row * itemSize;
 
 		getLocation().set(x, y);
 		lockObj.getLocation().set(x + 10f, y + 10f);

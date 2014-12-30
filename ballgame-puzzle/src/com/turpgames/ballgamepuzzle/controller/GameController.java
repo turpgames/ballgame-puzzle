@@ -9,6 +9,7 @@ import com.turpgames.ballgamepuzzle.levels.BallContactFilter;
 import com.turpgames.ballgamepuzzle.levels.BallMeta;
 import com.turpgames.ballgamepuzzle.levels.LevelMeta;
 import com.turpgames.ballgamepuzzle.objects.Ball;
+import com.turpgames.ballgamepuzzle.objects.Spanner;
 import com.turpgames.ballgamepuzzle.objects.Walls;
 import com.turpgames.ballgamepuzzle.objects.balls.PortalBall;
 import com.turpgames.ballgamepuzzle.objects.balls.SubjectBall;
@@ -26,12 +27,13 @@ import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.Timer;
 
 public class GameController implements IGameController {
-	private final static int StateWaitingStart = 0;
-	private final static int StatePlaying = 1;
-	private final static int StateGameOver = 2;
-	private final static int StateReseting = 3;
-	private final static int StateGameEnd = 4;
-	private final static int StateReadingDescription = 5;
+	private final static int StateWaitingTouchDown = 0;
+	private final static int StateWaitingTouchUp = 1;
+	private final static int StatePlaying = 2;
+	private final static int StateGameOver = 3;
+	private final static int StateReseting = 4;
+	private final static int StateGameEnd = 5;
+	private final static int StateReadingDescription = 6;
 
 	private final IScreenView view;
 	private final IWorld world;
@@ -39,6 +41,7 @@ public class GameController implements IGameController {
 	private final Timer restartTimer;
 	private SubjectBall ball;
 	private List<Ball> balls;
+	private Spanner spanner;
 
 	private int state;
 	private int hits;
@@ -46,8 +49,11 @@ public class GameController implements IGameController {
 	private final List<IDrawable> drawables = new ArrayList<IDrawable>();
 
 	public GameController(IScreenView view) {
+		Box2D.gravity = -7.5f;
+
 		this.view = view;
 		this.world = Box2D.createWorld();
+
 		this.resetEffect = new LevelResetEffect(new LevelResetEffect.IListener() {
 			@Override
 			public void onHalfCompleted() {
@@ -65,12 +71,19 @@ public class GameController implements IGameController {
 			}
 		});
 
-//		view.registerDrawable(new IDrawable() {
-//			@Override
-//			public void draw() {
-//				world.drawDebug();
-//			}
-//		}, Game.LAYER_BACKGROUND);
+		view.registerDrawable(new IDrawable() {
+			@Override
+			public void draw() {
+				world.renderLights();
+			}
+		}, Game.LAYER_DIALOG);
+
+		// view.registerDrawable(new IDrawable() {
+		// @Override
+		// public void draw() {
+		// world.drawDebug();
+		// }
+		// }, Game.LAYER_BACKGROUND);
 	}
 
 	@Override
@@ -84,12 +97,12 @@ public class GameController implements IGameController {
 	@Override
 	public void onHitEnemy() {
 		state = StateGameOver;
-		
+
 		stopBallEffects();
-		
+
 		restartTimer.start();
 	}
-	
+
 	public void activate() {
 		Global.currentController = this;
 
@@ -114,16 +127,17 @@ public class GameController implements IGameController {
 		if (level.hasDescription()) {
 			Toolbar.getInstance().activateInfoButton();
 			if (level.isDescriptionRead()) {
-				state = StateWaitingStart;
+				state = StateWaitingTouchDown;
 			} else {
 				openDescriptionDialog();
 			}
 		}
 		else {
-			state = StateWaitingStart;
+			state = StateWaitingTouchDown;
 		}
 
 		world.reset();
+		world.enableLights();
 
 		registerGameDrawable(new Walls(world));
 
@@ -146,12 +160,12 @@ public class GameController implements IGameController {
 		dialog.setListener(new Dialog.IDialogListener() {
 			@Override
 			public void onDialogClosed() {
-				state = StateWaitingStart;
+				state = StateWaitingTouchDown;
 			}
 
 			@Override
 			public void onDialogButtonClicked(String id) {
-				state = StateWaitingStart;
+				state = StateWaitingTouchDown;
 				Global.currentLevel.setDescriptionAsRead();
 			}
 		});
@@ -212,7 +226,7 @@ public class GameController implements IGameController {
 		state = StateReseting;
 
 		stopBallEffects();
-		
+
 		restartTimer.stop();
 		resetEffect.start();
 	}
@@ -233,15 +247,29 @@ public class GameController implements IGameController {
 			ball.startEffect();
 	}
 
-	private boolean onTouchDown(float x, float y) {
-		if (state == StatePlaying) {
-			hit(x, y);
-			hits++;
-		} else if (state == StateGameOver) {
-			resetGame();
-		} else if (state == StateWaitingStart) {
+	private void beginSpanning() {
+		state = StateWaitingTouchUp;
+		spanner = new Spanner(ball.getCenterX(), ball.getCenterY());
+		view.registerDrawable(spanner, Game.LAYER_GAME);
+	}
+
+	private boolean onTouchUp(float x, float y) {
+		if (state == StateWaitingTouchUp) {
+			view.unregisterDrawable(spanner);
+			spanner = null;
 			startPlaying();
+			hit(x, y);
 		}
+		return false;
+	}
+
+	private boolean onTouchDragged(float x, float y) {
+		if (state != StateWaitingTouchUp) {
+			return false;
+		}
+
+		spanner.update(x, y);
+
 		return false;
 	}
 
@@ -258,10 +286,22 @@ public class GameController implements IGameController {
 	private final InputListener listener = new InputListener() {
 		@Override
 		public boolean touchDown(float x, float y, int pointer, int button) {
-			y = Game.screenToViewportY(y);
-			if (y > Game.getVirtualHeight() - Walls.marginY)
-				return false;
-			return onTouchDown(Game.screenToViewportX(x), y);
+			if (state == StateGameOver) {
+				resetGame();
+			} else if (state == StateWaitingTouchDown) {
+				beginSpanning();
+			}
+			return false;
+		}
+
+		@Override
+		public boolean touchUp(float x, float y, int pointer, int button) {
+			return onTouchUp(Game.screenToViewportX(x), Game.screenToViewportY(y));
+		}
+
+		@Override
+		public boolean touchDragged(float x, float y, int pointer) {
+			return onTouchDragged(Game.screenToViewportX(x), Game.screenToViewportY(y));
 		}
 	};
 }

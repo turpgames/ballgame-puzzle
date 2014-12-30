@@ -20,11 +20,14 @@ public class BallGameLogo implements IDrawable {
 	private static class LogoObj extends TexturedGameObject {
 		public LogoObj() {
 			setTexture(Textures.icon);
-			float size = Game.getVirtualWidth() * 0.66f;
-			float d = (Game.getVirtualWidth() - size) * 0.5f;
+			float size = Game.getVirtualHeight() * 0.5f;
+			
 			setWidth(size);
 			setHeight(size);
-			getLocation().set(d, Game.getVirtualHeight() - size - d);
+			
+			getLocation().set(
+					((Game.getVirtualWidth() - size) / 2f),
+					Game.getVirtualHeight() - size);
 		}
 	}
 }

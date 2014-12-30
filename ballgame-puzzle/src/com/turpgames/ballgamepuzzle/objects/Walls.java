@@ -1,5 +1,6 @@
 package com.turpgames.ballgamepuzzle.objects;
 
+import com.turpgames.ballgamepuzzle.components.Toolbar;
 import com.turpgames.box2d.IShape;
 import com.turpgames.box2d.IWorld;
 import com.turpgames.box2d.builders.Box2DBuilders;
@@ -11,12 +12,12 @@ import com.turpgames.framework.v0.util.Rectangle;
 import com.turpgames.framework.v0.util.ShapeDrawer;
 
 public class Walls implements IDrawable {
-	private final static Color wallColor = Color.fromHex("#333");
+	private final static Color wallColor = Color.fromHex("#ffffff07");
 
-	public final static float marginY = 60f;
+	public final static float marginY = 10f;
 	
-	private final static float x = 5f;
-	private final static float y = 5f;
+	private final static float x = 20f;
+	private final static float y = Toolbar.menuButtonSize;
 	private final static float w = Game.getVirtualWidth() - 2 * x;
 	private final static float h = Game.getVirtualHeight() - y - marginY;
 

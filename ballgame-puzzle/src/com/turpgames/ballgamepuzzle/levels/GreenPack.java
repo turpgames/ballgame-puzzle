@@ -60,6 +60,14 @@ class GreenPack {
 				.addLevel(level18())
 				.addLevel(level19())
 				.addLevel(level19())
+				.addLevel(level19())
+				.addLevel(level19())
+				.addLevel(level19())
+				.addLevel(level19())
+				.addLevel(level19())
+				.addLevel(level19())
+				.addLevel(level19())
+				.addLevel(level19())
 				.build();
 
 		for (LevelMeta level : pack.getLevels())
@@ -193,7 +201,7 @@ class GreenPack {
 	private static LevelMeta level10() {
 		LevelMeta.Builder builder = newBuilder(10)
 				.setScoreMeta(6, 3)
-				.addBall(Ball.Subject, Ball.Medium, 100, 150)
+				.addBall(Ball.Subject, Ball.Medium, 100, 200)
 				.addBall(Ball.Target, Ball.Medium, 400, 500);
 
 		PathTripEffectMeta effect = new PathTripEffectMeta();
@@ -441,7 +449,7 @@ class GreenPack {
 		builder.addBall(ball);
 
 		return builder
-				.addBall(Ball.Subject, Ball.Medium, 100, 100)
+				.addBall(Ball.Subject, Ball.Medium, 100, 200)
 				.addBall(Ball.Target, Ball.Medium, 400, 650)
 				.addBall(Ball.Stone, Ball.Medium, 100, 250)
 				.addBall(Ball.Enemy, Ball.Medium, 100, 400)

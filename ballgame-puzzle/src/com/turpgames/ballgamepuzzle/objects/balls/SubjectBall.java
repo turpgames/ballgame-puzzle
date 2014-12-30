@@ -8,8 +8,8 @@ import com.turpgames.box2d.IWorld;
 import com.turpgames.framework.v0.util.Timer;
 
 public class SubjectBall extends Ball {
-	private final static float hitX = 400f;
-	private final static float hitY = 600f;
+	private final static float hitX = 5f;
+	private final static float hitY = 5f;
 
 	private PortalBall sourcePortal;
 	private PortalBall targetPortal;
@@ -18,7 +18,7 @@ public class SubjectBall extends Ball {
 	private final Timer ghostTimer;
 
 	public SubjectBall(BallMeta meta, IWorld world) {
-		super(meta, world, Textures.ball_azure);
+		super(meta, world, Textures.ball_white_dot);
 		
 		ghostTimer = new Timer();
 		ghostTimer.setInterval(3f);
@@ -47,7 +47,7 @@ public class SubjectBall extends Ball {
 	
 	private void unsetGhost() {
 		isGhost = false;
-		ball.getColor().a = 0.9f;
+		ball.getColor().a = 1f;
 		ghostTimer.stop();
 	}
 	
@@ -60,8 +60,8 @@ public class SubjectBall extends Ball {
 	public void hit(float x, float y) {
 		float dx = this.getCenterX() - x;
 		float dy = this.getCenterY() - y;
-		float d = (float) Math.sqrt(dx * dx + dy * dy);
-		body.setVelocity((dx / d) * hitX, (dy / d) * hitY);
+		body.setVelocity(dx * hitX, dy * hitY);
+		body.setAngularVelocity(180f);
 	}
 	
 	public void enterPortal(PortalBall portal) {
