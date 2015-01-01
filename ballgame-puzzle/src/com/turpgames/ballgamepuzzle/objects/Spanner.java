@@ -30,19 +30,18 @@ public class Spanner implements IDrawable {
 		float dx = x - touch.x;
 		float dy = y - touch.y;
 		float len = (float) Math.sqrt(dx * dx + dy * dy);
-
-		float ratio = maxLength / len; 
 		
-		if (ratio < 1) {
-			x *= ratio;
-			y *= ratio;
+		float ratio = maxLength / len;
+		if (ratio < 1f) {
+			dx *= ratio;
+			dy *= ratio;
 		}
 		
 		hitPoint.set(center.x + dx, center.y + dy);
 
 		Vector initialVelocity = Ball.calculateHitVelocity(hitPoint.x, hitPoint.y, center);
 		freeThrow.setInitialVelocity(initialVelocity);
-		
+
 		points.clear();
 		for (float time = 0.1f; time <= 1.05f; time += 0.1f) {
 			points.add(freeThrow.getPointAt(time));
@@ -73,7 +72,7 @@ public class Spanner implements IDrawable {
 			this.startPoint = new Vector(startPoint);
 			this.velocity = new Vector();
 		}
-		
+
 		public void setInitialVelocity(Vector initialVelocity) {
 			velocity.set(initialVelocity);
 		}
