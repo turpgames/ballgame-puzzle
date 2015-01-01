@@ -95,11 +95,8 @@ class GreenPack {
 	private static LevelMeta level3() {
 		return newBuilder(3)
 				.setScoreMeta(6, 3)
-				.addBall(Ball.Subject, Ball.Medium, 100, 650)
-				.addBall(Ball.Target, Ball.Medium, 390, 100)
-				.addBall(Ball.Stone, Ball.Medium, 80, 400)
-				.addBall(Ball.Stone, Ball.Medium, 350, 350)
-				.addBall(Ball.Stone, Ball.Medium, 95, 200)
+				.addBall(Ball.Subject, Ball.Medium, 380, 250)
+				.addBall(Ball.Target, Ball.Medium, 400, 250)
 				.setDescription("Gray balls reflects you in physics rules. To start playing touch screen after clicking Ok button.")
 				.build();
 	}

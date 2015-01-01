@@ -51,9 +51,9 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 
 	public final static int RedGray = 100;
 
-	public final static float Small = 5f;
-	public final static float Medium = 10f;
-	public final static float Large = 15f;
+	public final static float Small = 2.5f;
+	public final static float Medium = 5f;
+	public final static float Large = 10f;
 
 	public final static float ViewportCenterX = Game.getVirtualWidth() / 2f;
 	public final static float ViewportCenterY = Game.getVirtualHeight() / 2f;
@@ -65,6 +65,10 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 	protected final BallObject ball;
 	protected final float radius;
 	protected final IBody body;
+
+	protected final static float hitX = 7.5f;
+	protected final static float hitY = 7.5f;
+	private final static Vector hitVelocity = new Vector();
 
 	protected final List<IBox2DEffect> effects;
 
@@ -83,7 +87,6 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 		this.ball.setHeight(radius * 2);
 		this.ball.getLocation().set(cx - radius, cy - radius);
 		this.ball.getRotation().origin.set(cx, cy);
-		this.ball.getColor().a = 1f;
 
 		this.body = createBodyBuilder().build(world);
 
@@ -126,12 +129,16 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 		return radius;
 	}
 
+	protected Vector getCenter() {
+		return ball.getRotation().origin;
+	}
+
 	public float getCenterX() {
-		return ball.getRotation().origin.x;
+		return getCenter() .x;
 	}
 
 	public float getCenterY() {
-		return ball.getRotation().origin.y;
+		return getCenter() .y;
 	}
 
 	public float getRotation() {
@@ -175,6 +182,15 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 	public void draw() {
 		if (!isHidden)
 			ball.draw();
+	}
+
+	public static Vector calculateHitVelocity(float x, float y, Vector ballCenter) {
+		float dx = ballCenter.x - x;
+		float dy = ballCenter.y - y;
+
+		hitVelocity.set(dx * hitX, dy * hitY);
+
+		return hitVelocity;
 	}
 
 	public static Ball create(BallMeta meta, IWorld world) {

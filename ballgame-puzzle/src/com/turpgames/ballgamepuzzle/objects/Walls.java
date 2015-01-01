@@ -12,11 +12,11 @@ import com.turpgames.framework.v0.util.Rectangle;
 import com.turpgames.framework.v0.util.ShapeDrawer;
 
 public class Walls implements IDrawable {
-	private final static Color wallColor = Color.fromHex("#ffffff07");
+	private final static Color wallColor = Color.fromHex("#ffffff80");
 
-	public final static float marginY = 10f;
+	public final static float marginY = 20f;
 	
-	private final static float x = 20f;
+	private final static float x = 30f;
 	private final static float y = Toolbar.menuButtonSize;
 	private final static float w = Game.getVirtualWidth() - 2 * x;
 	private final static float h = Game.getVirtualHeight() - y - marginY;

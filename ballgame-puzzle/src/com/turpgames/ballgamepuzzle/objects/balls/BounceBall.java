@@ -25,14 +25,14 @@ public class BounceBall extends Ball {
 		return super.createBodyBuilder().setNonElastic();
 	}
 
-	public void bounce(SubjectBall azure) {
-		float dx = azure.getCenterX() - this.getCenterX();
-		float dy = azure.getCenterY() - this.getCenterY();
+	public void bounce(SubjectBall subject) {
+		float dx = subject.getCenterX() - this.getCenterX();
+		float dy = subject.getCenterY() - this.getCenterY();
 		float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-		float f = 1.2f * (this.radius / azure.getRadius());
+		float f = 1.2f * (this.radius / subject.getRadius());
 
-		azure.bounce((dx / d) * f, (dy / d) * f);
+		subject.bounce((dx / d) * f, (dy / d) * f);
 
 		effect.start();
 	}

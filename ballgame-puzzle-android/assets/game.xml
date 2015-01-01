@@ -48,7 +48,7 @@
 
         <param
             key="default-screen"
-            value="test" />
+            value="splash" />
 
         <param
             key="default-skin"
@@ -143,6 +143,7 @@
 
         <screen
             id="test"
+            background-texture="room"
             class="com.turpgames.ballgamepuzzle.view.TestScreen" />
 
         <screen
@@ -352,6 +353,10 @@
             <texture
                 id="room"
                 path="img/room.png" />
+
+            <texture
+                id="cup"
+                path="img/cup.png" />
         </textures>
 
         <sounds>

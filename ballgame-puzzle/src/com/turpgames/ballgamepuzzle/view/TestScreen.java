@@ -1,13 +1,12 @@
 package com.turpgames.ballgamepuzzle.view;
 
-import box2dLight.ConeLight;
 import box2dLight.RayHandler;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -29,6 +28,7 @@ public class TestScreen extends Screen {
 	World world;
 	Box2DDebugRenderer debugRenderer;
 	RayHandler rayHandler;
+	Texture bg;
 
 	@Override
 	public void init() {
@@ -41,6 +41,8 @@ public class TestScreen extends Screen {
 		camera.update();
 		batch = new SpriteBatch();
 
+		bg = new Texture(Gdx.files.internal("img/room.png"));
+
 		world = new World(new Vector2(0, -10), true);
 		debugRenderer = new Box2DDebugRenderer();
 
@@ -48,8 +50,8 @@ public class TestScreen extends Screen {
 		rayHandler.setCombinedMatrix(camera.combined);
 
 		createBodyLetter();
-		
-		new ConeLight(rayHandler, 5000, Color.WHITE, 400, w * 0.5f, h * 0.8f, 270, 60);
+
+//		new ConeLight(rayHandler, 1000, Color.WHITE, 800, w * 0.5f, h * 1f, 270, 90);
 	}
 
 	public void createBodyLetter() {
@@ -75,9 +77,13 @@ public class TestScreen extends Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClearDepthf(GL20.GL_COLOR_BUFFER_BIT);
 
+		batch.begin();
+		batch.draw(bg, 0, 0, 800, 450);
+		batch.end();
+		
 		debugRenderer.render(world, camera.combined);
 		rayHandler.updateAndRender();
-
+		
 		world.step(step, velocityIterations, positionIterations);
 	}
 }

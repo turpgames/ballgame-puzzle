@@ -9,6 +9,7 @@ import com.turpgames.ballgamepuzzle.levels.BallContactFilter;
 import com.turpgames.ballgamepuzzle.levels.BallMeta;
 import com.turpgames.ballgamepuzzle.levels.LevelMeta;
 import com.turpgames.ballgamepuzzle.objects.Ball;
+import com.turpgames.ballgamepuzzle.objects.Cup;
 import com.turpgames.ballgamepuzzle.objects.Spanner;
 import com.turpgames.ballgamepuzzle.objects.Walls;
 import com.turpgames.ballgamepuzzle.objects.balls.PortalBall;
@@ -71,19 +72,25 @@ public class GameController implements IGameController {
 			}
 		});
 
-		view.registerDrawable(new IDrawable() {
-			@Override
-			public void draw() {
-				world.renderLights();
-			}
-		}, Game.LAYER_DIALOG);
+		// view.registerDrawable(new Cup(world), Game.LAYER_GAME);
 
 		// view.registerDrawable(new IDrawable() {
 		// @Override
 		// public void draw() {
-		// world.drawDebug();
+		// world.renderLights();
 		// }
-		// }, Game.LAYER_BACKGROUND);
+		// }, Game.LAYER_DIALOG);
+
+//		view.registerDrawable(new IDrawable() {
+//			@Override
+//			public void draw() {
+//				world.drawDebug();
+//			}
+//		}, Game.LAYER_DIALOG);
+	}
+
+	private void buildCup() {
+		registerGameDrawable(new Cup(world, 550, 40));
 	}
 
 	@Override
@@ -137,11 +144,12 @@ public class GameController implements IGameController {
 		}
 
 		world.reset();
-		world.enableLights();
+		// world.enableLights();
 
 		registerGameDrawable(new Walls(world));
 
 		initBalls();
+		buildCup();
 		world.setContactListener(Global.currentLevel.getContactListener());
 		world.setContactFilter(BallContactFilter.instance);
 		Global.levelPackViewId = Global.currentLevel.getPack().getTitle();
@@ -247,18 +255,19 @@ public class GameController implements IGameController {
 			ball.startEffect();
 	}
 
-	private void beginSpanning() {
+	private void beginSpanning(float x, float y) {
 		state = StateWaitingTouchUp;
-		spanner = new Spanner(ball.getCenterX(), ball.getCenterY());
+		spanner = new Spanner(ball.getCenterX(), ball.getCenterY(), x, y);
 		view.registerDrawable(spanner, Game.LAYER_GAME);
 	}
 
 	private boolean onTouchUp(float x, float y) {
 		if (state == StateWaitingTouchUp) {
+			startPlaying();
+			hit(spanner.getHitPoint().x, spanner.getHitPoint().y);
+			
 			view.unregisterDrawable(spanner);
 			spanner = null;
-			startPlaying();
-			hit(x, y);
 		}
 		return false;
 	}
@@ -279,8 +288,8 @@ public class GameController implements IGameController {
 	}
 
 	private void registerGameDrawable(IDrawable drawable) {
-		drawables.add(drawable);
-		view.registerDrawable(drawable, Game.LAYER_GAME);
+		 drawables.add(drawable);
+		 view.registerDrawable(drawable, Game.LAYER_GAME);
 	}
 
 	private final InputListener listener = new InputListener() {
@@ -289,7 +298,7 @@ public class GameController implements IGameController {
 			if (state == StateGameOver) {
 				resetGame();
 			} else if (state == StateWaitingTouchDown) {
-				beginSpanning();
+				beginSpanning(Game.screenToViewportX(x), Game.screenToViewportY(y));
 			}
 			return false;
 		}

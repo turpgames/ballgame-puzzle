@@ -39,6 +39,11 @@ public class BallBodyBuilder {
 		return this;
 	}
 
+	public BallBodyBuilder setAsBullet() {
+		bodyBuilder.setBullet(true);
+		return this;
+	}
+
 	public BallBodyBuilder setNonElastic() {
 		fixtureBuilder.setElasticity(0);
 		return this;
