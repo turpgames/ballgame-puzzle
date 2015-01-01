@@ -157,7 +157,6 @@
 
         <screen
             id="game"
-            background-texture="room"
             class="com.turpgames.ballgamepuzzle.view.GameScreen" />
 
         <screen

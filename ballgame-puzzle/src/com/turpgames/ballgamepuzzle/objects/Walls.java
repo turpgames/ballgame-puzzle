@@ -1,18 +1,21 @@
 package com.turpgames.ballgamepuzzle.objects;
 
 import com.turpgames.ballgamepuzzle.components.Toolbar;
+import com.turpgames.ballgamepuzzle.utils.Textures;
 import com.turpgames.box2d.IShape;
 import com.turpgames.box2d.IWorld;
 import com.turpgames.box2d.builders.Box2DBuilders;
 import com.turpgames.framework.v0.IDrawable;
+import com.turpgames.framework.v0.IDrawingInfo;
 import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.Rectangle;
 import com.turpgames.framework.v0.util.ShapeDrawer;
+import com.turpgames.framework.v0.util.TextureDrawer;
 
 public class Walls implements IDrawable {
-	private final static Color wallColor = Color.fromHex("#ffffff80");
+	private final static Color wallColor = Color.fromHex("#ffffff00");
 
 	public final static float marginY = 20f;
 	
@@ -62,6 +65,7 @@ public class Walls implements IDrawable {
 	private static class WallsObject extends GameObject {
 		@Override
 		public void draw() {
+			TextureDrawer.draw(Textures.room, IDrawingInfo.viewport);
 			ShapeDrawer.drawRect(this, false);
 		}
 	}

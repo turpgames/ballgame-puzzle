@@ -71,9 +71,7 @@ public class GameController implements IGameController {
 				resetGame();
 			}
 		});
-
-		// view.registerDrawable(new Cup(world), Game.LAYER_GAME);
-
+		
 		// view.registerDrawable(new IDrawable() {
 		// @Override
 		// public void draw() {
@@ -87,10 +85,6 @@ public class GameController implements IGameController {
 //				world.drawDebug();
 //			}
 //		}, Game.LAYER_DIALOG);
-	}
-
-	private void buildCup() {
-		registerGameDrawable(new Cup(world, 550, 40));
 	}
 
 	@Override
@@ -130,6 +124,17 @@ public class GameController implements IGameController {
 
 	private void initGame() {
 		LevelMeta level = Global.currentLevel;
+		
+		world.reset();
+		// world.enableLights();
+
+		registerGameDrawable(new Walls(world));
+		registerGameDrawable(new Cup(world, 150, 40));
+		initBalls();
+		
+		world.setContactListener(level.getContactListener());
+		world.setContactFilter(BallContactFilter.instance);
+		Global.levelPackViewId = level.getPack().getTitle();
 
 		if (level.hasDescription()) {
 			Toolbar.getInstance().activateInfoButton();
@@ -143,16 +148,6 @@ public class GameController implements IGameController {
 			state = StateWaitingTouchDown;
 		}
 
-		world.reset();
-		// world.enableLights();
-
-		registerGameDrawable(new Walls(world));
-
-		initBalls();
-		buildCup();
-		world.setContactListener(Global.currentLevel.getContactListener());
-		world.setContactFilter(BallContactFilter.instance);
-		Global.levelPackViewId = Global.currentLevel.getPack().getTitle();
 	}
 
 	public void openDescriptionDialog() {

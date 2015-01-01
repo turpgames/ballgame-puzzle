@@ -41,4 +41,5 @@ public class Textures
 	public final static ITexture turplogo = Game.getResourceManager().getTexture("turp_logo");
 	public final static ITexture bg_dark = Game.getResourceManager().getTexture("bg_dark");
 	public final static ITexture cup = Game.getResourceManager().getTexture("cup");
+	public final static ITexture room = Game.getResourceManager().getTexture("room");
 }
