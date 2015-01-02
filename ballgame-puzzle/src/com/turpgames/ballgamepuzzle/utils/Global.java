@@ -7,5 +7,5 @@ public class Global {
 	public static String levelPackViewId;
 	public static LevelMeta currentLevel;
 	public static IGameController currentController;
-	public static int hitCount;
+	public static int stars;
 }

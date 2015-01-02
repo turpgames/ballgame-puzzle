@@ -4,4 +4,6 @@ public interface IGameController {
 	void onHitTarget();
 	
 	void onHitEnemy();
+	
+	void onHitStar();
 }

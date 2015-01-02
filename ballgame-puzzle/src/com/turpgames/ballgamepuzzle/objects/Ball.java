@@ -24,6 +24,7 @@ import com.turpgames.ballgamepuzzle.objects.balls.HoleBall;
 import com.turpgames.ballgamepuzzle.objects.balls.PortalBall;
 import com.turpgames.ballgamepuzzle.objects.balls.PurpleBall;
 import com.turpgames.ballgamepuzzle.objects.balls.RedGrayBall;
+import com.turpgames.ballgamepuzzle.objects.balls.Star;
 import com.turpgames.ballgamepuzzle.objects.balls.StoneBall;
 import com.turpgames.ballgamepuzzle.objects.balls.SubjectBall;
 import com.turpgames.ballgamepuzzle.objects.balls.TargetBall;
@@ -48,6 +49,7 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 	public final static int Portal = 8;
 	public final static int BlackHole = 9;
 	public final static int WhiteHole = 10;
+	public final static int Star = 11;
 
 	public final static int RedGray = 100;
 
@@ -134,11 +136,11 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 	}
 
 	public float getCenterX() {
-		return getCenter() .x;
+		return getCenter().x;
 	}
 
 	public float getCenterY() {
-		return getCenter() .y;
+		return getCenter().y;
 	}
 
 	public float getRotation() {
@@ -172,7 +174,7 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 			effect.start();
 		}
 	}
-	
+
 	public void destroy() {
 		body.getWorld().destroyBody(body);
 		isHidden = true;
@@ -211,8 +213,10 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 		if (meta.getType() == Ball.RedGray)
 			return new RedGrayBall(meta, world);
 		if (meta.getType() == Ball.BlackHole ||
-			meta.getType() == Ball.WhiteHole)
+				meta.getType() == Ball.WhiteHole)
 			return HoleBall.createHoleBall(meta, world);
+		if (meta.getType() == Ball.Star)
+			return new Star(meta, world);
 		throw new UnsupportedOperationException("Unknown ball type: " + meta.getType());
 	}
 

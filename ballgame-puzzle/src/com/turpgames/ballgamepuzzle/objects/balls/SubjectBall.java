@@ -31,7 +31,7 @@ public class SubjectBall extends Ball {
 
 	@Override
 	protected BallBodyBuilder createBodyBuilder() {
-		return super.createBodyBuilder().setAsBullet();
+		return super.createBodyBuilder();
 	}
 
 	@Override

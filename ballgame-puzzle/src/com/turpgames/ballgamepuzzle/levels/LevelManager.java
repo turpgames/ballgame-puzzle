@@ -29,25 +29,13 @@ public class LevelManager {
 	} 
 	
 	public static int updateLevelState() {
-		int hits = Global.hitCount;
+		int stars = Global.stars;
 		LevelMeta level = Global.currentLevel;
 
-		int newState;
+		if (level.getState() < stars)
+			level.setState(stars);
 
-		if (hits <= level.getStar3()) {
-			newState = LevelMeta.Star3;
-		}
-		else if (hits <= level.getStar2()) {
-			newState = LevelMeta.Star2;
-		}
-		else {
-			newState = LevelMeta.Star1;
-		}
-
-		if (level.getState() < newState)
-			level.setState(newState);
-
-		return newState;
+		return stars;
 	}
 
 	public static LevelMeta unlockNextLevel() {

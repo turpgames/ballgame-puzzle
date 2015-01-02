@@ -7,6 +7,7 @@ import com.turpgames.ballgamepuzzle.collisionhandlers.HoleHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.PortalHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.PurpleHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.RedGrayHandler;
+import com.turpgames.ballgamepuzzle.collisionhandlers.StarHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.StoneHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.TargetHandler;
 import com.turpgames.ballgamepuzzle.effects.meta.BreathEffectMeta;
@@ -79,6 +80,9 @@ class GreenPack {
 				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, Ball.ViewportCenterX, Ball.ViewportCenterY * 1.5f)
 				.addBall(Ball.Target, Ball.Medium, Ball.ViewportCenterX - 5f, Ball.ViewportCenterY * 0.5f)
+				.addBall(Ball.Star, Ball.Large, 400, 200)
+				.addBall(Ball.Star, Ball.Large, 150, 300)
+				.addBall(Ball.Star, Ball.Large, 600, 200)
 				.setDescription("Goal of the game is making blue ball to touch green ball. To start playing touch screen after clicking Ok button.")
 				.build();
 	}
@@ -87,7 +91,10 @@ class GreenPack {
 		return newBuilder(2)
 				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100f, Ball.ViewportCenterY * 1.20f)
-				.addBall(Ball.Target, Ball.Medium, 350f, Ball.ViewportCenterY * 1.60f)
+				.addBall(Ball.Target, Ball.Medium, 217f, 50)
+				.addBall(Ball.Star, Ball.Large, 400, 100)
+				.addBall(Ball.Star, Ball.Large, 150, 300)
+				.addBall(Ball.Star, Ball.Large, 600, 200)
 				.setDescription("You can control blue ball by tapping around. To start playing touch screen after clicking Ok button.")
 				.build();
 	}
@@ -476,6 +483,7 @@ class GreenPack {
 						new BallCollisionHandlerChain(
 								new StoneHandler(),
 								new TargetHandler(),
+								new StarHandler(),
 								new BounceHandler(),
 								new PortalHandler(),
 								new EnemyHandler(),

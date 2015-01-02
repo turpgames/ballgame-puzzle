@@ -9,6 +9,7 @@ import com.turpgames.ballgamepuzzle.levels.BallContactFilter;
 import com.turpgames.ballgamepuzzle.levels.BallMeta;
 import com.turpgames.ballgamepuzzle.levels.LevelMeta;
 import com.turpgames.ballgamepuzzle.objects.Ball;
+import com.turpgames.ballgamepuzzle.objects.Block;
 import com.turpgames.ballgamepuzzle.objects.Cup;
 import com.turpgames.ballgamepuzzle.objects.Spanner;
 import com.turpgames.ballgamepuzzle.objects.Walls;
@@ -45,7 +46,7 @@ public class GameController implements IGameController {
 	private Spanner spanner;
 
 	private int state;
-	private int hits;
+	private int stars;
 
 	private final List<IDrawable> drawables = new ArrayList<IDrawable>();
 
@@ -91,7 +92,7 @@ public class GameController implements IGameController {
 	public void onHitTarget() {
 		state = StateGameOver;
 
-		Global.hitCount = hits;
+		Global.stars = stars;
 		ScreenManager.instance.switchTo(R.screens.result, false);
 	}
 
@@ -102,6 +103,11 @@ public class GameController implements IGameController {
 		stopBallEffects();
 
 		restartTimer.start();
+	}
+	
+	@Override
+	public void onHitStar() {
+		stars++;
 	}
 
 	public void activate() {
@@ -129,7 +135,8 @@ public class GameController implements IGameController {
 		// world.enableLights();
 
 		registerGameDrawable(new Walls(world));
-		registerGameDrawable(new Cup(world, 150, 40));
+		registerGameDrawable(new Cup(world, 200, 40));
+		registerGameDrawable(new Block(world, 100, 150, 300, 10));
 		initBalls();
 		
 		world.setContactListener(level.getContactListener());
@@ -209,7 +216,7 @@ public class GameController implements IGameController {
 
 	private void startPlaying() {
 		state = StatePlaying;
-		hits = 0;
+		stars = 0;
 		startBallEffects();
 	}
 
