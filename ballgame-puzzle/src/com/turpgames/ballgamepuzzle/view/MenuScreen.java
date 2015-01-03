@@ -2,6 +2,9 @@ package com.turpgames.ballgamepuzzle.view;
 
 import com.turpgames.ballgamepuzzle.components.BallGameLogo;
 import com.turpgames.ballgamepuzzle.components.Toolbar;
+import com.turpgames.ballgamepuzzle.levels.LevelManager;
+import com.turpgames.ballgamepuzzle.levels.PackFactory;
+import com.turpgames.ballgamepuzzle.utils.Global;
 import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.ballgamepuzzle.utils.StatActions;
 import com.turpgames.ballgamepuzzle.utils.Textures;
@@ -18,11 +21,12 @@ public class MenuScreen extends Screen {
 
 	private Button2 playButton;
 	private Button2 aboutButton;
+	private Button2 designerButton;
 
 	@Override
 	public void init() {
 		super.init();
-
+		
 		playButton = initButton("Play", (Game.getVirtualWidth() - buttonWidth) * 0.5f, 180f, new IButtonListener() {
 			@Override
 			public void onButtonTapped() {
@@ -36,20 +40,34 @@ public class MenuScreen extends Screen {
 				ScreenManager.instance.switchTo(R.screens.about, false);
 			}
 		});
+
+		designerButton = initButton("Designer", (Game.getVirtualWidth() - buttonWidth) * 0.5f, 0f, new IButtonListener() {
+			@Override
+			public void onButtonTapped() {
+				Global.designerMode = true;
+				LevelManager.startLevel(PackFactory.getDesignerLevel());
+			}
+		});
 		
 		registerDrawable(new BallGameLogo(), Game.LAYER_GAME);
 	}
 
 	@Override
 	protected void onAfterActivate() {
+		Global.designerMode = false;
+
 		playButton.activate();
 		aboutButton.activate();
+		if (Game.isDesktop() && Game.isDebug())
+			designerButton.activate();
 	}
 
 	@Override
 	protected boolean onBeforeDeactivate() {
 		playButton.deactivate();
 		aboutButton.deactivate();
+		if (Game.isDesktop() && Game.isDebug())
+			designerButton.deactivate();
 		Toolbar.getInstance().deactivate();
 		return super.onBeforeDeactivate();
 	}

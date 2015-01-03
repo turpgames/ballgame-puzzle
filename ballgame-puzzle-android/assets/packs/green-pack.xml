@@ -1,0 +1,37 @@
+<pack title="Green Pack" color="#82da89">
+	<level designer="true" id="level1">
+	    <ball x="100" y="200" type="Subject" size="m"></ball>
+	    <ball x="700" y="200" type="Target" size="m"></ball>
+	    <ball x="250" y="275" type="Star" size="l"></ball>
+        <ball x="400" y="300" type="Star" size="l"></ball>
+        <ball x="550" y="275" type="Star" size="l"></ball>
+	</level>
+  <level id="level2">
+      <ball x="100" y="200" type="Subject" size="m"></ball>
+      <ball x="700" y="175" type="Target" size="m"></ball>
+      <ball x="250" y="350" type="Star" size="l"></ball>
+      <ball x="400" y="150" type="Star" size="l"></ball>
+      <ball x="550" y="250" type="Star" size="l"></ball>
+  </level>
+  <level id="level3">
+      <ball x="100" y="250" type="Subject" size="m"></ball>
+      <ball x="250" y="50" type="Target" size="m"></ball>
+      <ball x="400" y="125" type="Star" size="l"></ball>
+      <ball x="200" y="300" type="Star" size="l"></ball>
+      <ball x="600" y="200" type="Star" size="l"></ball>
+  </level>
+  <level id="level4">
+      <ball x="200" y="225" type="Subject" size="m"></ball>
+      <ball x="400" y="225" type="Target" size="m"></ball>
+      <ball x="550" y="400" type="Star" size="l"></ball>
+      <ball x="750" y="225" type="Star" size="l"></ball>
+      <ball x="550" y="50" type="Star" size="l"></ball>
+  </level>
+  <level id="level5">
+      <ball x="400" y="225" type="Subject" size="m"></ball>
+      <ball x="200" y="225" type="Target" size="m"></ball>
+      <ball x="550" y="400" type="Star" size="l"></ball>
+      <ball x="750" y="225" type="Star" size="l"></ball>
+      <ball x="550" y="50" type="Star" size="l"></ball>
+  </level>
+</pack>

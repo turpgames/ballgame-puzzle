@@ -17,9 +17,7 @@ public class LevelManager {
 	private static void initPacks() {
 		List<LevelPack> packList = new ArrayList<LevelPack>();
 
-		packList.add(GreenPack.getPack());
-		packList.add(BluePack.getPack());
-		packList.add(OrangePack.getPack());
+		packList.add(PackFactory.greenPack());
 
 		packs = packList.toArray(new LevelPack[0]);
 	}

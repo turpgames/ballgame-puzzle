@@ -11,6 +11,7 @@ import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.Rectangle;
+import com.turpgames.framework.v0.util.ShapeDrawer;
 import com.turpgames.framework.v0.util.TextureDrawer;
 
 public class Walls implements IBallGameObject, IDrawable {
@@ -26,8 +27,15 @@ public class Walls implements IBallGameObject, IDrawable {
 	private final static Rectangle rect = new Rectangle(x, y, w, h);
 
 	private WallsObject walls;
+	private boolean drawWalls;
 
 	public Walls(IWorld world) {
+		this(world, false);
+	}
+	
+	public Walls(IWorld world, boolean drawWalls) {
+		this.drawWalls = drawWalls;
+		
 		walls = new WallsObject();
 		walls.getLocation().set(x, y);
 		walls.setWidth(w);
@@ -61,11 +69,12 @@ public class Walls implements IBallGameObject, IDrawable {
 		return rect;
 	}
 
-	private static class WallsObject extends GameObject {
+	private class WallsObject extends GameObject {
 		@Override
 		public void draw() {
 			TextureDrawer.draw(Textures.room, IDrawingInfo.viewport);
-//			ShapeDrawer.drawRect(this, false);
+			if (drawWalls)
+				ShapeDrawer.drawRect(this, false);
 		}
 	}
 }

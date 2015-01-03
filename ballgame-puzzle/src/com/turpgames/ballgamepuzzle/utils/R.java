@@ -21,5 +21,6 @@ public final class R {
 		public static final String menu = "menu";
 		public static final String levels = "levels";
 		public static final String result = "result";
+		public static final String designer = "designer";
 	}
 }

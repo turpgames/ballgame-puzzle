@@ -10,6 +10,7 @@ import com.turpgames.ballgamepuzzle.levels.BallContactFilter;
 import com.turpgames.ballgamepuzzle.levels.BallMeta;
 import com.turpgames.ballgamepuzzle.levels.BlockMeta;
 import com.turpgames.ballgamepuzzle.levels.LevelMeta;
+import com.turpgames.ballgamepuzzle.levels.PackFactory;
 import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.ballgamepuzzle.objects.Block;
 import com.turpgames.ballgamepuzzle.objects.Spanner;
@@ -93,10 +94,14 @@ public class GameController implements IGameMenuListener, IGameController {
 
 	@Override
 	public void onHitTarget() {
-		state = StateGameOver;
+		if (Global.designerMode) {
+			onHitEnemy();
+		} else {
+			state = StateGameOver;
 
-		Global.stars = stars;
-		ScreenManager.instance.switchTo(R.screens.result, false);
+			Global.stars = stars;
+			ScreenManager.instance.switchTo(R.screens.result, false);
+		}
 	}
 
 	@Override
@@ -144,16 +149,20 @@ public class GameController implements IGameMenuListener, IGameController {
 	}
 
 	private void initGame() {
+		if (Global.designerMode) {
+			Global.currentLevel = PackFactory.getDesignerLevel();
+		}
+		
 		LevelMeta level = Global.currentLevel;
 
 		world.reset();
 		// world.enableLights();
 
 		registerGameDrawable(new Walls(world));
-//		registerGameDrawable(new Cup(world, 200, 40));
-//		registerGameDrawable(new Block(world, 100, 150, 300, 10));
+		// registerGameDrawable(new Cup(world, 200, 40));
+		// registerGameDrawable(new Block(world, 100, 150, 300, 10));
 		initBalls();
-		
+
 		for (BlockMeta meta : level.getBlocks()) {
 			registerGameDrawable(new Block(world, meta));
 		}
