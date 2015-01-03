@@ -19,6 +19,7 @@ public class Walls implements IBallGameObject, IDrawable {
 
 	public final static float marginY = 20f;
 	
+	// (30,40) 740x390
 	private final static float x = 30f;
 	private final static float y = Toolbar.menuButtonSize;
 	private final static float w = Game.getVirtualWidth() - 2 * x;

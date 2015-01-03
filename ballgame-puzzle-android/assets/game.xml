@@ -187,6 +187,14 @@
             frame-width="74"
             loop="true"
             texture="loading" />
+
+        <animation
+            id="coin"
+            frame-duration="0.040"
+            frame-height="64"
+            frame-width="64"
+            loop="true"
+            texture="coin" />
     </animations>
 
     <resources>
@@ -360,6 +368,10 @@
             <texture
                 id="block"
                 path="img/block.png" />
+
+            <texture
+                id="coin"
+                path="img/coin.png" />
         </textures>
 
         <sounds>
@@ -391,6 +403,14 @@
             <sound
                 id="orange"
                 path="audio/orange.mp3" />
+
+            <sound
+                id="coin"
+                path="audio/coin.wav" />
+
+            <sound
+                id="target"
+                path="audio/target.wav" />
         </sounds>
 
         <musics>

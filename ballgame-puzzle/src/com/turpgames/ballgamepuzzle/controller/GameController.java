@@ -26,6 +26,7 @@ import com.turpgames.box2d.IWorld;
 import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.impl.InputListener;
 import com.turpgames.framework.v0.impl.ScreenManager;
+import com.turpgames.framework.v0.impl.Text;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.Timer;
 
@@ -43,6 +44,8 @@ public class GameController implements IGameMenuListener, IGameController {
 	private final GameMenu menu;
 	private final LevelResetEffect resetEffect;
 	private final Timer restartTimer;
+	private final Text pointText;
+	private final Text hitPointText;
 	private SubjectBall ball;
 	private List<Ball> balls;
 	private Spanner spanner;
@@ -77,6 +80,20 @@ public class GameController implements IGameMenuListener, IGameController {
 			}
 		});
 
+		this.pointText = new Text();
+		this.pointText.setLocation(400f, 10f);
+		this.pointText.setFontScale(0.33f);
+		this.pointText.setWidth(100f);
+		this.pointText.setHeight(30f);
+		this.pointText.setAlignment(Text.HAlignCenter, Text.VAlignCenter);
+		
+		this.hitPointText = new Text();
+		this.hitPointText.setLocation(200f, 10f);
+		this.hitPointText.setFontScale(0.33f);
+		this.hitPointText.setWidth(100f);
+		this.hitPointText.setHeight(30f);
+		this.hitPointText.setAlignment(Text.HAlignCenter, Text.VAlignCenter);
+
 		// view.registerDrawable(new IDrawable() {
 		// @Override
 		// public void draw() {
@@ -84,12 +101,12 @@ public class GameController implements IGameMenuListener, IGameController {
 		// }
 		// }, Game.LAYER_DIALOG);
 
-		// view.registerDrawable(new IDrawable() {
-		// @Override
-		// public void draw() {
-		// world.drawDebug();
-		// }
-		// }, Game.LAYER_DIALOG);
+//		 view.registerDrawable(new IDrawable() {
+//		 @Override
+//		 public void draw() {
+//		 world.drawDebug();
+//		 }
+//		 }, Game.LAYER_DIALOG);
 	}
 
 	@Override
@@ -152,7 +169,7 @@ public class GameController implements IGameMenuListener, IGameController {
 		if (Global.designerMode) {
 			Global.currentLevel = PackFactory.getDesignerLevel();
 		}
-		
+
 		LevelMeta level = Global.currentLevel;
 
 		world.reset();
@@ -170,7 +187,12 @@ public class GameController implements IGameMenuListener, IGameController {
 		world.setContactListener(level.getContactListener());
 		world.setContactFilter(BallContactFilter.instance);
 		Global.levelPackViewId = level.getPack().getTitle();
-
+		
+		if (Global.designerMode) {
+			registerGameDrawable(pointText);
+			registerGameDrawable(hitPointText);
+		}
+		
 		state = StateWaitingTouchDown;
 	}
 
@@ -259,7 +281,9 @@ public class GameController implements IGameMenuListener, IGameController {
 		if (state == StateWaitingTouchUp) {
 			startPlaying();
 			hit(spanner.getHitPoint().x, spanner.getHitPoint().y);
-
+			
+			hitPointText.setText("(" + spanner.getHitPoint().x + ", " + spanner.getHitPoint().y + ")");
+			
 			view.unregisterDrawable(spanner);
 			spanner = null;
 		}
@@ -272,6 +296,7 @@ public class GameController implements IGameMenuListener, IGameController {
 		}
 
 		spanner.update(x, y);
+		hitPointText.setText("(" + spanner.getHitPoint().x + ", " + spanner.getHitPoint().y + ")");
 
 		return false;
 	}
@@ -305,6 +330,13 @@ public class GameController implements IGameMenuListener, IGameController {
 		@Override
 		public boolean touchDragged(float x, float y, int pointer) {
 			return onTouchDragged(Game.screenToViewportX(x), Game.screenToViewportY(y));
+		}
+
+		public boolean tap(float x, float y, int count, int button) {
+			if (Global.designerMode) {
+				pointText.setText("(" + Game.screenToViewportX(x) + ", " + Game.screenToViewportY(y) + ")");
+			}
+			return false;
 		}
 	};
 }

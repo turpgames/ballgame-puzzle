@@ -2,6 +2,7 @@ package com.turpgames.ballgamepuzzle.collisionhandlers;
 
 import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.ballgamepuzzle.utils.Global;
+import com.turpgames.ballgamepuzzle.utils.Sounds;
 
 public class StarHandler extends BallCollisionHandler {
 	public StarHandler() {
@@ -15,6 +16,7 @@ public class StarHandler extends BallCollisionHandler {
 		
 		b1.destroy();
 		
+		Sounds.coin.play();
 		Global.currentController.onHitStar();
 		
 		return true;

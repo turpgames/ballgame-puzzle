@@ -90,7 +90,7 @@ public class PackFactory {
 		level.setDesignerLevel(Util.Strings.parseBoolean(getAttr(levelNode, "designer"), false));
 		level.setIndex(index);
 		level.setPack(pack);
-		level.setId(getAttr(levelNode, "id"));
+		level.setId(pack.getTitle() + index);
 		level.setBalls(createBalls(getNodes(levelNode, "ball")));
 		level.setBlocks(createBlocks(getNodes(levelNode, "block")));
 

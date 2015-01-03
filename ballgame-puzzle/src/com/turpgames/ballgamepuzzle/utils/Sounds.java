@@ -10,5 +10,6 @@ public class Sounds
 	public static final ISound portal = Game.getResourceManager().getSound("orange");
 	public static final ISound bounce = Game.getResourceManager().getSound("yellow");
 	public static final ISound stone = Game.getResourceManager().getSound("gray");
-	public static final ISound target = Game.getResourceManager().getSound("green");
+	public static final ISound target = Game.getResourceManager().getSound("target");
+	public static final ISound coin = Game.getResourceManager().getSound("coin");
 }
