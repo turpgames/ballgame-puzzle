@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.turpgames.ballgamepuzzle.effects.BreathEffect;
 import com.turpgames.ballgamepuzzle.effects.CircularTripEffect;
-import com.turpgames.ballgamepuzzle.effects.ExistanceEffect;
+import com.turpgames.ballgamepuzzle.effects.ShowHideEffect;
 import com.turpgames.ballgamepuzzle.effects.HoleEffect;
 import com.turpgames.ballgamepuzzle.effects.IBox2DEffect;
 import com.turpgames.ballgamepuzzle.effects.PathTripEffect;
@@ -38,7 +38,7 @@ import com.turpgames.framework.v0.ITexture;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.Vector;
 
-public abstract class Ball extends Box2DObject implements IDrawable {
+public abstract class Ball extends Box2DObject implements IBallGameObject, IDrawable {
 	public final static int Blue = 1;
 	public final static int Target = 2;
 	public final static int Enemy = 3;
@@ -270,7 +270,7 @@ public abstract class Ball extends Box2DObject implements IDrawable {
 		if (effectMeta instanceof ExistanceEffectMeta) {
 			ExistanceEffectMeta meta = (ExistanceEffectMeta) effectMeta;
 
-			ExistanceEffect effect = new ExistanceEffect(this);
+			ShowHideEffect effect = new ShowHideEffect(this);
 
 			effect.setDuration(meta.getTotalDuration());
 			effect.setDurations(meta.getDurations());

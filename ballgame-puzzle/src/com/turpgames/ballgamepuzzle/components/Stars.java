@@ -25,7 +25,7 @@ public class Stars implements IDrawable {
 		this.starCount = starCount;
 
 		updateStarSizes(resultStarSize);
-		updateStarLocations(starCount);
+		updateStarLocations();
 		updateStarOrigins();
 		deactivateStars();
 	}
@@ -34,10 +34,10 @@ public class Stars implements IDrawable {
 		this.starCount = starCount;
 
 		updateStarSizes(w / 2 - 2f);
-		updateStarLocations(starCount, x, y, w);
+		updateStarLocations(x, y, w);
 		updateStarOrigins();
 		deactivateStars();
-		activateStars(starCount);
+		activateStars();
 	}
 
 	private void updateStarSizes(float size) {
@@ -49,7 +49,7 @@ public class Stars implements IDrawable {
 		star3.setHeight(size);
 	}
 
-	private void updateStarLocations(int starCount) {
+	private void updateStarLocations() {
 		if (starCount == 1) {
 			star1.getLocation().set(
 					(Game.getVirtualWidth() - star1.getWidth()) / 2,
@@ -71,7 +71,7 @@ public class Stars implements IDrawable {
 		}
 	}
 
-	private void updateStarLocations(int starCount, float x, float y, float w) {
+	private void updateStarLocations(float x, float y, float w) {
 		if (starCount == 1) {
 			star1.getLocation().set(
 					x + (w - star1.getWidth()) / 2,
@@ -111,18 +111,18 @@ public class Stars implements IDrawable {
 		star3.deactivate();
 	}
 
-	private void activateStars(int starCount) {
-		star1.activate();
-		if (starCount == 2) {
+	private void activateStars() {
+		if (starCount > 0)
+			star1.activate();
+		if (starCount > 1)
 			star2.activate();
-		}
-		else if (starCount == 3) {
-			star2.activate();
+		if (starCount > 2)
 			star3.activate();
-		}
 	}
 
 	public void animateResult() {
+		if (starCount == 0)
+			return;
 		star1.activate();
 		star1.animate();
 	}

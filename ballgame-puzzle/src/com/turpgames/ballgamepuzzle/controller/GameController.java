@@ -3,14 +3,15 @@ package com.turpgames.ballgamepuzzle.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.turpgames.ballgamepuzzle.components.GameMenu;
+import com.turpgames.ballgamepuzzle.components.IGameMenuListener;
 import com.turpgames.ballgamepuzzle.components.LevelResetEffect;
-import com.turpgames.ballgamepuzzle.components.Toolbar;
 import com.turpgames.ballgamepuzzle.levels.BallContactFilter;
 import com.turpgames.ballgamepuzzle.levels.BallMeta;
+import com.turpgames.ballgamepuzzle.levels.BlockMeta;
 import com.turpgames.ballgamepuzzle.levels.LevelMeta;
 import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.ballgamepuzzle.objects.Block;
-import com.turpgames.ballgamepuzzle.objects.Cup;
 import com.turpgames.ballgamepuzzle.objects.Spanner;
 import com.turpgames.ballgamepuzzle.objects.Walls;
 import com.turpgames.ballgamepuzzle.objects.balls.PortalBall;
@@ -22,23 +23,23 @@ import com.turpgames.ballgamepuzzle.view.IScreenView;
 import com.turpgames.box2d.Box2D;
 import com.turpgames.box2d.IWorld;
 import com.turpgames.framework.v0.IDrawable;
-import com.turpgames.framework.v0.forms.xml.Dialog;
 import com.turpgames.framework.v0.impl.InputListener;
 import com.turpgames.framework.v0.impl.ScreenManager;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.Timer;
 
-public class GameController implements IGameController {
+public class GameController implements IGameMenuListener, IGameController {
 	private final static int StateWaitingTouchDown = 0;
 	private final static int StateWaitingTouchUp = 1;
 	private final static int StatePlaying = 2;
 	private final static int StateGameOver = 3;
 	private final static int StateReseting = 4;
 	private final static int StateGameEnd = 5;
-	private final static int StateReadingDescription = 6;
+	private final static int StatePaused = 6;
 
 	private final IScreenView view;
 	private final IWorld world;
+	private final GameMenu menu;
 	private final LevelResetEffect resetEffect;
 	private final Timer restartTimer;
 	private SubjectBall ball;
@@ -46,6 +47,7 @@ public class GameController implements IGameController {
 	private Spanner spanner;
 
 	private int state;
+	private int prevState;
 	private int stars;
 
 	private final List<IDrawable> drawables = new ArrayList<IDrawable>();
@@ -54,6 +56,7 @@ public class GameController implements IGameController {
 		Box2D.gravity = -7.5f;
 
 		this.view = view;
+		this.menu = new GameMenu(this);
 		this.world = Box2D.createWorld();
 
 		this.resetEffect = new LevelResetEffect(new LevelResetEffect.IListener() {
@@ -72,7 +75,7 @@ public class GameController implements IGameController {
 				resetGame();
 			}
 		});
-		
+
 		// view.registerDrawable(new IDrawable() {
 		// @Override
 		// public void draw() {
@@ -80,12 +83,12 @@ public class GameController implements IGameController {
 		// }
 		// }, Game.LAYER_DIALOG);
 
-//		view.registerDrawable(new IDrawable() {
-//			@Override
-//			public void draw() {
-//				world.drawDebug();
-//			}
-//		}, Game.LAYER_DIALOG);
+		// view.registerDrawable(new IDrawable() {
+		// @Override
+		// public void draw() {
+		// world.drawDebug();
+		// }
+		// }, Game.LAYER_DIALOG);
 	}
 
 	@Override
@@ -104,10 +107,21 @@ public class GameController implements IGameController {
 
 		restartTimer.start();
 	}
-	
+
 	@Override
 	public void onHitStar() {
 		stars++;
+	}
+
+	public void showMenu() {
+		menu.show();
+		prevState = state;
+		state = StatePaused;
+	}
+
+	@Override
+	public void onMenuHide() {
+		state = prevState;
 	}
 
 	public void activate() {
@@ -124,62 +138,31 @@ public class GameController implements IGameController {
 		endGame();
 		resetEffect.stop();
 		restartTimer.stop();
+		menu.deactivate();
 
 		view.unregisterInputListener(listener);
 	}
 
 	private void initGame() {
 		LevelMeta level = Global.currentLevel;
-		
+
 		world.reset();
 		// world.enableLights();
 
 		registerGameDrawable(new Walls(world));
-		registerGameDrawable(new Cup(world, 200, 40));
-		registerGameDrawable(new Block(world, 100, 150, 300, 10));
+//		registerGameDrawable(new Cup(world, 200, 40));
+//		registerGameDrawable(new Block(world, 100, 150, 300, 10));
 		initBalls();
 		
+		for (BlockMeta meta : level.getBlocks()) {
+			registerGameDrawable(new Block(world, meta));
+		}
+
 		world.setContactListener(level.getContactListener());
 		world.setContactFilter(BallContactFilter.instance);
 		Global.levelPackViewId = level.getPack().getTitle();
 
-		if (level.hasDescription()) {
-			Toolbar.getInstance().activateInfoButton();
-			if (level.isDescriptionRead()) {
-				state = StateWaitingTouchDown;
-			} else {
-				openDescriptionDialog();
-			}
-		}
-		else {
-			state = StateWaitingTouchDown;
-		}
-
-	}
-
-	public void openDescriptionDialog() {
-		if (state == StateReadingDescription)
-			return;
-		state = StateReadingDescription;
-
-		String description = Global.currentLevel.getDescription();
-
-		Dialog dialog = new Dialog();
-		dialog.addButton("ok", "Ok");
-		dialog.setFontScale(0.6f);
-		dialog.setListener(new Dialog.IDialogListener() {
-			@Override
-			public void onDialogClosed() {
-				state = StateWaitingTouchDown;
-			}
-
-			@Override
-			public void onDialogButtonClicked(String id) {
-				state = StateWaitingTouchDown;
-				Global.currentLevel.setDescriptionAsRead();
-			}
-		});
-		dialog.open(description);
+		state = StateWaitingTouchDown;
 	}
 
 	private void initBalls() {
@@ -267,7 +250,7 @@ public class GameController implements IGameController {
 		if (state == StateWaitingTouchUp) {
 			startPlaying();
 			hit(spanner.getHitPoint().x, spanner.getHitPoint().y);
-			
+
 			view.unregisterDrawable(spanner);
 			spanner = null;
 		}
@@ -290,8 +273,8 @@ public class GameController implements IGameController {
 	}
 
 	private void registerGameDrawable(IDrawable drawable) {
-		 drawables.add(drawable);
-		 view.registerDrawable(drawable, Game.LAYER_GAME);
+		drawables.add(drawable);
+		view.registerDrawable(drawable, Game.LAYER_GAME);
 	}
 
 	private final InputListener listener = new InputListener() {

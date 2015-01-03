@@ -8,7 +8,7 @@ import com.turpgames.framework.v0.IDrawable;
 import com.turpgames.framework.v0.ITexture;
 import com.turpgames.framework.v0.impl.TexturedGameObject;
 
-public class Cup implements IDrawable {
+public class Cup implements IBallGameObject, IDrawable {
 	private final float scale = 0.2f;
 	private final CupObj cupObj;
 

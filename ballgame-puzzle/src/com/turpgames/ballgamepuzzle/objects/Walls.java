@@ -11,11 +11,10 @@ import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
 import com.turpgames.framework.v0.util.Rectangle;
-import com.turpgames.framework.v0.util.ShapeDrawer;
 import com.turpgames.framework.v0.util.TextureDrawer;
 
-public class Walls implements IDrawable {
-	private final static Color wallColor = Color.fromHex("#ffffff00");
+public class Walls implements IBallGameObject, IDrawable {
+	private final static Color wallColor = Color.fromHex("#ffffffff");
 
 	public final static float marginY = 20f;
 	
@@ -66,7 +65,7 @@ public class Walls implements IDrawable {
 		@Override
 		public void draw() {
 			TextureDrawer.draw(Textures.room, IDrawingInfo.viewport);
-			ShapeDrawer.drawRect(this, false);
+//			ShapeDrawer.drawRect(this, false);
 		}
 	}
 }

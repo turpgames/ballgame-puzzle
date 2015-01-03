@@ -20,7 +20,7 @@ public class LevelSelectionScreen extends Screen implements IScreenView {
 		super.onAfterActivate();
 		controller.activate();
 		
-		Toolbar.getInstance().activate();
+		Toolbar.getInstance().activateBackButton();
 		Toolbar.getInstance().setListener(new ToolbarListenerAdapter() {
 			@Override
 			public void onToolbarBack() {

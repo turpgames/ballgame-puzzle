@@ -174,7 +174,7 @@ public class AboutScreen extends Screen {
 		ballgameButton.activate();
 		ichiguButton.activate();
 
-		Toolbar.getInstance().activate();
+		Toolbar.getInstance().activateBackButton();
 		Toolbar.getInstance().setListener(new ToolbarListenerAdapter() {
 			@Override
 			public void onToolbarBack() {

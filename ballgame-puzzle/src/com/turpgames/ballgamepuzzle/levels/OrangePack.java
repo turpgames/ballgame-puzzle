@@ -55,7 +55,6 @@ class OrangePack {
 
 	private static LevelMeta level1() {
 		return newBuilder(1)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, Ball.ViewportCenterX, Ball.ViewportCenterY * 1.5f)
 				.addBall(Ball.Target, Ball.Medium, Ball.ViewportCenterX - 5f, Ball.ViewportCenterY * 0.5f)
 				.build();
@@ -63,7 +62,6 @@ class OrangePack {
 
 	private static LevelMeta level2() {
 		return newBuilder(2)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100f, Ball.ViewportCenterY * 1.20f)
 				.addBall(Ball.Target, Ball.Medium, 350f, Ball.ViewportCenterY * 1.60f)
 				.build();
@@ -71,7 +69,6 @@ class OrangePack {
 
 	private static LevelMeta level3() {
 		return newBuilder(3)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100, 650)
 				.addBall(Ball.Target, Ball.Medium, 390, 100)
 				.addBall(Ball.Stone, Ball.Medium, 80, 400)
@@ -82,7 +79,6 @@ class OrangePack {
 
 	private static LevelMeta level4() {
 		return newBuilder(4)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100, 650)
 				.addBall(Ball.Target, Ball.Medium, 350, 440)
 				.addBall(Ball.Stone, Ball.Medium, 95, 100)
@@ -92,7 +88,6 @@ class OrangePack {
 
 	private static LevelMeta level5() {
 		return newBuilder(5)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100, 650)
 				.addBall(Ball.Target, Ball.Medium, 350, 650)
 				.addBall(Ball.Bounce, Ball.Medium, 80f, 100)
@@ -102,7 +97,6 @@ class OrangePack {
 
 	private static LevelMeta level6() {
 		return newBuilder(6)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Portal, Ball.Medium, 100, 150)
 				.addBall(Ball.Portal, Ball.Medium, 350, 600)
 				.addBall(Ball.Subject, Ball.Medium, 100, 600)
@@ -112,7 +106,6 @@ class OrangePack {
 
 	private static LevelMeta level7() {
 		return newBuilder(7)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Portal, Ball.Medium, 350, 525)
 				.addBall(Ball.Portal, Ball.Medium, 250, 700)
 				.addBall(Ball.Subject, Ball.Medium, 150, 700)
@@ -127,7 +120,6 @@ class OrangePack {
 
 	private static LevelMeta level8() {
 		LevelMeta.Builder builder = newBuilder(8)
-				.setScoreMeta(5, 4)
 				.addBall(Ball.Portal, Ball.Medium, 150, 150)
 				.addBall(Ball.Portal, Ball.Medium, 350, 650)
 				.addBall(Ball.Subject, Ball.Medium, 100, 650)

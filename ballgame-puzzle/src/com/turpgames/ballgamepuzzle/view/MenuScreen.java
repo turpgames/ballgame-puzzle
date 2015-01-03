@@ -44,8 +44,6 @@ public class MenuScreen extends Screen {
 	protected void onAfterActivate() {
 		playButton.activate();
 		aboutButton.activate();
-		Toolbar.getInstance().activate();
-		Toolbar.getInstance().deactivateBackButton();
 	}
 
 	@Override

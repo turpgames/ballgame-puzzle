@@ -17,21 +17,17 @@ public class LevelMeta {
 	private final String id;
 	private final int index;
 	private final BallMeta[] balls;
+	private final BlockMeta[] blocks;
 	private final IContactListener contactListener;
-	private final int star2;
-	private final int star3;
-	private final String description;
 
 	private LevelPack pack;
 
 	private LevelMeta(Builder builder) {
 		this.id = builder.id;
 		this.index = builder.index;
-		this.star2 = builder.star2;
-		this.star3 = builder.star3;
 		this.balls = builder.balls.toArray(new BallMeta[0]);
+		this.blocks = builder.blocks.toArray(new BlockMeta[0]);
 		this.contactListener = builder.contactListener;
-		this.description = builder.description;
 	}
 
 	public void setState(int state) {
@@ -45,7 +41,7 @@ public class LevelMeta {
 	public String getId() {
 		return id;
 	}
-	
+
 	public int getIndex() {
 		return index;
 	}
@@ -54,38 +50,26 @@ public class LevelMeta {
 		return balls;
 	}
 
+	public BlockMeta[] getBlocks() {
+		return blocks;
+	}
+
 	public IContactListener getContactListener() {
 		return contactListener;
-	}
-
-	public int getStar2() {
-		return star2;
-	}
-
-	public int getStar3() {
-		return star3;
 	}
 
 	public LevelPack getPack() {
 		return pack;
 	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
-	public boolean hasDescription() {
-		return description != null;
-	}
-	
+
 	public boolean isDescriptionRead() {
 		return Settings.getBoolean(id + "-read", false);
 	}
-	
+
 	public void setDescriptionAsRead() {
 		Settings.putBoolean(id + "-read", true);
 	}
-	
+
 	void setPack(LevelPack pack) {
 		this.pack = pack;
 	}
@@ -96,16 +80,15 @@ public class LevelMeta {
 
 	public static class Builder {
 		private final List<BallMeta> balls;
+		private final List<BlockMeta> blocks;
 		private final String id;
 		private int index;
-		private int star2;
-		private int star3;
 		private IContactListener contactListener;
-		private String description;
 
 		private Builder(String id) {
 			this.id = id;
 			this.balls = new ArrayList<BallMeta>();
+			this.blocks = new ArrayList<BlockMeta>();
 		}
 
 		public Builder setIndex(int index) {
@@ -118,19 +101,17 @@ public class LevelMeta {
 			return this;
 		}
 
-		public Builder setDescription(String description) {
-			this.description = description;
-			return this;
-		}
-
-		public Builder setScoreMeta(int star2, int star3) {
-			this.star2 = star2;
-			this.star3 = star3;
-			return this;
-		}
-
 		public Builder addBall(int type, float r, float cx, float cy) {
 			return addBall(new BallMeta(type, r, cx, cy));
+		}
+
+		public Builder addBlock(float x, float y, float width, float height) {
+			return addBlock(x, y, width, height, 0);
+		}
+
+		public Builder addBlock(float x, float y, float width, float height, float rotation) {
+			blocks.add(new BlockMeta(x, y, width, height, rotation));
+			return this;
 		}
 
 		public Builder addBall(BallMeta ballMeta) {

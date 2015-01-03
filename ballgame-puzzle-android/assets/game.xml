@@ -356,6 +356,10 @@
             <texture
                 id="cup"
                 path="img/cup.png" />
+
+            <texture
+                id="block"
+                path="img/block.png" />
         </textures>
 
         <sounds>

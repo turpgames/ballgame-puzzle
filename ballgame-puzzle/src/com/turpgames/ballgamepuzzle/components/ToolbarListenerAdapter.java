@@ -12,7 +12,7 @@ public class ToolbarListenerAdapter implements IToolbarListener {
 	}
 	
 	@Override
-	public void onShowDescription() {
+	public void onShowMenu() {
 		
 	}
 }

@@ -5,5 +5,5 @@ public interface IToolbarListener {
 
 	void onResetGame();
 
-	void onShowDescription();
+	void onShowMenu();
 }

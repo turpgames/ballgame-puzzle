@@ -55,22 +55,10 @@ public class ResultScreen extends Screen {
 	protected void onAfterActivate() {
 		int starCount = LevelManager.updateLevelState();
 
-		if (starCount == 0) {
-			levelSelectionButton.activate();
-			retryButton.activate();
-			if (Global.currentLevel.getState() == 0) {
-				nextButton.deactivate();
-				return;
-			} else {
-				nextButton.activate();
-			}
-		}
-		else {
-			stars.setupForResultScreen(starCount);
-			registerDrawable(stars, Game.LAYER_GAME);
-			stars.animateResult();
-		}
-		
+		stars.setupForResultScreen(starCount);
+		registerDrawable(stars, Game.LAYER_GAME);
+		stars.animateResult();
+
 		nextLevel = LevelManager.unlockNextLevel();
 
 		if (nextLevel == null) {

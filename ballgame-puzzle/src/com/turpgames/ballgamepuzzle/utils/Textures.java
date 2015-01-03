@@ -42,4 +42,5 @@ public class Textures
 	public final static ITexture bg_dark = Game.getResourceManager().getTexture("bg_dark");
 	public final static ITexture cup = Game.getResourceManager().getTexture("cup");
 	public final static ITexture room = Game.getResourceManager().getTexture("room");
+	public final static ITexture block = Game.getResourceManager().getTexture("block");
 }

@@ -2,7 +2,7 @@ package com.turpgames.ballgamepuzzle.effects;
 
 import com.turpgames.ballgamepuzzle.objects.Ball;
 
-public class ExistanceEffect extends Box2DEffect implements IBallGameEffect {
+public class ShowHideEffect extends Box2DEffect implements IBallGameEffect {
 
 	private final Ball ball;
 	private float[] durations;
@@ -11,7 +11,7 @@ public class ExistanceEffect extends Box2DEffect implements IBallGameEffect {
 	private float nextStateChange;
 	private boolean isLooping;
 
-	public ExistanceEffect(Ball ball) {
+	public ShowHideEffect(Ball ball) {
 		super(ball);
 		this.ball = ball;
 	}

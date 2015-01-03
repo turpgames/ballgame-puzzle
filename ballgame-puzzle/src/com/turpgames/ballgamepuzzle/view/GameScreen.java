@@ -19,9 +19,12 @@ public class GameScreen extends Screen implements IScreenView {
 	@Override
 	protected void onAfterActivate() {
 		super.onAfterActivate();
+		
 		controller.activate();
-		Toolbar.getInstance().activate();
+
 		Toolbar.getInstance().activateResetButton();
+		Toolbar.getInstance().activateMenuButton();
+		
 		Toolbar.getInstance().setListener(new ToolbarListenerAdapter() {
 			@Override
 			public void onToolbarBack() {
@@ -34,8 +37,8 @@ public class GameScreen extends Screen implements IScreenView {
 			}
 			
 			@Override
-			public void onShowDescription() {
-				controller.openDescriptionDialog();
+			public void onShowMenu() {
+				controller.showMenu();
 			}
 		});
 	}

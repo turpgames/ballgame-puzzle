@@ -77,73 +77,70 @@ class GreenPack {
 
 	private static LevelMeta level1() {
 		return newBuilder(1)
-				.setScoreMeta(6, 3)
-				.addBall(Ball.Subject, Ball.Medium, Ball.ViewportCenterX, Ball.ViewportCenterY * 1.5f)
-				.addBall(Ball.Target, Ball.Medium, Ball.ViewportCenterX - 5f, Ball.ViewportCenterY * 0.5f)
-				.addBall(Ball.Star, Ball.Large, 400, 200)
-				.addBall(Ball.Star, Ball.Large, 150, 300)
-				.addBall(Ball.Star, Ball.Large, 600, 200)
-				.setDescription("Goal of the game is making blue ball to touch green ball. To start playing touch screen after clicking Ok button.")
+				.addBall(Ball.Subject, Ball.Medium, 100, 200)
+				.addBall(Ball.Target, Ball.Medium, 700, 200)
+				.addBall(Ball.Star, Ball.Large, 250, 275)
+				.addBall(Ball.Star, Ball.Large, 400, 300)
+				.addBall(Ball.Star, Ball.Large, 550, 275)
 				.build();
 	}
 
 	private static LevelMeta level2() {
 		return newBuilder(2)
-				.setScoreMeta(6, 3)
-				.addBall(Ball.Subject, Ball.Medium, 100f, Ball.ViewportCenterY * 1.20f)
-				.addBall(Ball.Target, Ball.Medium, 217f, 50)
-				.addBall(Ball.Star, Ball.Large, 400, 100)
-				.addBall(Ball.Star, Ball.Large, 150, 300)
+				.addBall(Ball.Subject, Ball.Medium, 100, 250)
+				.addBall(Ball.Target, Ball.Medium, 250, 50)
+				.addBall(Ball.Star, Ball.Large, 400, 125)
+				.addBall(Ball.Star, Ball.Large, 200, 300)
 				.addBall(Ball.Star, Ball.Large, 600, 200)
-				.setDescription("You can control blue ball by tapping around. To start playing touch screen after clicking Ok button.")
 				.build();
 	}
 
 	private static LevelMeta level3() {
 		return newBuilder(3)
-				.setScoreMeta(6, 3)
-				.addBall(Ball.Subject, Ball.Medium, 380, 250)
-				.addBall(Ball.Target, Ball.Medium, 400, 250)
-				.setDescription("Gray balls reflects you in physics rules. To start playing touch screen after clicking Ok button.")
+				.addBall(Ball.Subject, Ball.Medium, 200, 225)
+				.addBall(Ball.Target, Ball.Medium, 400, 225)
+				.addBall(Ball.Star, Ball.Large, 550, 400)
+				.addBall(Ball.Star, Ball.Large, 750, 225)
+				.addBall(Ball.Star, Ball.Large, 550, 50)
 				.build();
 	}
 
 	private static LevelMeta level4() {
 		return newBuilder(4)
-				.setScoreMeta(6, 3)
-				.addBall(Ball.Subject, Ball.Medium, 100, 650)
-				.addBall(Ball.Target, Ball.Medium, 350, 440)
-				.addBall(Ball.Stone, Ball.Medium, 95, 100)
-				.addBall(Ball.Bounce, Ball.Medium, 200, 220)
-				.setDescription("Yellow balls makes you bounce. To start playing touch screen after clicking Ok button.")
+				.addBall(Ball.Subject, Ball.Medium, 400, 225)
+				.addBall(Ball.Target, Ball.Medium, 200, 225)
+				.addBall(Ball.Star, Ball.Large, 550, 400)
+				.addBall(Ball.Star, Ball.Large, 750, 225)
+				.addBall(Ball.Star, Ball.Large, 550, 50)
 				.build();
 	}
 
 	private static LevelMeta level5() {
 		return newBuilder(5)
-				.setScoreMeta(6, 3)
-				.addBall(Ball.Subject, Ball.Medium, 100, 650)
-				.addBall(Ball.Target, Ball.Medium, 350, 650)
-				.addBall(Ball.Bounce, Ball.Medium, 80f, 100)
-				.addBall(Ball.Bounce, Ball.Large, 300, 100)
-				.setDescription("The greater is yellow ball the more you bounce. To start playing touch screen after clicking Ok button.")
+				.addBall(Ball.Subject, Ball.Medium, 100, 200)
+				.addBall(Ball.Target, Ball.Medium, 700, 175)
+				.addBall(Ball.Star, Ball.Large, 250, 350)
+				.addBall(Ball.Star, Ball.Large, 400, 150)
+				.addBall(Ball.Star, Ball.Large, 550, 250)
 				.build();
 	}
 
 	private static LevelMeta level6() {
 		return newBuilder(6)
-				.setScoreMeta(6, 3)
-				.addBall(Ball.Portal, Ball.Medium, 100, 150)
-				.addBall(Ball.Portal, Ball.Medium, 350, 600)
-				.addBall(Ball.Subject, Ball.Medium, 100, 600)
-				.addBall(Ball.Target, Ball.Medium, 350, 150)
-				.setDescription("Orange balls are portals. To start playing touch screen after clicking Ok button.")
+				.addBall(Ball.Portal, Ball.Large, 350, 250)
+				.addBall(Ball.Portal, Ball.Large, 450, 400)
+				.addBall(Ball.Subject, Ball.Medium, 100, 350)
+				.addBall(Ball.Target, Ball.Medium, 750, 175)
+				.addBall(Ball.Star, Ball.Large, 250, 100)
+				.addBall(Ball.Star, Ball.Large, 550, 150)
+				.addBall(Ball.Star, Ball.Large, 650, 250)
+				.addBlock(395, 40, 10, 400)
+				.addBlock(700, 150, 50, 5, -45)
 				.build();
 	}
 
 	private static LevelMeta level7() {
 		return newBuilder(7)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Portal, Ball.Medium, 350, 525)
 				.addBall(Ball.Portal, Ball.Medium, 250, 700)
 				.addBall(Ball.Subject, Ball.Medium, 150, 700)
@@ -153,13 +150,11 @@ class GreenPack {
 				.addBall(Ball.Stone, Ball.Medium, 200, 450)
 				.addBall(Ball.Enemy, Ball.Large, 300, 600)
 				.addBall(Ball.Target, Ball.Medium, 80, 350)
-				.setDescription("Blue ball should not touch to red balls. To start playing touch screen after clicking Ok button.")
 				.build();
 	}
 
 	private static LevelMeta level8() {
 		LevelMeta.Builder builder = newBuilder(8)
-				.setScoreMeta(5, 4)
 				.addBall(Ball.Portal, Ball.Medium, 150, 150)
 				.addBall(Ball.Portal, Ball.Medium, 350, 650)
 				.addBall(Ball.Subject, Ball.Medium, 100, 650)
@@ -183,7 +178,6 @@ class GreenPack {
 
 	private static LevelMeta level9() {
 		LevelMeta.Builder builder = newBuilder(9)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100, 650)
 				.addBall(Ball.Target, Ball.Medium, 400, 150);
 
@@ -204,7 +198,6 @@ class GreenPack {
 
 	private static LevelMeta level10() {
 		LevelMeta.Builder builder = newBuilder(10)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100, 200)
 				.addBall(Ball.Target, Ball.Medium, 400, 500);
 
@@ -231,7 +224,6 @@ class GreenPack {
 
 	private static LevelMeta level11() {
 		LevelMeta.Builder builder = newBuilder(11)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100, 600)
 				.addBall(Ball.Target, Ball.Medium, 300, 200);
 
@@ -261,7 +253,6 @@ class GreenPack {
 
 	private static LevelMeta level12() {
 		LevelMeta.Builder builder = newBuilder(12)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 125, 650)
 				.addBall(Ball.Target, Ball.Medium, 400, 650);
 
@@ -290,7 +281,6 @@ class GreenPack {
 
 	private static LevelMeta level13() {
 		LevelMeta.Builder builder = newBuilder(13)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 225, 325)
 				.addBall(Ball.Target, Ball.Medium, 225, 650);
 
@@ -312,7 +302,6 @@ class GreenPack {
 
 	private static LevelMeta level14() {
 		LevelMeta.Builder builder = newBuilder(14)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 75, 650)
 				.addBall(Ball.Target, Ball.Medium, 375, 650);
 
@@ -339,7 +328,6 @@ class GreenPack {
 
 	private static LevelMeta level15() {
 		LevelMeta.Builder builder = newBuilder(15)
-				.setScoreMeta(6, 3)
 				.addBall(Ball.Subject, Ball.Medium, 100, 550)
 				.addBall(Ball.Target, Ball.Medium, 300, 550);
 
@@ -402,8 +390,7 @@ class GreenPack {
 	}
 
 	private static LevelMeta level16() {
-		LevelMeta.Builder builder = newBuilder(16)
-				.setScoreMeta(6, 3);
+		LevelMeta.Builder builder = newBuilder(16);
 
 		HoleEffectMeta effect = new HoleEffectMeta();
 
@@ -417,8 +404,7 @@ class GreenPack {
 	}
 
 	private static LevelMeta level17() {
-		LevelMeta.Builder builder = newBuilder(17)
-				.setScoreMeta(6, 3);
+		LevelMeta.Builder builder = newBuilder(17);
 
 		HoleEffectMeta effect = new HoleEffectMeta();
 		effect.setWhiteHole(true);
@@ -433,8 +419,7 @@ class GreenPack {
 	}
 
 	private static LevelMeta level18() {
-		LevelMeta.Builder builder = newBuilder(18)
-				.setScoreMeta(6, 3);
+		LevelMeta.Builder builder = newBuilder(18);
 
 		HoleEffectMeta effect = new HoleEffectMeta();
 		effect.setWhiteHole(true);
