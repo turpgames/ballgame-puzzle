@@ -42,7 +42,7 @@
       <ball x="735" y="260" type="Star" size="l"></ball>
       <block x="395" y="80" width="10" height="310" rotation="0"></block>
   </level>
-  <level designer="true">
+  <level>
       <ball x="150" y="150" type="Subject" size="m"></ball>
       <ball x="750" y="225" type="Target" size="l"></ball>
       <ball x="300" y="375" type="Portal" size="l"></ball>
@@ -50,6 +50,38 @@
       <ball x="210" y="300" type="Star" size="l"></ball>
       <ball x="590" y="300" type="Star" size="l"></ball>
       <ball x="700" y="50" type="Star" size="l"></ball>
+      <block x="395" y="40" width="10" height="390" rotation="0"></block>
+  </level>
+  <level>
+      <ball x="150" y="175" type="Subject" size="m"></ball>
+      <ball x="650" y="175" type="Target" size="l"></ball>
+      <ball x="300" y="375" type="Portal" size="l"></ball>
+      <ball x="500" y="375" type="Portal" size="l"></ball>
+      <ball x="375" y="350" type="Star" size="l"></ball>
+      <ball x="425" y="350" type="Star" size="l"></ball>
+      <ball x="525" y="175" type="Star" size="l"></ball>
+      <block x="395" y="40" width="10" height="390" rotation="0"></block>
+  </level>
+  <level>
+      <ball x="150" y="175" type="Subject" size="m"></ball>
+      <ball x="100" y="175" type="Target" size="l"></ball>
+      <ball x="300" y="375" type="Portal" size="l"></ball>
+      <ball x="500" y="75" type="Portal" size="l"></ball>
+      <ball x="575" y="75" type="Star" size="l"></ball>
+      <ball x="650" y="75" type="Star" size="l"></ball>
+      <ball x="725" y="75" type="Star" size="l"></ball>
+      <block x="395" y="40" width="10" height="390" rotation="0"></block>
+  </level>
+  <level designer="true">
+      <ball x="150" y="175" type="Subject" size="m"></ball>
+      <ball x="75" y="225" type="Target" size="l"></ball>
+      <ball x="300" y="375" type="Portal" size="l"></ball>
+      <ball x="500" y="75" type="Portal" size="l">
+          <effect type="PathTrip" path="500,75,500,375" roundtrip="true" duration="2"></effect>
+      </ball>
+      <ball x="550" y="225" type="Star" size="l"></ball>
+      <ball x="625" y="275" type="Star" size="l"></ball>
+      <ball x="700" y="300" type="Star" size="l"></ball>
       <block x="395" y="40" width="10" height="390" rotation="0"></block>
   </level>
   <level>

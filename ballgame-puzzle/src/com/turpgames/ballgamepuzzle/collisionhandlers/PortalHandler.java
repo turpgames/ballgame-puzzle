@@ -1,8 +1,8 @@
 package com.turpgames.ballgamepuzzle.collisionhandlers;
 
 import com.turpgames.ballgamepuzzle.objects.Ball;
-import com.turpgames.ballgamepuzzle.objects.balls.SubjectBall;
 import com.turpgames.ballgamepuzzle.objects.balls.PortalBall;
+import com.turpgames.ballgamepuzzle.objects.balls.SubjectBall;
 import com.turpgames.ballgamepuzzle.utils.Sounds;
 
 public class PortalHandler extends BallCollisionHandler {
@@ -16,20 +16,28 @@ public class PortalHandler extends BallCollisionHandler {
 			return false;
 		if (((SubjectBall) b2).isGhost())
 			return false;
+		
 		PortalBall portal = (PortalBall) b1;
-		SubjectBall azureBall = (SubjectBall) b2;
-		azureBall.enterPortal(portal);
-		Sounds.portal.play();
-		return true;
+		SubjectBall subject = (SubjectBall) b2;
+
+		if(subject.enterPortal(portal)) {
+			Sounds.portal.play();
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override
 	protected boolean handleEndCollide(Ball b1, Ball b2) {
 		if (b2.getBallType() != Ball.Subject)
 			return false;
+		
 		PortalBall portal = (PortalBall) b1;
-		SubjectBall azureBall = (SubjectBall) b2;
-		azureBall.leavePortal(portal);
+		SubjectBall subject = (SubjectBall) b2;
+		
+		subject.leavePortal(portal);
+
 		return true;
 	}
 }

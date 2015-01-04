@@ -23,6 +23,7 @@ import com.turpgames.ballgamepuzzle.collisionhandlers.StoneHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.TargetHandler;
 import com.turpgames.ballgamepuzzle.effects.meta.CircularTripEffectMeta;
 import com.turpgames.ballgamepuzzle.effects.meta.IEffectMeta;
+import com.turpgames.ballgamepuzzle.effects.meta.PathTripEffectMeta;
 import com.turpgames.ballgamepuzzle.effects.meta.RollingEffectMeta;
 import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.framework.v0.util.Color;
@@ -196,10 +197,10 @@ public class PackFactory {
 
 		if (type.equals("Rolling")) {
 			RollingEffectMeta meta = new RollingEffectMeta();
-			
+
 			meta.setClockWise(Util.Strings.parseBoolean(getAttr(effectNode, "clockwise")));
 			meta.setTotalDuration(Util.Strings.parseFloat(getAttr(effectNode, "duration")));
-			
+
 			return meta;
 		}
 		if (type.equals("CircularTrip")) {
@@ -208,9 +209,30 @@ public class PackFactory {
 			meta.setClockWise(Util.Strings.parseBoolean(getAttr(effectNode, "clockwise")));
 			meta.setTotalDuration(Util.Strings.parseFloat(getAttr(effectNode, "duration")));
 			meta.setCenter(
-					Util.Strings.parseFloat(getAttr(effectNode, "x")), 
+					Util.Strings.parseFloat(getAttr(effectNode, "x")),
 					Util.Strings.parseFloat(getAttr(effectNode, "y")));
-			
+
+			return meta;
+		}
+		if (type.equals("PathTrip")) {
+			PathTripEffectMeta meta = new PathTripEffectMeta();
+
+			meta.setRoundTrip(Util.Strings.parseBoolean(getAttr(effectNode, "roundtrip")));
+			meta.setTotalDuration(Util.Strings.parseFloat(getAttr(effectNode, "duration")));
+
+			String path = getAttr(effectNode, "path");
+			String[] nodes = path.split(",");
+
+			if (nodes.length % 2 != 0) {
+				throw new UnsupportedOperationException("Node length must be even!");
+			}
+
+			for (int i = 0; i < nodes.length; i += 2) {
+				meta.addNode(
+						Util.Strings.parseFloat(nodes[i]),
+						Util.Strings.parseFloat(nodes[i + 1]));
+			}
+
 			return meta;
 		}
 

@@ -38,7 +38,7 @@ public class SubjectBall extends Ball {
 
 	@Override
 	protected BallBodyBuilder createBodyBuilder() {
-		return super.createBodyBuilder();
+		return super.createBodyBuilder();//.setAsBullet();
 	}
 
 	@Override
@@ -74,11 +74,12 @@ public class SubjectBall extends Ball {
 		body.setAngularVelocity(180f);
 	}
 
-	public void enterPortal(PortalBall portal) {
+	public boolean enterPortal(PortalBall portal) {
 		boolean canEnterPortal = sourcePortal == null && targetPortal == null;
 		if (canEnterPortal) {
 			doEnterPortal(portal);
 		}
+		return canEnterPortal;
 	}
 
 	private void doEnterPortal(PortalBall portal) {
