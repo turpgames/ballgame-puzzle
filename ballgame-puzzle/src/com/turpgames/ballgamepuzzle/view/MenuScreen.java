@@ -2,8 +2,6 @@ package com.turpgames.ballgamepuzzle.view;
 
 import com.turpgames.ballgamepuzzle.components.BallGameLogo;
 import com.turpgames.ballgamepuzzle.components.Toolbar;
-import com.turpgames.ballgamepuzzle.levels.LevelManager;
-import com.turpgames.ballgamepuzzle.levels.PackFactory;
 import com.turpgames.ballgamepuzzle.utils.Global;
 import com.turpgames.ballgamepuzzle.utils.R;
 import com.turpgames.ballgamepuzzle.utils.StatActions;
@@ -45,7 +43,7 @@ public class MenuScreen extends Screen {
 			@Override
 			public void onButtonTapped() {
 				Global.designerMode = true;
-				LevelManager.startLevel(PackFactory.getDesignerLevel());
+				ScreenManager.instance.switchTo(R.screens.game, false);
 			}
 		});
 		

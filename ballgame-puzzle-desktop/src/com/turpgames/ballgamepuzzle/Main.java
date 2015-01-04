@@ -12,7 +12,7 @@ public class Main {
 		cfg.title = "Ball Game";
 
 		float w = 16f;
-		float h = 9f;
+		float h = 11f;
 		float x = 50;
 
 		cfg.width = (int) (x * w);

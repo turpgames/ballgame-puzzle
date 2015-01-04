@@ -294,6 +294,18 @@
                 path="img/ball_red_gray.png" />
 
             <texture
+                id="ball_shadow"
+                path="img/ball_shadow.png" />
+
+            <texture
+                id="ball_shadowed"
+                path="img/ball_shadowed.png" />
+
+            <texture
+                id="ball_dot"
+                path="img/ball_dot.png" />
+
+            <texture
                 id="bg"
                 path="img/bg.png" />
 
@@ -386,7 +398,7 @@
 
             <sound
                 id="red"
-                path="audio/red.mp3" />
+                path="audio/enemy.wav" />
 
             <sound
                 id="yellow"
@@ -402,7 +414,7 @@
 
             <sound
                 id="orange"
-                path="audio/orange.mp3" />
+                path="audio/portal4.wav" />
 
             <sound
                 id="coin"
@@ -410,7 +422,7 @@
 
             <sound
                 id="target"
-                path="audio/target.wav" />
+                path="audio/success.wav" />
         </sounds>
 
         <musics>

@@ -10,7 +10,7 @@ import com.turpgames.framework.v0.util.ShapeDrawer;
 import com.turpgames.framework.v0.util.Vector;
 
 public class Spanner implements IDrawable {
-	private final static float maxLength = 200f;
+	private final static float maxLength = 150f;
 	private final static Color color = Color.white();
 
 	private final Vector center;

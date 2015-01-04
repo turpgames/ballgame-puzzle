@@ -11,14 +11,17 @@ public class BounceHandler extends BallCollisionHandler {
 	}
 
 	@Override
-	protected boolean handleBeginCollide(Ball b1, Ball b2) {
+	protected boolean handleEndCollide(Ball b1, Ball b2) {
 		if (b2.getBallType() != Ball.Subject)
 			return false;
 		if (((SubjectBall) b2).isGhost())
 			return false;
-		BounceBall yellowBall = (BounceBall) b1;
-		SubjectBall azureBall = (SubjectBall) b2;
-		yellowBall.bounce(azureBall);
+
+		BounceBall bounceBall = (BounceBall) b1;
+		SubjectBall subject = (SubjectBall) b2;
+		
+		bounceBall.bounce(subject);
+		
 		Sounds.bounce.play();
 		return true;
 	}

@@ -192,7 +192,7 @@ public class GameController implements IGameMenuListener, IGameController {
 			registerGameDrawable(pointText);
 			registerGameDrawable(hitPointText);
 		}
-		
+
 		state = StateWaitingTouchDown;
 	}
 
@@ -231,6 +231,7 @@ public class GameController implements IGameMenuListener, IGameController {
 	private void startPlaying() {
 		state = StatePlaying;
 		stars = 0;
+		
 		startBallEffects();
 	}
 
@@ -316,8 +317,10 @@ public class GameController implements IGameMenuListener, IGameController {
 		public boolean touchDown(float x, float y, int pointer, int button) {
 			if (state == StateGameOver) {
 				resetGame();
+				return true;
 			} else if (state == StateWaitingTouchDown) {
 				beginSpanning(Game.screenToViewportX(x), Game.screenToViewportY(y));
+				return true;
 			}
 			return false;
 		}

@@ -14,7 +14,7 @@ public class Star extends Ball {
 	
 	public Star(BallMeta meta, IWorld world) {
 		super(meta, world, Textures.star);
-		ball.getScale().set(1.5f);
+		ball.getScale().set(1.8f);
 		animation = Animation.fromMetadata(GameMetadata.getAnimation("coin"));
 		animation.start(true);
 	}

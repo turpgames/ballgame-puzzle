@@ -1,6 +1,6 @@
 package com.turpgames.ballgamepuzzle.effects.meta;
 
-public class ExistanceEffectMeta implements IEffectMeta {
+public class ShowHideEffectMeta implements IEffectMeta {
 	private float totalDuration;
 	private boolean isHiddenAtStartup;
 	private float[] durations;

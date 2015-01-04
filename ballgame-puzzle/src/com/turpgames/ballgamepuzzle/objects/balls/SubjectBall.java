@@ -6,6 +6,9 @@ import com.turpgames.ballgamepuzzle.objects.BallBodyBuilder;
 import com.turpgames.ballgamepuzzle.utils.Textures;
 import com.turpgames.box2d.IBodyDef;
 import com.turpgames.box2d.IWorld;
+import com.turpgames.framework.v0.impl.GameObject;
+import com.turpgames.framework.v0.impl.TexturedGameObject;
+import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Timer;
 import com.turpgames.framework.v0.util.Vector;
 
@@ -16,8 +19,10 @@ public class SubjectBall extends Ball {
 	private boolean isGhost;
 	private final Timer ghostTimer;
 
+	private final BallShadow shadow;
+
 	public SubjectBall(BallMeta meta, IWorld world) {
-		super(meta, world, Textures.ball_white_dot);
+		super(meta, world, Textures.ball_dot);
 
 		ghostTimer = new Timer();
 		ghostTimer.setInterval(3f);
@@ -27,6 +32,8 @@ public class SubjectBall extends Ball {
 				unsetGhost();
 			}
 		});
+
+		this.shadow = new BallShadow(ball);
 	}
 
 	@Override
@@ -95,10 +102,51 @@ public class SubjectBall extends Ball {
 	}
 
 	void bounce(float fx, float fy) {
-		body.setVelocity(fx * hitX, fy * hitY);
+		body.applyForceToCenter(fx, fy);
 	}
 
 	public boolean isMoving() {
 		return !body.getVelocity().isZero();
+	}
+	Color black = Color.black();
+	@Override
+	public void draw() {
+		if (!isHidden) {
+			shadow.draw();
+			ball.draw();
+		}
+	}
+	
+	class BallShadow extends TexturedGameObject {
+		private GameObject ball;
+		private Shadow shd;
+
+		public BallShadow(GameObject ball) {
+			super(Textures.ball_shadowed);
+			
+			this.ball = ball;
+			
+			setWidth(ball.getWidth());
+			setHeight(ball.getHeight());
+			
+			shd = new Shadow();
+			shd.getLocation().y = 38;
+		}
+
+		@Override
+		public void draw() {
+			shd.getLocation().x = ball.getLocation().x;
+			getLocation().set(ball.getLocation());
+			shd.draw();
+			super.draw();
+		}
+		
+		class Shadow extends TexturedGameObject {
+			Shadow() {
+				super(Textures.ball_shadow);
+				setWidth(ball.getWidth());
+				setHeight(ball.getHeight() / 2f);
+			}
+		}
 	}
 }

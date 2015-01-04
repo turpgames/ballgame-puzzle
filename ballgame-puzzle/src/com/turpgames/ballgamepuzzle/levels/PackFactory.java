@@ -21,6 +21,9 @@ import com.turpgames.ballgamepuzzle.collisionhandlers.RedGrayHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.StarHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.StoneHandler;
 import com.turpgames.ballgamepuzzle.collisionhandlers.TargetHandler;
+import com.turpgames.ballgamepuzzle.effects.meta.CircularTripEffectMeta;
+import com.turpgames.ballgamepuzzle.effects.meta.IEffectMeta;
+import com.turpgames.ballgamepuzzle.effects.meta.RollingEffectMeta;
 import com.turpgames.ballgamepuzzle.objects.Ball;
 import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Game;
@@ -33,7 +36,7 @@ public class PackFactory {
 			InputStream is = new FileInputStream(filePath);
 			Node root = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is).getDocumentElement();
 			LevelPack pack = create(root);
-			
+
 			for (LevelMeta level : pack.getLevels()) {
 				if (level.isDesignerLevel()) {
 					return level;
@@ -157,11 +160,15 @@ public class PackFactory {
 	}
 
 	private static BallMeta createBall(Node ballNode) {
-		return new BallMeta(
+		BallMeta ballMeta = new BallMeta(
 				getBallType(getAttr(ballNode, "type")),
 				getBallSize(getAttr(ballNode, "size")),
 				Util.Strings.parseFloat(getAttr(ballNode, "x")),
 				Util.Strings.parseFloat(getAttr(ballNode, "y")));
+
+		ballMeta.setEffect(createEffects(ballNode));
+
+		return ballMeta;
 	}
 
 	private static BlockMeta createBlock(Node blockNode) {
@@ -173,6 +180,43 @@ public class PackFactory {
 				Util.Strings.parseFloat(getAttr(blockNode, "rotation")));
 	}
 
+	private static IEffectMeta[] createEffects(Node ballNode) {
+		List<IEffectMeta> effects = new ArrayList<IEffectMeta>();
+
+		List<Node> effectNodes = getNodes(ballNode, "effect");
+		for (Node effectNode : effectNodes) {
+			effects.add(createEffect(effectNode));
+		}
+
+		return effects.toArray(new IEffectMeta[0]);
+	}
+
+	private static IEffectMeta createEffect(Node effectNode) {
+		String type = getAttr(effectNode, "type");
+
+		if (type.equals("Rolling")) {
+			RollingEffectMeta meta = new RollingEffectMeta();
+			
+			meta.setClockWise(Util.Strings.parseBoolean(getAttr(effectNode, "clockwise")));
+			meta.setTotalDuration(Util.Strings.parseFloat(getAttr(effectNode, "duration")));
+			
+			return meta;
+		}
+		if (type.equals("CircularTrip")) {
+			CircularTripEffectMeta meta = new CircularTripEffectMeta();
+
+			meta.setClockWise(Util.Strings.parseBoolean(getAttr(effectNode, "clockwise")));
+			meta.setTotalDuration(Util.Strings.parseFloat(getAttr(effectNode, "duration")));
+			meta.setCenter(
+					Util.Strings.parseFloat(getAttr(effectNode, "x")), 
+					Util.Strings.parseFloat(getAttr(effectNode, "y")));
+			
+			return meta;
+		}
+
+		throw new UnsupportedOperationException("Unknown effect type: " + type);
+	}
+
 	private static String getAttr(Node node, String attr) {
 		return Util.Xml.getAttributeValue(node, attr);
 	}
@@ -181,13 +225,6 @@ public class PackFactory {
 		return Util.Xml.getChildNodes(node, nodeName);
 	}
 
-	/*
-	 * public final static int Blue = 1; public final static int Target = 2;
-	 * public final static int Enemy = 3; public final static int = 4; public
-	 * final static int = 5; public final static int = 6; public final static
-	 * int = 7; public final static int = 8; public final static int = 9; public
-	 * final static int = 10; public final static int = 11;
-	 */
 	private static int getBallType(String type) {
 		if (type.equals("Blue"))
 			return Ball.Blue;
@@ -205,6 +242,8 @@ public class PackFactory {
 			return Ball.Subject;
 		if (type.equals("Portal"))
 			return Ball.Portal;
+		if (type.equals("RedGray"))
+			return Ball.RedGray;
 		if (type.equals("BlackHole"))
 			return Ball.BlackHole;
 		if (type.equals("WhiteHole"))

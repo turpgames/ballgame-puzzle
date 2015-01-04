@@ -16,13 +16,13 @@ public class BounceBall extends Ball {
 		effect = new BreathEffect(ball);
 		effect.setDuration(0.1f);
 		effect.setFinalScale(1.0f);
-		effect.setMaxFactor(1.1f);
+		effect.setMaxFactor(1.2f);
 		effect.setMinFactor(1.0f);
 	}
-	
+
 	@Override
 	protected BallBodyBuilder createBodyBuilder() {
-		return super.createBodyBuilder().setNonElastic();
+		return super.createBodyBuilder();
 	}
 
 	public void bounce(SubjectBall subject) {
@@ -30,7 +30,7 @@ public class BounceBall extends Ball {
 		float dy = subject.getCenterY() - this.getCenterY();
 		float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-		float f = 1.2f * (this.radius / subject.getRadius());
+		float f = 200f;
 
 		subject.bounce((dx / d) * f, (dy / d) * f);
 

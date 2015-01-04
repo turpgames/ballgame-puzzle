@@ -18,6 +18,9 @@ public class Textures
 	public static final ITexture ball_white_dot = Game.getResourceManager().getTexture("ball_white_dot");
 	public static final ITexture black_hole = Game.getResourceManager().getTexture("black_hole");
 	public static final ITexture ball_red_gray = Game.getResourceManager().getTexture("ball_red_gray");
+	public static final ITexture ball_shadow = Game.getResourceManager().getTexture("ball_shadow");
+	public static final ITexture ball_shadowed = Game.getResourceManager().getTexture("ball_shadowed");
+	public static final ITexture ball_dot = Game.getResourceManager().getTexture("ball_dot");
 	public static final ITexture bg = Game.getResourceManager().getTexture("bg");
 	public static final ITexture locked = Game.getResourceManager().getTexture("locked");
 	public static final ITexture unlocked = Game.getResourceManager().getTexture("unlocked");

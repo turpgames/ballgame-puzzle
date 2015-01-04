@@ -39,6 +39,11 @@ public class BallBodyBuilder {
 		return this;
 	}
 
+	public BallBodyBuilder setElasticity(float f) {
+		fixtureBuilder.setElasticity(f);
+		return this;
+	}
+
 	public BallBodyBuilder setAsBullet() {
 		bodyBuilder.setBullet(true);
 		return this;

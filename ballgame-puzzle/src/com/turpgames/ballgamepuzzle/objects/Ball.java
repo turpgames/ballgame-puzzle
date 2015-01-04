@@ -5,18 +5,18 @@ import java.util.List;
 
 import com.turpgames.ballgamepuzzle.effects.BreathEffect;
 import com.turpgames.ballgamepuzzle.effects.CircularTripEffect;
-import com.turpgames.ballgamepuzzle.effects.ShowHideEffect;
 import com.turpgames.ballgamepuzzle.effects.HoleEffect;
 import com.turpgames.ballgamepuzzle.effects.IBox2DEffect;
 import com.turpgames.ballgamepuzzle.effects.PathTripEffect;
 import com.turpgames.ballgamepuzzle.effects.RollingEffect;
+import com.turpgames.ballgamepuzzle.effects.ShowHideEffect;
 import com.turpgames.ballgamepuzzle.effects.meta.BreathEffectMeta;
 import com.turpgames.ballgamepuzzle.effects.meta.CircularTripEffectMeta;
-import com.turpgames.ballgamepuzzle.effects.meta.ExistanceEffectMeta;
 import com.turpgames.ballgamepuzzle.effects.meta.HoleEffectMeta;
 import com.turpgames.ballgamepuzzle.effects.meta.IEffectMeta;
 import com.turpgames.ballgamepuzzle.effects.meta.PathTripEffectMeta;
 import com.turpgames.ballgamepuzzle.effects.meta.RollingEffectMeta;
+import com.turpgames.ballgamepuzzle.effects.meta.ShowHideEffectMeta;
 import com.turpgames.ballgamepuzzle.levels.BallMeta;
 import com.turpgames.ballgamepuzzle.objects.balls.BounceBall;
 import com.turpgames.ballgamepuzzle.objects.balls.EnemyBall;
@@ -68,8 +68,8 @@ public abstract class Ball extends Box2DObject implements IBallGameObject, IDraw
 	protected final float radius;
 	protected final IBody body;
 
-	protected final static float hitX = 7.5f;
-	protected final static float hitY = 7.5f;
+	protected final static float hitX = 10f;
+	protected final static float hitY = 10f;
 	private final static Vector hitVelocity = new Vector();
 
 	protected final List<IBox2DEffect> effects;
@@ -89,7 +89,7 @@ public abstract class Ball extends Box2DObject implements IBallGameObject, IDraw
 		this.ball.setHeight(radius * 2);
 		this.ball.getLocation().set(cx - radius, cy - radius);
 		this.ball.getRotation().origin.set(cx, cy);
-
+		
 		this.body = createBodyBuilder().build(world);
 
 		super.setContent(ball, body);
@@ -169,21 +169,23 @@ public abstract class Ball extends Box2DObject implements IBallGameObject, IDraw
 			return;
 
 		for (IEffectMeta effectMeta : meta.getEffects()) {
-			IBox2DEffect effect = createEffect(effectMeta);
+			IBox2DEffect effect = createEffect(this, effectMeta);
 			effects.add(effect);
 			effect.start();
 		}
 	}
 
 	public void destroy() {
+		stopEffect();
 		body.getWorld().destroyBody(body);
 		isHidden = true;
 	}
 
 	@Override
 	public void draw() {
-		if (!isHidden)
+		if (!isHidden) {
 			ball.draw();
+		}
 	}
 
 	public static Vector calculateHitVelocity(float x, float y, Vector ballCenter) {
@@ -220,11 +222,11 @@ public abstract class Ball extends Box2DObject implements IBallGameObject, IDraw
 		throw new UnsupportedOperationException("Unknown ball type: " + meta.getType());
 	}
 
-	private IBox2DEffect createEffect(IEffectMeta effectMeta) {
+	private static IBox2DEffect createEffect(Ball ball, IEffectMeta effectMeta) {
 		if (effectMeta instanceof PathTripEffectMeta) {
 			PathTripEffectMeta meta = (PathTripEffectMeta) effectMeta;
 
-			PathTripEffect effect = new PathTripEffect(this);
+			PathTripEffect effect = new PathTripEffect(ball);
 
 			effect.setDuration(meta.getTotalDuration());
 			effect.setRoundTrip(meta.isRoundTrip());
@@ -237,7 +239,7 @@ public abstract class Ball extends Box2DObject implements IBallGameObject, IDraw
 		if (effectMeta instanceof CircularTripEffectMeta) {
 			CircularTripEffectMeta meta = (CircularTripEffectMeta) effectMeta;
 
-			CircularTripEffect effect = new CircularTripEffect(this);
+			CircularTripEffect effect = new CircularTripEffect(ball);
 
 			effect.setCenter(meta.getCenter().x, meta.getCenter().y);
 			effect.setDuration(meta.getTotalDuration());
@@ -248,7 +250,7 @@ public abstract class Ball extends Box2DObject implements IBallGameObject, IDraw
 		if (effectMeta instanceof RollingEffectMeta) {
 			RollingEffectMeta meta = (RollingEffectMeta) effectMeta;
 
-			RollingEffect effect = new RollingEffect(this);
+			RollingEffect effect = new RollingEffect(ball);
 
 			effect.setDuration(meta.getTotalDuration());
 			effect.setClockWise(meta.isClockWise());
@@ -258,7 +260,7 @@ public abstract class Ball extends Box2DObject implements IBallGameObject, IDraw
 		if (effectMeta instanceof BreathEffectMeta) {
 			BreathEffectMeta meta = (BreathEffectMeta) effectMeta;
 
-			BreathEffect effect = new BreathEffect(this);
+			BreathEffect effect = new BreathEffect(ball);
 
 			effect.setDuration(meta.getTotalDuration());
 			effect.setMinScale(meta.getMinScale());
@@ -267,10 +269,10 @@ public abstract class Ball extends Box2DObject implements IBallGameObject, IDraw
 
 			return effect;
 		}
-		if (effectMeta instanceof ExistanceEffectMeta) {
-			ExistanceEffectMeta meta = (ExistanceEffectMeta) effectMeta;
+		if (effectMeta instanceof ShowHideEffectMeta) {
+			ShowHideEffectMeta meta = (ShowHideEffectMeta) effectMeta;
 
-			ShowHideEffect effect = new ShowHideEffect(this);
+			ShowHideEffect effect = new ShowHideEffect(ball);
 
 			effect.setDuration(meta.getTotalDuration());
 			effect.setDurations(meta.getDurations());
@@ -282,7 +284,7 @@ public abstract class Ball extends Box2DObject implements IBallGameObject, IDraw
 		if (effectMeta instanceof HoleEffectMeta) {
 			HoleEffectMeta meta = (HoleEffectMeta) effectMeta;
 
-			HoleEffect effect = new HoleEffect((HoleBall) this);
+			HoleEffect effect = new HoleEffect((HoleBall) ball);
 
 			effect.setWhiteHole(meta.isWhiteHole());
 
