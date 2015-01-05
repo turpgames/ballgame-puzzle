@@ -131,7 +131,7 @@ public abstract class Ball extends Box2DObject implements IBallGameObject, IDraw
 		return radius;
 	}
 
-	protected Vector getCenter() {
+	public Vector getCenter() {
 		return ball.getRotation().origin;
 	}
 

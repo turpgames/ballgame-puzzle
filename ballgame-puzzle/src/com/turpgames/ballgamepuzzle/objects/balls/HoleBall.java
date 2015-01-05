@@ -34,7 +34,7 @@ public class HoleBall extends Ball {
 
 	@Override
 	protected BallBodyBuilder createBodyBuilder() {
-		return super.createBodyBuilder().setAsSensor();
+		return super.createBodyBuilder().setAsSensor().setAsBullet();
 	}
 
 	@Override

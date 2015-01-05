@@ -86,7 +86,7 @@ public class GameController implements IGameMenuListener, IGameController {
 		this.pointText.setWidth(100f);
 		this.pointText.setHeight(30f);
 		this.pointText.setAlignment(Text.HAlignCenter, Text.VAlignCenter);
-		
+
 		this.hitPointText = new Text();
 		this.hitPointText.setLocation(200f, 10f);
 		this.hitPointText.setFontScale(0.33f);
@@ -101,12 +101,12 @@ public class GameController implements IGameMenuListener, IGameController {
 		// }
 		// }, Game.LAYER_DIALOG);
 
-//		 view.registerDrawable(new IDrawable() {
-//		 @Override
-//		 public void draw() {
-//		 world.drawDebug();
-//		 }
-//		 }, Game.LAYER_DIALOG);
+		// view.registerDrawable(new IDrawable() {
+		// @Override
+		// public void draw() {
+		// world.drawDebug();
+		// }
+		// }, Game.LAYER_DIALOG);
 	}
 
 	@Override
@@ -187,12 +187,14 @@ public class GameController implements IGameMenuListener, IGameController {
 		world.setContactListener(level.getContactListener());
 		world.setContactFilter(BallContactFilter.instance);
 		Global.levelPackViewId = level.getPack().getTitle();
-		
+
 		if (Global.designerMode) {
 			registerGameDrawable(pointText);
 			registerGameDrawable(hitPointText);
 		}
 
+		startBallEffects();
+		
 		state = StateWaitingTouchDown;
 	}
 
@@ -231,8 +233,7 @@ public class GameController implements IGameMenuListener, IGameController {
 	private void startPlaying() {
 		state = StatePlaying;
 		stars = 0;
-		
-		startBallEffects();
+		ball.activate();
 	}
 
 	private void endGame() {
@@ -256,8 +257,14 @@ public class GameController implements IGameMenuListener, IGameController {
 		resetEffect.start();
 	}
 
+	private boolean canUpdate() {
+		return state == StatePlaying ||
+				state == StateWaitingTouchUp ||
+				state == StateWaitingTouchDown;
+	}
+
 	public void update() {
-		if (state == StatePlaying) {
+		if (canUpdate()) {
 			world.update();
 		}
 	}
@@ -282,9 +289,9 @@ public class GameController implements IGameMenuListener, IGameController {
 		if (state == StateWaitingTouchUp) {
 			startPlaying();
 			hit(spanner.getHitPoint().x, spanner.getHitPoint().y);
-			
+
 			hitPointText.setText("(" + spanner.getHitPoint().x + ", " + spanner.getHitPoint().y + ")");
-			
+
 			view.unregisterDrawable(spanner);
 			spanner = null;
 		}

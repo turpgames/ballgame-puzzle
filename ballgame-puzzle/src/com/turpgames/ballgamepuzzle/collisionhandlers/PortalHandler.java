@@ -19,12 +19,15 @@ public class PortalHandler extends BallCollisionHandler {
 		
 		PortalBall portal = (PortalBall) b1;
 		SubjectBall subject = (SubjectBall) b2;
+		
+		System.out.println("enter: " + b1.getCenterX());
 
+		Sounds.portal.play();
+		
 		if(subject.enterPortal(portal)) {
-			Sounds.portal.play();
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -35,6 +38,8 @@ public class PortalHandler extends BallCollisionHandler {
 		
 		PortalBall portal = (PortalBall) b1;
 		SubjectBall subject = (SubjectBall) b2;
+		
+		System.out.println("leave: " + b1.getCenterX());
 		
 		subject.leavePortal(portal);
 

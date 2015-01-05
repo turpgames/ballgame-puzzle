@@ -49,6 +49,11 @@ public class BallBodyBuilder {
 		return this;
 	}
 
+	public BallBodyBuilder setDeactive() {
+		bodyBuilder.setActive(false);
+		return this;
+	}
+
 	public BallBodyBuilder setNonElastic() {
 		fixtureBuilder.setElasticity(0);
 		return this;

@@ -8,19 +8,17 @@ import com.turpgames.box2d.IBodyDef;
 import com.turpgames.box2d.IWorld;
 import com.turpgames.framework.v0.impl.GameObject;
 import com.turpgames.framework.v0.impl.TexturedGameObject;
-import com.turpgames.framework.v0.util.Color;
 import com.turpgames.framework.v0.util.Timer;
 import com.turpgames.framework.v0.util.Vector;
 
 public class SubjectBall extends Ball {
-	private PortalBall sourcePortal;
-	private PortalBall targetPortal;
 
 	private boolean isGhost;
 	private final Timer ghostTimer;
 
 	private final BallShadow shadow;
-
+	private final PortalState portalState;
+	
 	public SubjectBall(BallMeta meta, IWorld world) {
 		super(meta, world, Textures.ball_dot);
 
@@ -33,17 +31,22 @@ public class SubjectBall extends Ball {
 			}
 		});
 
+		this.portalState = new PortalState(this);
 		this.shadow = new BallShadow(ball);
 	}
 
 	@Override
 	protected BallBodyBuilder createBodyBuilder() {
-		return super.createBodyBuilder();//.setAsBullet();
+		return super.createBodyBuilder().setDeactive();//.setAsBullet();
 	}
 
 	@Override
 	public int getBodyType() {
 		return IBodyDef.Dynamic;
+	}
+
+	public void activate() {
+		body.setActive(true);
 	}
 
 	public boolean isGhost() {
@@ -75,31 +78,11 @@ public class SubjectBall extends Ball {
 	}
 
 	public boolean enterPortal(PortalBall portal) {
-		boolean canEnterPortal = sourcePortal == null && targetPortal == null;
-		if (canEnterPortal) {
-			doEnterPortal(portal);
-		}
-		return canEnterPortal;
-	}
-
-	private void doEnterPortal(PortalBall portal) {
-		sourcePortal = portal;
-		targetPortal = sourcePortal.getPair();
-
-		sourcePortal.playInEfect();
-		targetPortal.playOutEfect();
-
-		this.setCenter(targetPortal.getCenterX(), targetPortal.getCenterY());
-		this.syncWithObject();
+		return portalState.enterPortal(portal);
 	}
 
 	public void leavePortal(PortalBall portal) {
-		if (sourcePortal == portal) {
-			sourcePortal = null;
-		}
-		else if (targetPortal == portal) {
-			targetPortal = null;
-		}
+		portalState.leavePortal(portal);
 	}
 
 	void bounce(float fx, float fy) {
@@ -109,7 +92,7 @@ public class SubjectBall extends Ball {
 	public boolean isMoving() {
 		return !body.getVelocity().isZero();
 	}
-	Color black = Color.black();
+
 	@Override
 	public void draw() {
 		if (!isHidden) {
@@ -118,18 +101,60 @@ public class SubjectBall extends Ball {
 		}
 	}
 	
+	static class PortalState {
+		private final SubjectBall ball;
+		private long lastSourcePortalLeft;
+		private PortalBall sourcePortal;
+		
+		public PortalState(SubjectBall ball) {
+			this.ball = ball;
+		}
+		
+		public boolean enterPortal (PortalBall portalBall) {
+			if (canEnterPortal()) {
+				doEnterPortal(portalBall);
+				return true;
+			}
+			return false;
+		}
+
+		private boolean canEnterPortal() {
+			if (System.currentTimeMillis() - lastSourcePortalLeft > 80L)
+				return true;
+			return false;
+		}
+
+		private void doEnterPortal(PortalBall portalBall) {
+			sourcePortal = portalBall;
+			PortalBall targetPortal = sourcePortal.getPair();
+
+			sourcePortal.playInEfect();
+			targetPortal.playOutEfect();
+
+			ball.getCenter().set(targetPortal.getCenter());
+			ball.syncWithObject();
+		}
+		
+		public void leavePortal(PortalBall portalBall) {
+			if (sourcePortal == portalBall) {
+				sourcePortal = null;
+				lastSourcePortalLeft = System.currentTimeMillis();
+			}
+		}
+	}
+
 	class BallShadow extends TexturedGameObject {
 		private GameObject ball;
 		private Shadow shd;
 
 		public BallShadow(GameObject ball) {
 			super(Textures.ball_shadowed);
-			
+
 			this.ball = ball;
-			
+
 			setWidth(ball.getWidth());
 			setHeight(ball.getHeight());
-			
+
 			shd = new Shadow();
 			shd.getLocation().y = 38;
 		}
@@ -141,7 +166,7 @@ public class SubjectBall extends Ball {
 			shd.draw();
 			super.draw();
 		}
-		
+
 		class Shadow extends TexturedGameObject {
 			Shadow() {
 				super(Textures.ball_shadow);

@@ -16,12 +16,17 @@ public class Star extends Ball {
 		super(meta, world, Textures.star);
 		ball.getScale().set(1.8f);
 		animation = Animation.fromMetadata(GameMetadata.getAnimation("coin"));
-		animation.start(true);
 	}
 	
 	@Override
 	protected BallBodyBuilder createBodyBuilder() {
 		return super.createBodyBuilder().setAsSensor();
+	}
+	
+	@Override
+	public void startEffect() {
+		animation.start(true);
+		super.startEffect();
 	}
 	
 	@Override
