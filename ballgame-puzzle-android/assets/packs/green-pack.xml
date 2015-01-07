@@ -84,10 +84,14 @@
       <ball x="700" y="300" type="Star" size="l"></ball>
       <block x="395" y="40" width="10" height="390" rotation="0"></block>
   </level>
-  <level designer="true">
-      <ball x="150" y="45" type="Subject" size="m"></ball>
-      <ball x="300" y="45" type="Portal" size="l"></ball>
-      <ball x="500" y="45" type="Portal" size="l"></ball>
+  <level>
+      <ball x="50" y="45" type="Subject" size="m"></ball>
+      <ball x="400" y="45" type="Target" size="l"></ball>
+      <ball x="200" y="45" type="Portal" size="l"></ball>
+      <ball x="600" y="45" type="Portal" size="l"></ball>
+      <ball x="300" y="45" type="Star" size="l"></ball>
+      <ball x="400" y="70" type="Star" size="l"></ball>
+      <ball x="500" y="45" type="Star" size="l"></ball>
   </level>
   <level>
       <ball x="100" y="250" type="Subject" size="m"></ball>
@@ -166,7 +170,7 @@
       <ball x="750" y="225" type="Star" size="l"></ball>
       <ball x="550" y="50" type="Star" size="l"></ball>
   </level>
-  <level>
+  <level designer="true">
       <ball x="200" y="125" type="Subject" size="m"></ball>
       <ball x="200" y="225" type="Target" size="l"></ball>
       <ball x="300" y="225" type="Portal" size="l"></ball>

@@ -37,7 +37,7 @@ public class SubjectBall extends Ball {
 
 	@Override
 	protected BallBodyBuilder createBodyBuilder() {
-		return super.createBodyBuilder().setDeactive();//.setAsBullet();
+		return super.createBodyBuilder().setDeactive(); //.setAsBullet();
 	}
 
 	@Override
@@ -119,6 +119,8 @@ public class SubjectBall extends Ball {
 		}
 
 		private boolean canEnterPortal() {
+			if (sourcePortal != null)
+				return false;
 			if (System.currentTimeMillis() - lastSourcePortalLeft > 80L)
 				return true;
 			return false;
